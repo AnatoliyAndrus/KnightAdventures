@@ -4,7 +4,6 @@
 package main;
 
 import javax.swing.*;
-import java.util.ArrayList;
 
 import static javax.swing.WindowConstants.*;
 
