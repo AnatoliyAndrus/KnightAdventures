@@ -43,9 +43,11 @@ public class GamePanel extends JPanel implements Runnable{
     public Music sounds = new Music();
 
     //GAME STATE
-    public final int pauseState = 0;
-    public final int gameState = 1;
-    public int currentState = gameState;
+    public final int titleState = 0;
+    public final int pauseState = 1;
+    public final int gameState = 2;
+    public int currentState = titleState;
+
 
     public GamePanel() {
 
@@ -61,7 +63,6 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void setupGame(){
-
         //DEFAULT SETUP
         playMusic(0);
     }
@@ -100,6 +101,10 @@ public class GamePanel extends JPanel implements Runnable{
 
     private void update() {
 
+        //TITLE STATE
+        if (currentState == titleState) {
+
+        }
         //GAME STATE
         if (currentState == gameState) {
 
@@ -125,7 +130,10 @@ public class GamePanel extends JPanel implements Runnable{
 
         Graphics2D g2d = (Graphics2D) g;
 
-        if (true) {
+        if (currentState == titleState) {
+            ui.draw(g2d);
+
+        } else {
             //MAP
             roomManager.draw(g2d);
 

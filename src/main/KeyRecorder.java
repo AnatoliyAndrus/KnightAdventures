@@ -20,26 +20,57 @@ public class KeyRecorder implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
-        //MOVEMENT
-        if (e.getKeyCode() == KeyEvent.VK_W) {
-            up = true;
+        if (gp.currentState == gp.titleState) {
+            if (!gp.ui.loadingScreen) {
+                //TITLE
+                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    gp.ui.optionNum++;
+                    if (gp.ui.optionNum == 4) gp.ui.optionNum = 1;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    gp.ui.optionNum--;
+                    if (gp.ui.optionNum == 0) gp.ui.optionNum = 3;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+
+                    //NEW GAME
+                    if (gp.ui.optionNum == 1) {
+                        gp.ui.loadingScreen = true;
+                    }
+                    //LOAD GAME
+                    else if (gp.ui.optionNum == 2) {
+
+                    }
+                    //EXIT
+                    else if (gp.ui.optionNum == 3) {
+                        System.exit(0);
+                    }
+                }
+            }
         }
-        if (e.getKeyCode() == KeyEvent.VK_S) {
-            down = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_A) {
-            left = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_D) {
-            right = true;
-        }
-        //PAUSE
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            if (gp.currentState == gp.gameState) {
+        else if (gp.currentState == gp.gameState) {
+            //MOVEMENT
+            if (e.getKeyCode() == KeyEvent.VK_W) {
+                up = true;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_S) {
+                down = true;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_A) {
+                left = true;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_D) {
+                right = true;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 gp.currentState = gp.pauseState;
                 gp.pauseMusic();
             }
-            else if (gp.currentState == gp.pauseState) {
+        }
+
+        else if (gp.currentState == gp.pauseState) {
+            //PAUSE
+            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 gp.currentState = gp.gameState;
                 gp.playMusic(0);
             }

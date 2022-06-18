@@ -1,17 +1,43 @@
 package main;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class UI {
 
     GamePanel gp;
+    Font gameFont;
+    String screenText;
+    BufferedImage start, loading;
+
+    public int optionNum = 1;
+    public boolean loadingScreen;
+    public int loadingFrames = 0;
+
 
     public UI(GamePanel gp) {
         this.gp = gp;
+
+        try {
+            this.start = ImageIO.read(new File("resources/images/screens/startScreen.png"));
+            this.loading = ImageIO.read(new File("resources/images/screens/loadingScreen.png"));
+            this.gameFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/lunchds.ttf"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void draw(Graphics2D g2d) {
+        g2d.setFont(gameFont);
 
+        //TITLE STATE
+        if (gp.currentState == gp.titleState) {
+            if (loadingScreen) {
+                drawLoadingScreen(g2d);
+            } else drawStartScreen(g2d);
+        }
         //GAME STATE
         if (gp.currentState == gp.gameState) {
             drawDarkScreen(g2d);
@@ -21,6 +47,138 @@ public class UI {
             drawDarkScreen(g2d);
             drawPauseScreen(g2d);
         }
+    }
+
+    private void drawLoadingScreen(Graphics2D g2d) {
+
+        loadingFrames++;
+        g2d.drawImage(loading, 0, 0, gp.maxScreenWidth, gp.maxScreenHeight, null);
+
+        //TITLE
+        screenText = "Knight adventures";
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 100));
+
+        int y = gp.squareSize * 3;
+        int x = getCenterX(screenText, g2d);
+
+        g2d.setColor(Color.BLACK);
+        g2d.drawString(screenText, x + 5, y + 5);
+
+        g2d.setColor(Color.WHITE);
+        g2d.drawString(screenText, x, y);
+
+        BufferedImage tmp = null;
+
+        if(loadingFrames % (gp.FPS * 2) < gp.FPS / 2) {
+            screenText = "Loading";
+            tmp = gp.player.down1;
+        } else if(loadingFrames % (gp.FPS * 2) >= gp.FPS / 2 && loadingFrames % (gp.FPS * 2) < gp.FPS) {
+            screenText = "Loading.";
+            tmp = gp.player.right1;
+        } else if(loadingFrames % (gp.FPS * 2) >= gp.FPS && loadingFrames % (gp.FPS * 2) < gp.FPS * 1.5) {
+            screenText = "Loading..";
+            tmp = gp.player.up1;
+        } else if(loadingFrames % (gp.FPS * 2) >= gp.FPS * 1.5) {
+            screenText = "Loading...";
+            tmp = gp.player.left1;
+        }
+
+        g2d.drawImage(tmp,
+                gp.squareSize/2,
+                (int) (gp.maxScreenHeight - gp.squareSize * 1.5),
+                null);
+
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 48));
+
+        x = (int) (gp.squareSize * 1.5);
+        y = (int) (gp.maxScreenHeight - gp.squareSize * 0.5);
+
+        g2d.setColor(Color.WHITE);
+        g2d.drawString(screenText, x, y);
+
+        if (loadingFrames == gp.FPS * 5) {
+            gp.currentState = gp.gameState;
+            gp.setupGame();
+        }
+    }
+
+    private void drawStartScreen(Graphics2D g2d) {
+
+        //TITLE
+        screenText = "Knight adventures";
+        g2d.drawImage(start, 0, 0, gp.maxScreenWidth, gp.maxScreenHeight, null);
+
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 100));
+
+        int y = gp.squareSize * 3;
+        int x = getCenterX(screenText, g2d);
+
+        g2d.setColor(Color.BLACK);
+        g2d.drawString(screenText, x + 5, y + 5);
+
+        g2d.setColor(Color.WHITE);
+        g2d.drawString(screenText, x, y);
+
+        //NEW GAME
+        screenText = "New game";
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+
+        y = gp.squareSize * 7;
+        x = getCenterX(screenText, g2d);
+
+        if (optionNum == 1) {
+            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 40));
+
+            g2d.setStroke(new BasicStroke(5));
+            g2d.drawRoundRect(x - 24,
+                    y - (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight(),
+                    (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
+                    (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
+                    25, 25);
+        }
+
+        g2d.drawString(screenText, x, y);
+
+        //LOAD GAME
+        screenText = "Load game";
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+
+        y = gp.squareSize * 9;
+        x = getCenterX(screenText, g2d);
+
+        if (optionNum == 2) {
+            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 40));
+
+            g2d.setStroke(new BasicStroke(5));
+            g2d.drawRoundRect(x - 24,
+                    y - (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight(),
+                    (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
+                    (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
+                    25, 25);
+        }
+
+        g2d.drawString(screenText, x, y);
+
+
+        //EXIT
+        screenText = "Exit";
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+
+        y = gp.squareSize * 11;
+        x = getCenterX(screenText, g2d);
+
+        if (optionNum == 3) {
+            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 40));
+
+            g2d.setStroke(new BasicStroke(5));
+            g2d.drawRoundRect(x - 24,
+                    y - (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight(),
+                    (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
+                    (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
+                    25, 25);
+        }
+
+        g2d.drawString(screenText, x, y);
     }
 
     private void drawDarkScreen(Graphics2D g2d) {
@@ -56,15 +214,18 @@ public class UI {
         g2d.fillRect(0, 0, gp.squareSize*(gp.maxCols - 2), gp.squareSize*(gp.maxRows - 2));
 
         g2d.setColor(Color.WHITE);
-        g2d.setFont(new Font("Arial", Font.PLAIN, 30));
+        g2d.setFont(gameFont.deriveFont(Font.PLAIN, 70));
 
-        String screenText = "Paused";
-
-        int length = (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth();
+        screenText = "Paused";
 
         int y = gp.maxScreenHeight/2;
-        int x = gp.maxScreenWidth/2 - length/2;
+        int x = getCenterX(screenText, g2d);
 
         g2d.drawString(screenText, x, y);
+    }
+
+    private int getCenterX (String str, Graphics2D g2d) {
+        int length = (int) g2d.getFontMetrics().getStringBounds(str, g2d).getWidth();
+        return gp.maxScreenWidth/2 - length/2;
     }
 }
