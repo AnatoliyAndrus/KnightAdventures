@@ -91,7 +91,6 @@ public class GamePanel extends JPanel implements Runnable{
 
             //UPDATE AND REPAINT 60 FPS
             if(delta >= 1) {
-                System.out.println(bullets.size());
                 update();
                 repaint();
                 delta--;
