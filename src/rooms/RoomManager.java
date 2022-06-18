@@ -29,9 +29,10 @@ public class RoomManager {
 
         rooms.put("ruins", new Room("ruins",this));
         rooms.put("castle", new Room("castle",this));
-        rooms.put("cave", new Room("cave",this));
         rooms.put("sea", new Room("sea",this));
         rooms.put("swamp", new Room("swamp",this));
+        rooms.put("cave", new Room("cave",this));
+        rooms.put("dungeon", new Room("dungeon",this));
 
         //NEIGHBOURS
         rooms.get("ruins").upRoom = null;
@@ -54,10 +55,15 @@ public class RoomManager {
         rooms.get("swamp").leftRoom = null;
         rooms.get("swamp").rightRoom = null;
 
-        rooms.get("cave").upRoom = null;
+        rooms.get("cave").upRoom = rooms.get("dungeon");
         rooms.get("cave").downRoom = null;
         rooms.get("cave").leftRoom = null;
         rooms.get("cave").rightRoom = rooms.get("castle");
+
+        rooms.get("dungeon").upRoom = null;
+        rooms.get("dungeon").downRoom = rooms.get("cave");
+        rooms.get("dungeon").leftRoom = null;
+        rooms.get("dungeon").rightRoom = null;
 
         for (String room: rooms.keySet()) {
             rooms.get(room).setAllImages(room);
@@ -66,7 +72,7 @@ public class RoomManager {
     }
 
     public void draw(Graphics2D g2d) {
-        if(currentRoom.name.equals("ruins") || currentRoom.name.equals("castle") || currentRoom.name.equals("cave")) {
+        if(currentRoom.name.equals("ruins") || currentRoom.name.equals("castle") || currentRoom.name.equals("cave") || currentRoom.name.equals("dungeon")) {
             drawForRoom(g2d);
         }
         else if(currentRoom.name.equals("sea") || currentRoom.name.equals("swamp")) {

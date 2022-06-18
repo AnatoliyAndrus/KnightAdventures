@@ -37,11 +37,11 @@ public class KeyRecorder implements KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             if (gp.currentState == gp.gameState) {
                 gp.currentState = gp.pauseState;
-//                gp.pauseMusic();
+                gp.pauseMusic();
             }
             else if (gp.currentState == gp.pauseState) {
                 gp.currentState = gp.gameState;
-//                gp.playMusic(0);
+                gp.playMusic(0);
             }
         }
     }
