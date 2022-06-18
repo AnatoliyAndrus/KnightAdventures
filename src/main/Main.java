@@ -1,5 +1,5 @@
 /**
- * @author Anatolii
+ * @author Anatolii Andrusenko, Andrii Sulimenko
  */
 package main;
 
