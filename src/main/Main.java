@@ -1,3 +1,6 @@
+/**
+ * @author Anatolii
+ */
 package main;
 
 import javax.swing.*;
