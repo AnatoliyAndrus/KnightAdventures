@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import static javax.swing.WindowConstants.*;
 
 public class Main {
-    //qqqqqqaaaa
+    //qqqqqqaa
     public static void main(String[] args) {
 
         //SETTINGS
