@@ -19,8 +19,6 @@ public class UI {
     public int loadingFrames = 0;
 
     Shape ring, oval;
-    double smallRingCenterX, smallRingCenterY, smallRingOuterRadius;
-
 
     public UI(GamePanel gp) {
         this.gp = gp;
@@ -214,7 +212,7 @@ public class UI {
         }
 
         //ROOM DARKNESS
-        drawLight(g2d);
+        if (gp.roomManager.currentRoom.darkness > 0) drawLight(g2d);
     }
 
     public void drawLight(Graphics2D g2d) {
@@ -223,15 +221,18 @@ public class UI {
         double bigRingCenterY = gp.player.screenY + (double) gp.squareSize / 2;
         double bigRingOuterRadius = gp.maxScreenWidth * 1.5;
 
-        ring = createRingShape(bigRingCenterX, bigRingCenterY, bigRingOuterRadius, bigRingOuterRadius - 100);
+        ring = createRingShape(bigRingCenterX, bigRingCenterY, bigRingOuterRadius, 100);
         g2d.setColor(new Color(0, 0, 0, gp.roomManager.currentRoom.darkness));
         g2d.fill(ring);
 
         //PLAYER HAS LIGHT
         if (true) {
-            for (int i = 1; i <= 20; i++) {
-                g2d.setColor(new Color(0, 0, 0, gp.roomManager.currentRoom.darkness / i));
-                ring = createRingShape(smallRingCenterX, smallRingCenterY, smallRingOuterRadius - i * 5, smallRingOuterRadius - 5);
+            for (int i = 0; i < 20; i++) {
+                ring = createRingShape(bigRingCenterX,
+                        bigRingCenterY,
+                        60 + i * 2,
+                        60 + i);
+                g2d.setColor(new Color(0, 0, 0, gp.roomManager.currentRoom.darkness / (i + 1)));
                 g2d.fill(ring);
             }
         } else {
@@ -239,21 +240,17 @@ public class UI {
         }
     }
 
-    public Shape createRingShape(double centerX, double centerY, double outerRadius, double thickness) {
+    public Shape createRingShape(double centerX, double centerY, double outerRadius, double innerRadius) {
         Ellipse2D outer = new Ellipse2D.Double(
                 centerX - outerRadius,
                 centerY - outerRadius,
-                outerRadius + outerRadius,
-                outerRadius + outerRadius);
+                outerRadius * 2,
+                outerRadius * 2);
         Ellipse2D inner = new Ellipse2D.Double(
-                centerX - outerRadius + thickness,
-                centerY - outerRadius + thickness,
-                outerRadius + outerRadius - thickness - thickness,
-                outerRadius + outerRadius - thickness - thickness);
-
-        smallRingCenterX = centerX - outerRadius + thickness;
-        smallRingCenterY = centerY - outerRadius + thickness;
-        smallRingOuterRadius = outerRadius + outerRadius - thickness - thickness;
+                centerX - innerRadius,
+                centerY - innerRadius,
+                innerRadius * 2,
+                innerRadius * 2);
 
         oval = new Area(inner);
         Area area = new Area(outer);
