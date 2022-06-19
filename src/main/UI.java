@@ -227,12 +227,12 @@ public class UI {
 
         //PLAYER HAS LIGHT
         if (true) {
-            for (int i = 0; i < 20; i++) {
+            for (double i = 100; i > 0; i-=5) {
                 ring = createRingShape(bigRingCenterX,
                         bigRingCenterY,
-                        60 + i * 2,
-                        60 + i);
-                g2d.setColor(new Color(0, 0, 0, gp.roomManager.currentRoom.darkness / (i + 1)));
+                        i,
+                        (i-5));
+                g2d.setColor(new Color(0, 0, 0, (int)((double)gp.roomManager.currentRoom.darkness*(i/100))));
                 g2d.fill(ring);
             }
         } else {
