@@ -5,7 +5,6 @@ import main.KeyRecorder;
 
 import javax.imageio.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ public class Player extends Character {
     //FOR PLAYER TO STAND
     int standFrames = 0;
 
-    boolean torch;
+    public boolean hasTorch;
 
     public Player(GamePanel gp, KeyRecorder keyR) {
         super(gp);
@@ -25,7 +24,7 @@ public class Player extends Character {
         this.keyR = keyR;
 
         setDefaultParameters();
-        setPlayerImages(torch);
+        setPlayerImages(hasTorch);
     }
 
     public void setDefaultParameters() {
@@ -153,7 +152,16 @@ public class Player extends Character {
             }
         }
 
-        setPlayerImages(gp.roomManager.currentRoom.name.equals("cave") || gp.roomManager.currentRoom.name.equals("dungeon"));
+        if (gp.roomManager.currentRoom.name.equals("dungeon") && !hasTorch) {
+            hasTorch = true;
+            setPlayerImages(hasTorch);
+            System.out.println("with");
+        } else if (!gp.roomManager.currentRoom.name.equals("dungeon") && hasTorch) {
+            hasTorch = false;
+            setPlayerImages(hasTorch);
+            System.out.println("without");
+        }
+
     }
 
     private void interactObject(int index) {

@@ -6,7 +6,6 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 public class UI {
 
@@ -213,33 +212,45 @@ public class UI {
         }
 
         //ROOM DARKNESS
-        if (gp.roomManager.currentRoom.darkness > 0) drawLight(g2d);
+        if (gp.player.hasTorch) drawLight(g2d);
     }
 
     public void drawLight(Graphics2D g2d) {
+//        double bigRingCenterX = gp.player.screenX + (double) gp.squareSize / 2;
+//        double bigRingCenterY = gp.player.screenY + (double) gp.squareSize / 2;
+//        double bigRingOuterRadius = gp.maxScreenWidth * 1.5;
+//
+//        ring = createRingShape(bigRingCenterX, bigRingCenterY, bigRingOuterRadius, 100);
+//        g2d.setColor(new Color(0, 0, 0, gp.roomManager.currentRoom.darkness));
+//        g2d.fill(ring);
 
-        double bigRingCenterX = gp.player.screenX + (double) gp.squareSize / 2;
-        double bigRingCenterY = gp.player.screenY + (double) gp.squareSize / 2;
-        double bigRingOuterRadius = gp.maxScreenWidth * 1.5;
-
-        ring = createRingShape(bigRingCenterX, bigRingCenterY, bigRingOuterRadius, 100);
-        g2d.setColor(new Color(0, 0, 0, gp.roomManager.currentRoom.darkness));
-        g2d.fill(ring);
+//        //PLAYER HAS LIGHT
+//        if (gp.player.torch) {
+//            for (double i = 100; i > 0; i-=5) {
+//                ring = createRingShape(bigRingCenterX,
+//                        bigRingCenterY,
+//                        i,
+//                        (i-5));
+//                g2d.setColor(new Color(0, 0, 0, (int)((double)gp.roomManager.currentRoom.darkness*(i/100))));
+//                g2d.fill(ring);
+//            }
+//        } else {
+//            g2d.fill(oval);
+//        }
 
         //PLAYER HAS LIGHT
-        if (true) {
+        double centerX = gp.player.screenX + (double) gp.squareSize / 2;
+        double centerY = gp.player.screenY + (double) gp.squareSize / 2;
+        double outerRadius = gp.maxScreenWidth * 1.5;
 
+        ring = createRingShape(centerX, centerY, outerRadius, 114);
+        g2d.setColor(new Color(0, 0, 0, 240));
+        g2d.fill(ring);
 
-            for (double i = 100; i > 0; i-=5) {
-                ring = createRingShape(bigRingCenterX,
-                        bigRingCenterY,
-                        i,
-                        (i-5));
-                g2d.setColor(new Color(0, 0, 0, (int)((double)gp.roomManager.currentRoom.darkness*(i/100))));
-                g2d.fill(ring);
-            }
-        } else {
-            g2d.fill(oval);
+        for(int i = 1; i < 114; i += 1) {
+            ring = createRingShape(centerX, centerY, i + 1, i);
+            g2d.setColor(new Color(0, 0, 0, (int) ((i / 113.0) * 240)));
+            g2d.fill(ring);
         }
     }
 

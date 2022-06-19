@@ -20,19 +20,19 @@ public class RoomManager {
 
         currentMatrix = new int[gp.maxCols][gp.maxRows];
         rooms = new HashMap<>();
+
         setMaps();
         setCurrentRoom("ruins");
         setGameObjects();
     }
 
     public void setMaps() {
-
         rooms.put("ruins", new Room("ruins",this, 0));
         rooms.put("castle", new Room("castle",this, 0));
         rooms.put("sea", new Room("sea",this, 0));
         rooms.put("swamp", new Room("swamp",this, 0));
-        rooms.put("cave", new Room("cave",this, 150));
-        rooms.put("dungeon", new Room("dungeon",this, 250));
+        rooms.put("cave", new Room("cave",this, 10));
+        rooms.put("dungeon", new Room("dungeon",this, 240));
 
         //NEIGHBOURS
         rooms.get("ruins").upRoom = null;

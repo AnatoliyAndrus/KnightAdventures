@@ -6,6 +6,8 @@ import characters.EnemyWithPistol;
 import characters.Player;
 import objects.GameObject;
 import rooms.RoomManager;
+import visualEffects.LightArea;
+import visualEffects.VisualManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,8 +20,8 @@ public class GamePanel extends JPanel implements Runnable{
 
     public final int maxCols = 27;
     public final int maxRows = 19;
-    final int maxScreenWidth = (maxCols - 2) * squareSize;
-    final int maxScreenHeight = (maxRows - 2) * squareSize;
+    public final int maxScreenWidth = (maxCols - 2) * squareSize;
+    public final int maxScreenHeight = (maxRows - 2) * squareSize;
 
     //GAME FPS
     public final int FPS = 60;
@@ -31,7 +33,7 @@ public class GamePanel extends JPanel implements Runnable{
     public RoomManager roomManager = new RoomManager(this);
     public UI ui = new UI(this);
     public CollisionViewer colViewer = new CollisionViewer(this);
-
+    public VisualManager visualManager = new VisualManager(this);
 
     //GAME CHARACTERS
     public Player player = new Player(this, keyR);
@@ -69,6 +71,8 @@ public class GamePanel extends JPanel implements Runnable{
         //DEFAULT SETUP
 //        playMusic(0);
         enemies.add(new EnemyWithPistol(this, 15, 10));
+
+        visualManager.setup();
     }
 
     public void startGameThread() {
@@ -164,6 +168,9 @@ public class GamePanel extends JPanel implements Runnable{
 
             //PLAYER
             player.draw(g2d);
+
+            //VISUAL EFFECTS
+            visualManager.draw(g2d);
 
             //UI
             ui.draw(g2d);

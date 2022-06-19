@@ -76,8 +76,6 @@ public class EnemyWithPistol extends Character{
         playerDistance = Math.sqrt(Math.pow(Math.abs(gp.player.screenX - screenX), 2)
                 + Math.pow(Math.abs(gp.player.screenY - screenY), 2));
 
-        System.out.println(playerDistance);
-
         if (playerDistance < gp.squareSize * 3 && playerDistance > (double) gp.squareSize / 2) {
             direction = "toPlayer";
         }
