@@ -27,7 +27,7 @@ public class CollisionViewer {
 
         int square1, square2;
 
-        if (gp.keyR.up) {
+        if (gp.keyR.up || ch.direction.equals("up")) {
             characterTopSide = (characterTopWorldY - ch.speed) / gp.squareSize;
 
             square1 = gp.roomManager.currentMatrix[characterLeftSide][characterTopSide];
@@ -38,7 +38,7 @@ public class CollisionViewer {
             }
             characterTopSide = characterTopWorldY/ gp.squareSize;
         }
-        if (gp.keyR.down) {
+        if (gp.keyR.down || ch.direction.equals("down")) {
             characterBottomSide = (characterBottomWorldY + ch.speed) / gp.squareSize;
 
             square1 = gp.roomManager.currentMatrix[characterLeftSide][characterBottomSide];
@@ -49,7 +49,7 @@ public class CollisionViewer {
             }
             characterBottomSide = characterBottomWorldY/ gp.squareSize;
         }
-        if (gp.keyR.left) {
+        if (gp.keyR.left || ch.direction.equals("left")) {
             characterLeftSide = (characterLeftWorldX - ch.speed) / gp.squareSize;
 
             square1 = gp.roomManager.currentMatrix[characterLeftSide][characterTopSide];
@@ -59,7 +59,7 @@ public class CollisionViewer {
                 ch.collisionOnX = true;
             }
         }
-        if (gp.keyR.right) {
+        if (gp.keyR.right || ch.direction.equals("right")) {
             characterRightSide = (characterRightWorldX + ch.speed) / gp.squareSize;
 
             square1 = gp.roomManager.currentMatrix[characterRightSide][characterTopSide];
@@ -126,7 +126,7 @@ public class CollisionViewer {
              gp.roomManager.currentRoom.gameObjects.get(i).areaOfCollision.x += gp.roomManager.currentRoom.gameObjects.get(i).screenX;
              gp.roomManager.currentRoom.gameObjects.get(i).areaOfCollision.y += gp.roomManager.currentRoom.gameObjects.get(i).screenY;
 
-             if (gp.keyR.up) {
+             if (gp.keyR.up || ch.direction.equals("up")) {
                  ch.areaOfCollision.y -= ch.speed;
 
                  if (ch.areaOfCollision.intersects(gp.roomManager.currentRoom.gameObjects.get(i).areaOfCollision)) {
@@ -139,7 +139,7 @@ public class CollisionViewer {
 
                  ch.areaOfCollision.y += ch.speed;
              }
-             if (gp.keyR.down) {
+             if (gp.keyR.down || ch.direction.equals("down")) {
                  ch.areaOfCollision.y += ch.speed;
 
                  if (ch.areaOfCollision.intersects(gp.roomManager.currentRoom.gameObjects.get(i).areaOfCollision)) {
@@ -152,7 +152,7 @@ public class CollisionViewer {
 
                  ch.areaOfCollision.y -= ch.speed;
              }
-             if (gp.keyR.left) {
+             if (gp.keyR.left || ch.direction.equals("left")) {
                  ch.areaOfCollision.x -= ch.speed;
 
                  if (ch.areaOfCollision.intersects(gp.roomManager.currentRoom.gameObjects.get(i).areaOfCollision)) {
@@ -163,7 +163,7 @@ public class CollisionViewer {
                      if (player) index = i;
                  }
              }
-             if (gp.keyR.right) {
+             if (gp.keyR.right || ch.direction.equals("right")) {
                  ch.areaOfCollision.x += ch.speed;
 
                  if (ch.areaOfCollision.intersects(gp.roomManager.currentRoom.gameObjects.get(i).areaOfCollision)) {

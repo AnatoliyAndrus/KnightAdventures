@@ -6,6 +6,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 public class UI {
 
@@ -54,55 +55,55 @@ public class UI {
 
     private void drawLoadingScreen(Graphics2D g2d) {
 
-//        loadingFrames++;
-//        g2d.drawImage(loading, 0, 0, gp.maxScreenWidth, gp.maxScreenHeight, null);
-//
-//        //TITLE
-//        screenText = "Knight adventures";
-//        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 100));
-//
-//        int y = gp.squareSize * 3;
-//        int x = getCenterX(screenText, g2d);
-//
-//        g2d.setColor(Color.BLACK);
-//        g2d.drawString(screenText, x + 5, y + 5);
-//
-//        g2d.setColor(Color.WHITE);
-//        g2d.drawString(screenText, x, y);
-//
-//        BufferedImage tmp = null;
-//
-//        if(loadingFrames % (gp.FPS * 2) < gp.FPS / 2) {
-//            screenText = "Loading";
-//            tmp = gp.player.down1;
-//        } else if(loadingFrames % (gp.FPS * 2) >= gp.FPS / 2 && loadingFrames % (gp.FPS * 2) < gp.FPS) {
-//            screenText = "Loading.";
-//            tmp = gp.player.right1;
-//        } else if(loadingFrames % (gp.FPS * 2) >= gp.FPS && loadingFrames % (gp.FPS * 2) < gp.FPS * 1.5) {
-//            screenText = "Loading..";
-//            tmp = gp.player.up1;
-//        } else if(loadingFrames % (gp.FPS * 2) >= gp.FPS * 1.5) {
-//            screenText = "Loading...";
-//            tmp = gp.player.left1;
-//        }
-//
-//        g2d.drawImage(tmp,
-//                gp.squareSize/2,
-//                (int) (gp.maxScreenHeight - gp.squareSize * 1.5),
-//                null);
-//
-//        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 48));
-//
-//        x = (int) (gp.squareSize * 1.5);
-//        y = (int) (gp.maxScreenHeight - gp.squareSize * 0.5);
-//
-//        g2d.setColor(Color.WHITE);
-//        g2d.drawString(screenText, x, y);
-//
-//        if (loadingFrames == gp.FPS * 5) {
+        loadingFrames++;
+        g2d.drawImage(loading, 0, 0, gp.maxScreenWidth, gp.maxScreenHeight, null);
+
+        //TITLE
+        screenText = "Knight adventures";
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 100));
+
+        int y = gp.squareSize * 3;
+        int x = getCenterX(screenText, g2d);
+
+        g2d.setColor(Color.BLACK);
+        g2d.drawString(screenText, x + 5, y + 5);
+
+        g2d.setColor(Color.WHITE);
+        g2d.drawString(screenText, x, y);
+
+        BufferedImage tmp = null;
+
+        if(loadingFrames % (gp.FPS * 2) < gp.FPS / 2) {
+            screenText = "Loading";
+            tmp = gp.player.down1;
+        } else if(loadingFrames % (gp.FPS * 2) >= gp.FPS / 2 && loadingFrames % (gp.FPS * 2) < gp.FPS) {
+            screenText = "Loading.";
+            tmp = gp.player.right1;
+        } else if(loadingFrames % (gp.FPS * 2) >= gp.FPS && loadingFrames % (gp.FPS * 2) < gp.FPS * 1.5) {
+            screenText = "Loading..";
+            tmp = gp.player.up1;
+        } else if(loadingFrames % (gp.FPS * 2) >= gp.FPS * 1.5) {
+            screenText = "Loading...";
+            tmp = gp.player.left1;
+        }
+
+        g2d.drawImage(tmp,
+                gp.squareSize/2,
+                (int) (gp.maxScreenHeight - gp.squareSize * 1.5),
+                null);
+
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 48));
+
+        x = (int) (gp.squareSize * 1.5);
+        y = (int) (gp.maxScreenHeight - gp.squareSize * 0.5);
+
+        g2d.setColor(Color.WHITE);
+        g2d.drawString(screenText, x, y);
+
+        if (loadingFrames == gp.FPS * 5) {
             gp.currentState = gp.gameState;
-//            gp.setupGame();
-//        }
+            gp.setupGame();
+        }
     }
 
     private void drawStartScreen(Graphics2D g2d) {
@@ -227,6 +228,8 @@ public class UI {
 
         //PLAYER HAS LIGHT
         if (true) {
+
+
             for (double i = 100; i > 0; i-=5) {
                 ring = createRingShape(bigRingCenterX,
                         bigRingCenterY,

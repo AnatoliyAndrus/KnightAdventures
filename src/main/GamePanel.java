@@ -1,6 +1,8 @@
 package main;
 
 import bullets.Bullet;
+import characters.Character;
+import characters.EnemyWithPistol;
 import characters.Player;
 import objects.GameObject;
 import rooms.RoomManager;
@@ -33,6 +35,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     //GAME CHARACTERS
     public Player player = new Player(this, keyR);
+    public ArrayList<EnemyWithPistol> enemies = new ArrayList<>();
 
     //BULLETS
     public ArrayList<Bullet> bullets = new ArrayList<>();
@@ -64,7 +67,8 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setupGame(){
         //DEFAULT SETUP
-        playMusic(0);
+//        playMusic(0);
+        enemies.add(new EnemyWithPistol(this, 15, 10));
     }
 
     public void startGameThread() {
@@ -107,6 +111,9 @@ public class GamePanel extends JPanel implements Runnable{
         }
         //GAME STATE
         if (currentState == gameState) {
+
+            //ENEMIES
+            enemies.get(0).update();
 
             //PLAYER
             player.update();
@@ -151,6 +158,9 @@ public class GamePanel extends JPanel implements Runnable{
                     bullet.draw(g2d);
                 }
             }
+
+            //ENEMIES
+            enemies.get(0).draw(g2d);
 
             //PLAYER
             player.draw(g2d);

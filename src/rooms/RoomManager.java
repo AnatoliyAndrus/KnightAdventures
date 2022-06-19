@@ -32,7 +32,7 @@ public class RoomManager {
         rooms.put("sea", new Room("sea",this, 0));
         rooms.put("swamp", new Room("swamp",this, 0));
         rooms.put("cave", new Room("cave",this, 150));
-        rooms.put("dungeon", new Room("dungeon",this, 220));
+        rooms.put("dungeon", new Room("dungeon",this, 250));
 
         //NEIGHBOURS
         rooms.get("ruins").upRoom = null;

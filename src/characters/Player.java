@@ -12,19 +12,20 @@ import java.util.ArrayList;
 
 public class Player extends Character {
 
-    GamePanel gp;
     KeyRecorder keyR;
 
     //FOR PLAYER TO STAND
     int standFrames = 0;
 
-    public Player(GamePanel gp, KeyRecorder keyR) {
+    boolean torch;
 
-        this.gp = gp;
+    public Player(GamePanel gp, KeyRecorder keyR) {
+        super(gp);
+
         this.keyR = keyR;
 
         setDefaultParameters();
-        setPlayerImages();
+        setPlayerImages(torch);
     }
 
     public void setDefaultParameters() {
@@ -40,22 +41,25 @@ public class Player extends Character {
         direction = "down";
     }
 
-    public void setPlayerImages() {
+    public void setPlayerImages(boolean torch) {
 
+        String path;
+        if (torch) {
+            path = "playerWithTorch";
+        } else path = "player";
         try {
-
-            up1 = ImageIO.read(new File("resources/images/player/knight_up_1.png"));
-            up2 = ImageIO.read(new File("resources/images/player/knight_up_2.png"));
-            up3 = ImageIO.read(new File("resources/images/player/knight_up_3.png"));
-            down1 = ImageIO.read(new File("resources/images/player/knight_down_1.png"));
-            down2 = ImageIO.read(new File("resources/images/player/knight_down_2.png"));
-            down3 = ImageIO.read(new File("resources/images/player/knight_down_3.png"));
-            left1 = ImageIO.read(new File("resources/images/player/knight_left_1.png"));
-            left2 = ImageIO.read(new File("resources/images/player/knight_left_2.png"));
-            left3 = ImageIO.read(new File("resources/images/player/knight_left_3.png"));
-            right1 = ImageIO.read(new File("resources/images/player/knight_right_1.png"));
-            right2 = ImageIO.read(new File("resources/images/player/knight_right_2.png"));
-            right3 = ImageIO.read(new File("resources/images/player/knight_right_3.png"));
+            up1 = ImageIO.read(new File("resources/images/" + path + "/knight_up_1.png"));
+            up2 = ImageIO.read(new File("resources/images/" + path + "/knight_up_2.png"));
+            up3 = ImageIO.read(new File("resources/images/" + path + "/knight_up_3.png"));
+            down1 = ImageIO.read(new File("resources/images/" + path + "/knight_down_1.png"));
+            down2 = ImageIO.read(new File("resources/images/" + path + "/knight_down_2.png"));
+            down3 = ImageIO.read(new File("resources/images/" + path + "/knight_down_3.png"));
+            left1 = ImageIO.read(new File("resources/images/" + path + "/knight_left_1.png"));
+            left2 = ImageIO.read(new File("resources/images/" + path + "/knight_left_2.png"));
+            left3 = ImageIO.read(new File("resources/images/" + path + "/knight_left_3.png"));
+            right1 = ImageIO.read(new File("resources/images/" + path + "/knight_right_1.png"));
+            right2 = ImageIO.read(new File("resources/images/" + path + "/knight_right_2.png"));
+            right3 = ImageIO.read(new File("resources/images/" + path + "/knight_right_3.png"));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -148,6 +152,8 @@ public class Player extends Character {
                 imageNum = 1;
             }
         }
+
+        setPlayerImages(gp.roomManager.currentRoom.name.equals("cave") || gp.roomManager.currentRoom.name.equals("dungeon"));
     }
 
     private void interactObject(int index) {
@@ -163,21 +169,7 @@ public class Player extends Character {
                     break;
             }
 
-
         }
-    }
-
-    public void draw(Graphics2D g2d) {
-
-        BufferedImage image = switch (direction) {
-            case "up" -> imageNum == 1 ? up1 : imageNum == 2 ? up2 : up3;
-            case "down" -> imageNum == 1 ? down1 : imageNum == 2 ? down2 : down3;
-            case "left" -> imageNum == 1 ? left1 : imageNum == 2 ? left2 : left3;
-            case "right" -> imageNum == 1 ? right1 : imageNum == 2 ? right2 : right3;
-            default -> null;
-        };
-
-        g2d.drawImage(image, screenX, screenY, null);
     }
 
     private void updateImage() {
