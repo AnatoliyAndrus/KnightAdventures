@@ -2,6 +2,8 @@ package main;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -15,6 +17,9 @@ public class UI {
     public int optionNum = 1;
     public boolean loadingScreen;
     public int loadingFrames = 0;
+
+    Shape ring, oval;
+    double smallRingCenterX, smallRingCenterY, smallRingOuterRadius;
 
 
     public UI(GamePanel gp) {
@@ -51,55 +56,55 @@ public class UI {
 
     private void drawLoadingScreen(Graphics2D g2d) {
 
-        loadingFrames++;
-        g2d.drawImage(loading, 0, 0, gp.maxScreenWidth, gp.maxScreenHeight, null);
-
-        //TITLE
-        screenText = "Knight adventures";
-        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 100));
-
-        int y = gp.squareSize * 3;
-        int x = getCenterX(screenText, g2d);
-
-        g2d.setColor(Color.BLACK);
-        g2d.drawString(screenText, x + 5, y + 5);
-
-        g2d.setColor(Color.WHITE);
-        g2d.drawString(screenText, x, y);
-
-        BufferedImage tmp = null;
-
-        if(loadingFrames % (gp.FPS * 2) < gp.FPS / 2) {
-            screenText = "Loading";
-            tmp = gp.player.down1;
-        } else if(loadingFrames % (gp.FPS * 2) >= gp.FPS / 2 && loadingFrames % (gp.FPS * 2) < gp.FPS) {
-            screenText = "Loading.";
-            tmp = gp.player.right1;
-        } else if(loadingFrames % (gp.FPS * 2) >= gp.FPS && loadingFrames % (gp.FPS * 2) < gp.FPS * 1.5) {
-            screenText = "Loading..";
-            tmp = gp.player.up1;
-        } else if(loadingFrames % (gp.FPS * 2) >= gp.FPS * 1.5) {
-            screenText = "Loading...";
-            tmp = gp.player.left1;
-        }
-
-        g2d.drawImage(tmp,
-                gp.squareSize/2,
-                (int) (gp.maxScreenHeight - gp.squareSize * 1.5),
-                null);
-
-        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 48));
-
-        x = (int) (gp.squareSize * 1.5);
-        y = (int) (gp.maxScreenHeight - gp.squareSize * 0.5);
-
-        g2d.setColor(Color.WHITE);
-        g2d.drawString(screenText, x, y);
-
-        if (loadingFrames == gp.FPS * 5) {
+//        loadingFrames++;
+//        g2d.drawImage(loading, 0, 0, gp.maxScreenWidth, gp.maxScreenHeight, null);
+//
+//        //TITLE
+//        screenText = "Knight adventures";
+//        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 100));
+//
+//        int y = gp.squareSize * 3;
+//        int x = getCenterX(screenText, g2d);
+//
+//        g2d.setColor(Color.BLACK);
+//        g2d.drawString(screenText, x + 5, y + 5);
+//
+//        g2d.setColor(Color.WHITE);
+//        g2d.drawString(screenText, x, y);
+//
+//        BufferedImage tmp = null;
+//
+//        if(loadingFrames % (gp.FPS * 2) < gp.FPS / 2) {
+//            screenText = "Loading";
+//            tmp = gp.player.down1;
+//        } else if(loadingFrames % (gp.FPS * 2) >= gp.FPS / 2 && loadingFrames % (gp.FPS * 2) < gp.FPS) {
+//            screenText = "Loading.";
+//            tmp = gp.player.right1;
+//        } else if(loadingFrames % (gp.FPS * 2) >= gp.FPS && loadingFrames % (gp.FPS * 2) < gp.FPS * 1.5) {
+//            screenText = "Loading..";
+//            tmp = gp.player.up1;
+//        } else if(loadingFrames % (gp.FPS * 2) >= gp.FPS * 1.5) {
+//            screenText = "Loading...";
+//            tmp = gp.player.left1;
+//        }
+//
+//        g2d.drawImage(tmp,
+//                gp.squareSize/2,
+//                (int) (gp.maxScreenHeight - gp.squareSize * 1.5),
+//                null);
+//
+//        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 48));
+//
+//        x = (int) (gp.squareSize * 1.5);
+//        y = (int) (gp.maxScreenHeight - gp.squareSize * 0.5);
+//
+//        g2d.setColor(Color.WHITE);
+//        g2d.drawString(screenText, x, y);
+//
+//        if (loadingFrames == gp.FPS * 5) {
             gp.currentState = gp.gameState;
-            gp.setupGame();
-        }
+//            gp.setupGame();
+//        }
     }
 
     private void drawStartScreen(Graphics2D g2d) {
@@ -182,6 +187,7 @@ public class UI {
     }
 
     private void drawDarkScreen(Graphics2D g2d) {
+
         //UP
         if(gp.player.screenY < gp.squareSize * 2 - 16) {
             int darkAlpha = (int) ((double)(gp.squareSize * 2 - 16 - gp.player.screenY) / (gp.squareSize*2) * 150);
@@ -206,6 +212,53 @@ public class UI {
             g2d.setColor(new Color(0, 0, 0, darkAlpha));
             g2d.fillRect(0, 0, gp.squareSize*(gp.maxCols - 2), gp.squareSize*(gp.maxRows - 2));
         }
+
+        //ROOM DARKNESS
+        drawLight(g2d);
+    }
+
+    public void drawLight(Graphics2D g2d) {
+
+        double bigRingCenterX = gp.player.screenX + (double) gp.squareSize / 2;
+        double bigRingCenterY = gp.player.screenY + (double) gp.squareSize / 2;
+        double bigRingOuterRadius = gp.maxScreenWidth * 1.5;
+
+        ring = createRingShape(bigRingCenterX, bigRingCenterY, bigRingOuterRadius, bigRingOuterRadius - 100);
+        g2d.setColor(new Color(0, 0, 0, gp.roomManager.currentRoom.darkness));
+        g2d.fill(ring);
+
+        //PLAYER HAS LIGHT
+        if (true) {
+            for (int i = 1; i <= 20; i++) {
+                g2d.setColor(new Color(0, 0, 0, gp.roomManager.currentRoom.darkness / i));
+                ring = createRingShape(smallRingCenterX, smallRingCenterY, smallRingOuterRadius - i * 5, smallRingOuterRadius - 5);
+                g2d.fill(ring);
+            }
+        } else {
+            g2d.fill(oval);
+        }
+    }
+
+    public Shape createRingShape(double centerX, double centerY, double outerRadius, double thickness) {
+        Ellipse2D outer = new Ellipse2D.Double(
+                centerX - outerRadius,
+                centerY - outerRadius,
+                outerRadius + outerRadius,
+                outerRadius + outerRadius);
+        Ellipse2D inner = new Ellipse2D.Double(
+                centerX - outerRadius + thickness,
+                centerY - outerRadius + thickness,
+                outerRadius + outerRadius - thickness - thickness,
+                outerRadius + outerRadius - thickness - thickness);
+
+        smallRingCenterX = centerX - outerRadius + thickness;
+        smallRingCenterY = centerY - outerRadius + thickness;
+        smallRingOuterRadius = outerRadius + outerRadius - thickness - thickness;
+
+        oval = new Area(inner);
+        Area area = new Area(outer);
+        area.subtract(new Area(inner));
+        return area;
     }
 
     private void drawPauseScreen(Graphics2D g2d){

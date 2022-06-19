@@ -27,12 +27,12 @@ public class RoomManager {
 
     public void setMaps() {
 
-        rooms.put("ruins", new Room("ruins",this));
-        rooms.put("castle", new Room("castle",this));
-        rooms.put("sea", new Room("sea",this));
-        rooms.put("swamp", new Room("swamp",this));
-        rooms.put("cave", new Room("cave",this));
-        rooms.put("dungeon", new Room("dungeon",this));
+        rooms.put("ruins", new Room("ruins",this, 0));
+        rooms.put("castle", new Room("castle",this, 0));
+        rooms.put("sea", new Room("sea",this, 0));
+        rooms.put("swamp", new Room("swamp",this, 0));
+        rooms.put("cave", new Room("cave",this, 150));
+        rooms.put("dungeon", new Room("dungeon",this, 220));
 
         //NEIGHBOURS
         rooms.get("ruins").upRoom = null;

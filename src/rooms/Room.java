@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class Room {
 
     public String name;
+    public int darkness;
 
     RoomManager sq;
 
@@ -26,9 +27,10 @@ public class Room {
 
     public Square[] squares;
 
-    public Room(String name, RoomManager sq) {
+    public Room(String name, RoomManager sq, int darkness) {
 
         this.name = name;
+        this.darkness = darkness;
         squares = new Square[30];
 
         this.sq=sq;
