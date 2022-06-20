@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -99,9 +100,9 @@ public class UI {
         g2d.setColor(Color.WHITE);
         g2d.drawString(screenText, x, y);
 
-        if (loadingFrames == gp.FPS * 5) {
-            gp.currentState = gp.gameState;
+        if (loadingFrames == gp.FPS * 5 || true) {
             gp.setupGame();
+            gp.currentState = gp.gameState;
         }
     }
 
@@ -219,24 +220,34 @@ public class UI {
         //PLAYER HAS LIGHT
         double centerX = gp.player.screenX + (double) gp.squareSize / 2;
         double centerY = gp.player.screenY + (double) gp.squareSize / 2;
-        double outerRadius = gp.maxScreenWidth * 1.5;
+        double innerRadius = 114;
 
-        ring = createRingShape(centerX, centerY, outerRadius, 114);
-        g2d.setColor(new Color(0, 0, 0, 240));
-        g2d.fill(ring);
-
+        Area rect = new Area(new Rectangle2D.Double(0,0,gp.maxScreenWidth, gp.maxScreenHeight));
+        Ellipse2D inner = new Ellipse2D.Double(
+                centerX - innerRadius,
+                centerY - innerRadius,
+                innerRadius * 2,
+                innerRadius * 2);
+        oval = new Area(inner);
+        rect.subtract(new Area(inner));
+        g2d.setColor(new Color(0, 0, 0, 245));
+        g2d.fill(rect);
 
         //WITH BLUR
-//        for(int i = 1; i < 114; i += 1) {
+//        for(int i = 1; i < innerRadius; i += 1) {
 //            ring = createRingShape(centerX, centerY, i + 1, i);
-//            g2d.setColor(new Color(0, 0, 0, (int) ((i / 113.0) * 240)));
+//            g2d.setColor(new Color(0, 0, 0, (int) ((i / (innerRadius - 1)) * 240)));
+//            RenderingHints rh = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+//            g2d.setRenderingHints(rh);
 //            g2d.fill(ring);
 //        }
 
         //WITH CIRCLE
-        for(int i = 1; i < 74; i += 1) {
-            ring = createRingShape(centerX, centerY, 114, i + 30);
+        for(int i = 1; i < innerRadius - 40; i += 1) {
+            ring = createRingShape(centerX, centerY, innerRadius, i + 30);
             g2d.setColor(new Color(0, 0, 0, 8));
+            RenderingHints rh = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+            g2d.setRenderingHints(rh);
             g2d.fill(ring);
         }
     }
