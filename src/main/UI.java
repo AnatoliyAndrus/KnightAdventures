@@ -40,16 +40,29 @@ public class UI {
         if (gp.currentState == gp.titleState) {
             if (loadingScreen) {
                 drawLoadingScreen(g2d);
-            } else drawStartScreen(g2d);
+            } else {
+                drawStartScreen(g2d);
+            }
         }
         //GAME STATE
         if (gp.currentState == gp.gameState) {
             drawDarkScreen(g2d);
+            drawPlayerHP(g2d);
         }
         //PAUSE STATE
         if (gp.currentState == gp.pauseState) {
             drawDarkScreen(g2d);
+            drawPlayerHP(g2d);
             drawPauseScreen(g2d);
+        }
+    }
+
+    public void drawPlayerHP(Graphics2D g2d) {
+        for(int i = 1; i <= (gp.player.HP + 2)/3; i++) {
+            g2d.drawImage(gp.player.heart, i* gp.squareSize, 0, null);
+        }
+        for(int i = 1; i <= gp.player.armor; i++) {
+            g2d.drawImage(gp.player.shield, i * gp.squareSize, gp.squareSize - 5, null);
         }
     }
 
@@ -103,6 +116,8 @@ public class UI {
         if (loadingFrames == gp.FPS * 5 || true) {
             gp.setupGame();
             gp.currentState = gp.gameState;
+            loadingScreen = false;
+            loadingFrames = 0;
         }
     }
 

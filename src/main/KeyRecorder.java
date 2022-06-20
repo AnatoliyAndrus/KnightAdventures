@@ -64,15 +64,14 @@ public class KeyRecorder implements KeyListener {
             }
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 gp.currentState = gp.pauseState;
-                gp.pauseMusic();
+//                gp.pauseMusic();
             }
         }
-
+        //PAUSE
         else if (gp.currentState == gp.pauseState) {
-            //PAUSE
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 gp.currentState = gp.gameState;
-                gp.playMusic(0);
+//                gp.playMusic(0);
             }
         }
     }

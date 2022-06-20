@@ -1,5 +1,6 @@
 package rooms;
 
+import characters.Character;
 import objects.GameObject;
 
 import javax.imageio.ImageIO;
@@ -17,6 +18,7 @@ public class Room {
     RoomManager sq;
 
     public ArrayList<GameObject> gameObjects;
+    public ArrayList<Character> enemies;
     public int[][] roomMatrix;
 
     //NAVIGATION
@@ -38,6 +40,7 @@ public class Room {
         roomMatrix = new int[sq.gp.maxCols][sq.gp.maxRows];
 
         gameObjects = new ArrayList<>();
+        enemies = new ArrayList<>();
     }
 
     public void setAllImages(String room) {
@@ -110,6 +113,9 @@ public class Room {
         gameObjects.add(gameObject);
         gameObjects.get(gameObjects.size() - 1).screenX = screenX;
         gameObjects.get(gameObjects.size() - 1).screenY = screenY;
-        gameObjects.get(gameObjects.size() - 1).room = this;
+    }
+
+    public void addEnemy(Character ch){
+        enemies.add(ch);
     }
 }

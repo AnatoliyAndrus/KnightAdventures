@@ -1,8 +1,8 @@
 package rooms;
 
+import characters.EnemyWithPistol;
 import main.GamePanel;
-import objects.Shop;
-import objects.WoodenBox;
+import objects.*;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -24,6 +24,7 @@ public class RoomManager {
         setMaps();
         setCurrentRoom("ruins");
         setGameObjects();
+        setEnemies();
     }
 
     public void setMaps() {
@@ -93,6 +94,16 @@ public class RoomManager {
         rooms.get("castle").addGameObject(new WoodenBox(gp), gp.squareSize * 10, gp.squareSize * 10);
         rooms.get("sea").addGameObject(new WoodenBox(gp), gp.squareSize * 10, gp.squareSize * 10);
         rooms.get("swamp").addGameObject(new WoodenBox(gp), gp.squareSize * 10, gp.squareSize * 10);
+        for (int i = gp.squareSize * 4; i < gp.squareSize * 21; i+= gp.squareSize * 8) {
+            rooms.get("cave").addGameObject(new Torch(gp), i, gp.squareSize * 3 + 24);
+            rooms.get("cave").addGameObject(new Torch(gp), i, gp.squareSize * 12 + 8);
+        }
+    }
+
+    public void setEnemies() {
+        rooms.get("castle").addEnemy(new EnemyWithPistol(gp, 18, 11));
+        rooms.get("castle").addEnemy(new EnemyWithPistol(gp, 4, 11));
+        rooms.get("castle").addEnemy(new EnemyWithPistol(gp, 9, 11));
     }
 
     private void drawForRoom(Graphics2D g2d) {

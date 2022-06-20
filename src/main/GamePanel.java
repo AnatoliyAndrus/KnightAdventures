@@ -37,7 +37,6 @@ public class GamePanel extends JPanel implements Runnable{
 
     //GAME CHARACTERS
     public Player player = new Player(this, keyR);
-    public ArrayList<EnemyWithPistol> enemies = new ArrayList<>();
 
     //BULLETS
     public ArrayList<Bullet> bullets = new ArrayList<>();
@@ -70,7 +69,6 @@ public class GamePanel extends JPanel implements Runnable{
     public void setupGame(){
         //DEFAULT SETUP
 //        playMusic(0);
-        enemies.add(new EnemyWithPistol(this, 15, 10));
 
         visualManager.setup();
     }
@@ -117,7 +115,10 @@ public class GamePanel extends JPanel implements Runnable{
         if (currentState == gameState) {
 
             //ENEMIES
-            enemies.get(0).update();
+            for (int i = 0; i < roomManager.currentRoom.enemies.size(); i++) {
+                if(!roomManager.currentRoom.enemies.get(i).isDead)
+                    roomManager.currentRoom.enemies.get(i).update();
+            }
 
             //PLAYER
             player.update();
@@ -127,6 +128,8 @@ public class GamePanel extends JPanel implements Runnable{
                 bullets.get(i).update();
             }
 
+            //COLLECT ALL GARBAGE
+            collectGarbage();
         }
         //PAUSE STATE
         if (currentState == pauseState) {
@@ -164,7 +167,10 @@ public class GamePanel extends JPanel implements Runnable{
             }
 
             //ENEMIES
-            enemies.get(0).draw(g2d);
+            for (int i = 0; i < roomManager.currentRoom.enemies.size(); i++) {
+                if(!roomManager.currentRoom.enemies.get(i).isDead)
+                    roomManager.currentRoom.enemies.get(i).draw(g2d);
+            }
 
             //PLAYER
             player.draw(g2d);
@@ -194,5 +200,13 @@ public class GamePanel extends JPanel implements Runnable{
     public void playSound(int index) {
         sounds.setClip(index);
         sounds.play();
+    }
+
+    private void collectGarbage() {
+        //DEAD ENEMIES
+        for (int i = 0; i < roomManager.currentRoom.enemies.size(); i++) {
+            if(roomManager.currentRoom.enemies.get(i).isDead)
+                roomManager.currentRoom.enemies.remove(roomManager.currentRoom.enemies.get(i));
+        }
     }
 }
