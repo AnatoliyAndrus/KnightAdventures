@@ -18,13 +18,16 @@ public class Player extends Character {
 
     public boolean hasTorch;
 
+    public boolean isInvincible;
+    public int invincibleFrames = 0;
+
     public Player(GamePanel gp, KeyRecorder keyR) {
         super(gp);
 
         this.keyR = keyR;
 
         setDefaultParameters();
-        setPlayerImages(hasTorch);
+        setPlayerImages(false);
     }
 
     public void setDefaultParameters() {
@@ -36,6 +39,10 @@ public class Player extends Character {
         areaOfCollision = new Rectangle(8, 16, 32, 32);
         defaultCollisionAreaX = 8;
         defaultCollisionAreaY = 16;
+
+        maxHP = 15;
+        HP = maxHP;
+        armor = 5;
 
         direction = "down";
     }
@@ -59,6 +66,8 @@ public class Player extends Character {
             right1 = ImageIO.read(new File("resources/images/" + path + "/knight_right_1.png"));
             right2 = ImageIO.read(new File("resources/images/" + path + "/knight_right_2.png"));
             right3 = ImageIO.read(new File("resources/images/" + path + "/knight_right_3.png"));
+            heart = ImageIO.read(new File("resources/images/objects/heart.png"));
+            shield = ImageIO.read(new File("resources/images/objects/shield.png"));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -93,9 +102,11 @@ public class Player extends Character {
 
             // CHECK COLLISION OF THE MAP
             gp.colViewer.checkMapCollision(this);
-            //  CHECK COLLISION OF OBJECTS
+            // CHECK COLLISION OF OBJECTS
             int index = gp.colViewer.checkObjectCollision(this, true);
             interactObject(index);
+            // CHECK COLLISION WITH ENEMIES
+            gp.colViewer.checkCharacterCollision(this, true);
 
             //HORIZONTAL MOVEMENT
             if (!collisionOnX) {
@@ -152,14 +163,20 @@ public class Player extends Character {
             }
         }
 
+        if(isInvincible) {
+            invincibleFrames++;
+            if(invincibleFrames == gp.FPS * 2) {
+                isInvincible = false;
+                invincibleFrames = 0;
+            }
+        }
+
         if (gp.roomManager.currentRoom.name.equals("dungeon") && !hasTorch) {
             hasTorch = true;
-            setPlayerImages(hasTorch);
-            System.out.println("with");
+            setPlayerImages(true);
         } else if (!gp.roomManager.currentRoom.name.equals("dungeon") && hasTorch) {
             hasTorch = false;
-            setPlayerImages(hasTorch);
-            System.out.println("without");
+            setPlayerImages(false);
         }
 
     }
@@ -177,6 +194,22 @@ public class Player extends Character {
                     break;
             }
 
+        }
+    }
+
+    @Override
+    public void receiveDamage() {
+
+        //ADD SOUNDS LATER + ANIMATIONS
+        if(armor > 0){
+            armor--;
+        }
+        else if (HP > 0){
+            HP--;
+        }
+
+        if (HP == 0){
+            System.exit(0);
         }
     }
 

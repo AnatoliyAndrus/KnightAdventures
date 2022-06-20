@@ -7,12 +7,15 @@ import java.awt.image.*;
 
 public class Character {
 
+    GamePanel gp;
+
     public int screenX;
     public int screenY;
     public int speed;
-    GamePanel gp;
 
-    public BufferedImage up1, up2, up3, down1, down2, down3, left1, left2, left3, right1, right2, right3;
+    public boolean isDead;
+
+    public BufferedImage up1, up2, up3, down1, down2, down3, left1, left2, left3, right1, right2, right3, heart, shield;
     public String direction;
 
     //FOR SPRITE CHANGES
@@ -26,8 +29,20 @@ public class Character {
     public boolean collisionOnX = false;
     public boolean collisionOnY = false;
 
+    public int maxHP;
+    public int HP;
+    public int armor;
+
     public Character(GamePanel gp) {
         this.gp = gp;
+    }
+
+    public void receiveDamage() {
+
+    }
+
+    public void update() {
+
     }
 
     public void draw(Graphics2D g2d) {
@@ -37,9 +52,6 @@ public class Character {
             case "down" -> imageNum == 1 ? down1 : imageNum == 2 ? down2 : down3;
             case "left" -> imageNum == 1 ? left1 : imageNum == 2 ? left2 : left3;
             case "right" -> imageNum == 1 ? right1 : imageNum == 2 ? right2 : right3;
-            case "toPlayer" -> (gp.player.screenX - screenX > 0) ?
-                    (imageNum == 1 ? right1 : imageNum == 2 ? right2 : right3) :
-                    (imageNum == 1 ? left1 : imageNum == 2 ? left2 : left3);
             default -> null;
         };
 

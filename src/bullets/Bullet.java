@@ -34,6 +34,8 @@ public class Bullet {
 
     public String direction;
 
+    public boolean shooterIsPlayer;
+
     public Bullet(GamePanel gp, String imgName,
                   int defaultCollisionAreaX,
                   int defaultCollisionAreaY,
@@ -42,7 +44,8 @@ public class Bullet {
                   int initialX,
                   int initialY,
                   int finalX,
-                  int finalY) {
+                  int finalY,
+                  boolean shooterIsPlayer) {
 
         this.gp = gp;
 
@@ -69,6 +72,8 @@ public class Bullet {
         this.screenX = initialX;
         this.screenY = initialY;
 
+        this.shooterIsPlayer = shooterIsPlayer;
+
         setDefaultValues();
     }
 
@@ -78,27 +83,31 @@ public class Bullet {
             case "upLeft" -> {
                 screenX -= speedX;
                 screenY -= speedY;
-                gp.player.direction = "left";
+                if(shooterIsPlayer) gp.player.direction = "left";
             }
             case "upRight" -> {
                 screenX += speedX;
                 screenY -= speedY;
-                gp.player.direction = "right";
+                if(shooterIsPlayer) gp.player.direction = "right";
             }
             case "downLeft" -> {
                 screenX -= speedX;
                 screenY += speedY;
-                gp.player.direction = "left";
+                if(shooterIsPlayer) gp.player.direction = "left";
             }
             case "downRight" -> {
                 screenX += speedX;
                 screenY += speedY;
-                gp.player.direction = "right";
+                if(shooterIsPlayer) gp.player.direction = "right";
             }
         }
 
+        //CHECK MAP COLLISION
         gp.colViewer.checkMapCollision(this);
+        //CHECK OBJECT COLLISION
         gp.colViewer.checkObjectCollision(this);
+        //CHECK CHARACTERS COLLISION
+        gp.colViewer.checkCharacterCollision(this);
 
         if(screenX < 0 || screenX > gp.squareSize*(gp.maxCols - 2) || screenY < 0 || screenY > gp.squareSize*(gp.maxRows - 2)) {
             gp.bullets.remove(this);
@@ -110,8 +119,8 @@ public class Bullet {
 
     }
     private void setDefaultValues() {
-        int deltaX = finalX - initialX;
-        int deltaY = finalY - initialY;
+        double deltaX = finalX - initialX;
+        double deltaY = finalY - initialY;
 
         if (deltaX > 0 && deltaY > 0) {
             direction = "downRight";
@@ -136,11 +145,11 @@ public class Bullet {
         }
 
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            proportion = Math.abs((double)deltaX/deltaY);
+            proportion = Math.abs(deltaX/deltaY);
             speedY = Math.sqrt(Math.pow(speed, 2) / (1 + Math.pow(proportion, 2)));
             speedX = speedY * proportion;
         } else {
-            proportion = Math.abs((double)deltaY/deltaX);
+            proportion = Math.abs(deltaY/deltaX);
             speedX = Math.sqrt(Math.pow(speed, 2) / (1 + Math.pow(proportion, 2)));
             speedY = speedX * proportion;
         }

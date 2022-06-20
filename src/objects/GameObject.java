@@ -16,7 +16,6 @@ public class GameObject {
     public String name;
 
     public int imageNum = 1;
-    public Room room;
 
     public int defaultCollisionAreaX;
     public int defaultCollisionAreaY;

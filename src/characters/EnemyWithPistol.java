@@ -1,5 +1,6 @@
 package characters;
 
+import bullets.Bullet;
 import main.GamePanel;
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,9 +12,19 @@ public class EnemyWithPistol extends Character{
 
     //FOR PLAYER TO STAND
     int standFrames = 0;
-    int framesToMove = 0;
+    int framesToCount = -gp.FPS;
 
     double playerDistance;
+    double deltaX, deltaY;
+
+    public boolean moving;
+    public boolean agressive;
+
+    public boolean tempMoving;
+    public int tempMovingFrames = 0;
+
+    int movingTime;
+    int standTime;
 
     public EnemyWithPistol(GamePanel gp, int col, int row) {
         super(gp);
@@ -26,12 +37,15 @@ public class EnemyWithPistol extends Character{
     }
 
     public void setDefaultParameters() {
-        speed = 2;
+        speed = 1;
 
         // COLLISION SQUARE OF THE PLAYER
         areaOfCollision = new Rectangle(8, 16, 32, 32);
         defaultCollisionAreaX = 8;
         defaultCollisionAreaY = 16;
+
+        maxHP = 10;
+        HP = maxHP;
 
         direction = "down";
     }
@@ -59,25 +73,162 @@ public class EnemyWithPistol extends Character{
 
     public void update() {
 
-        //PLAYER MOVES
-        framesToMove++;
+        playerDistance = Math.sqrt(Math.pow(gp.player.screenX - screenX, 2)
+                + Math.pow(gp.player.screenY - gp.player.areaOfCollision.height/2.0 - (screenY - areaOfCollision.height/2.0), 2));
 
-        if (framesToMove == gp.FPS * 2 || direction.equals("toPlayer")) {
-            framesToMove = 0;
-
-            switch ((int) (Math.random() * 4 + 1)) {
-                case 1 -> direction = "up";
-                case 2 -> direction = "down";
-                case 3 -> direction = "left";
-                case 4 -> direction = "right";
+        if(playerDistance < gp.squareSize * 12) {
+            if(!agressive) framesToCount = 0;
+            agressive = true;
+            moving = true;
+        } else {
+            if(agressive) {
+                framesToCount = 0;
+                moving = false;
+                tempMovingFrames = 0;
+                tempMoving = false;
             }
+            agressive = false;
+            speed = 1;
         }
 
-        playerDistance = Math.sqrt(Math.pow(Math.abs(gp.player.screenX - screenX), 2)
-                + Math.pow(Math.abs(gp.player.screenY - screenY), 2));
+        //NOT AGRESSIVE
+        if(!agressive) {
 
-        if (playerDistance < gp.squareSize * 3 && playerDistance > (double) gp.squareSize / 2) {
-            direction = "toPlayer";
+            if(framesToCount < 0)
+                framesToCount++;
+
+            if (framesToCount >= 0) {
+
+                if(!moving && framesToCount == 0) {
+                    switch ((int) (Math.random() * 4 + 1)) {
+                        case 1 -> direction = "up";
+                        case 2 -> direction = "down";
+                        case 3 -> direction = "left";
+                        case 4 -> direction = "right";
+                    }
+                    moving = true;
+                    movingTime = (int)(Math.random() * 4 + 2);
+                    standTime = (int)(Math.random() * 2 + 6);
+                }
+
+                framesToCount++;
+
+                if(framesToCount == gp.FPS * movingTime) {
+                    moving = false;
+                }
+                if(framesToCount == gp.FPS * standTime) {
+                    framesToCount = 0;
+                }
+            }
+        }
+        //AGRESSIVE
+        else {
+            //Movement Math
+            deltaX = gp.player.screenX - screenX;
+            deltaY = gp.player.screenY - gp.player.areaOfCollision.height/2.0 - (screenY - areaOfCollision.height/2.0);
+
+            if(deltaX == 0 && deltaY < 0) {
+                deltaX = 1;
+            } else if(deltaX == 0 && deltaY > 0) {
+                deltaX = 1;
+            } else if(deltaX < 0 && deltaY == 0) {
+                deltaY = 1;
+            } else if(deltaX > 0 && deltaY == 0) {
+                deltaY = 1;
+            }
+
+            if(!tempMoving) {
+                if(deltaX > 0 && deltaY < 0) {
+                    if(Math.abs(deltaY) > deltaX) direction = "up";
+                    else direction = "right";
+
+                    if (collisionOnX) {
+                        direction = "up";
+                        screenX--;
+                        tempMoving = true;
+                    }
+                    if(collisionOnY) {
+                        direction = "right";
+                        screenY++;
+                        tempMoving = true;
+                    }
+                }
+                else if(deltaX < 0 && deltaY < 0) {
+                    if(deltaY < deltaX) direction = "up";
+                    else direction = "left";
+
+                    if (collisionOnX) {
+                        direction = "up";
+                        screenX++;
+                        tempMoving = true;
+                    }
+                    if(collisionOnY) {
+                        direction = "left";
+                        screenY++;
+                        tempMoving = true;
+                    }
+                }
+                else if(deltaX < 0 && deltaY > 0) {
+                    if(deltaY > Math.abs(deltaX)) direction = "down";
+                    else direction = "left";
+
+                    if (collisionOnX) {
+                        direction = "down";
+                        screenX++;
+                        tempMoving = true;
+                    }
+                    if(collisionOnY) {
+                        direction = "left";
+                        screenY--;
+                        tempMoving = true;
+                    }
+                }
+                else if(deltaX > 0 && deltaY > 0) {
+                    if(deltaY > deltaX) direction = "down";
+                    else direction = "right";
+
+                    if (collisionOnX) {
+                        direction = "down";
+                        screenX--;
+                        tempMoving = true;
+                    }
+                    if(collisionOnY) {
+                        direction = "right";
+                        screenY--;
+                        tempMoving = true;
+                    }
+                }
+
+                if (Math.abs(deltaY) - Math.abs(deltaX) <= 5) tempMoving = true;
+            }
+            if(tempMoving) {
+                tempMovingFrames++;
+                if(tempMovingFrames == 0.4 * gp.FPS) {
+                    tempMoving = false;
+                    tempMovingFrames = 0;
+                }
+            }
+
+            //Agressive modes
+            if (playerDistance < gp.squareSize * 2) {
+                speed = 2;
+            } else {
+                speed = 1;
+
+                framesToCount++;
+
+                if(framesToCount == gp.FPS) {
+
+                    gp.bullets.add(new Bullet(gp, "enemy_bullet",
+                            2, 2,
+                            6, 6,
+                            screenX + 19, screenY + 30,
+                            gp.player.screenX + 19, gp.player.screenY + 30, false));
+
+                    framesToCount = 0;
+                }
+            }
+
         }
 
         collisionOnX = false;
@@ -86,39 +237,48 @@ public class EnemyWithPistol extends Character{
         // CHECK COLLISION OF THE MAP
         gp.colViewer.checkMapCollision(this);
         //  CHECK COLLISION OF OBJECTS
-        int index = gp.colViewer.checkObjectCollision(this, false);
+        gp.colViewer.checkObjectCollision(this, false);
+        // CHECK COLLISION WITH CHARACTERS
+        gp.colViewer.checkCharacterCollision(this, false);
 
         //HORIZONTAL MOVEMENT
-        if (!collisionOnX) {
+        if (!collisionOnX && moving) {
             if (direction.equals("left")) {
                 screenX -= speed;
             }
             if (direction.equals("right")) {
                 screenX += speed;
             }
-            if (direction.equals("toPlayer")) {
-                screenX += (((gp.player.screenX - screenX) / playerDistance) * speed);
-            }
         }
         //VERTICAL MOVEMENT
-        if(!collisionOnY) {
+        if(!collisionOnY && moving) {
             if (direction.equals("up")) {
                 screenY -= speed;
             }
             if (direction.equals("down")) {
                 screenY += speed;
             }
-            if (direction.equals("toPlayer")) {
-                screenY += (((gp.player.screenY - screenY) / playerDistance) * speed);
-            }
             updateImage();
         }
-        //PLAYER STANDS STILL
+        //ENEMY STANDS STILL
         else {
             standFrames ++;
             if(standFrames >= gp.FPS/3) {
                 imageNum = 1;
             }
+        }
+    }
+
+    @Override
+    public void receiveDamage() {
+
+        //ADD SOUNDS LATER + ANIMATIONS
+        if(HP > 0) {
+            HP--;
+        }
+
+        if (HP == 0){
+            isDead = true;
         }
     }
 
