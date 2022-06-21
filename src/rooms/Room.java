@@ -29,6 +29,8 @@ public class Room {
 
     public Square[] squares;
 
+    public boolean isWaterRoom;
+
     public Room(String name, RoomManager sq, int darkness) {
 
         this.name = name;
@@ -75,6 +77,16 @@ public class Room {
         setup(room, 25, "wall_standart", true);
     }
 
+    private void setup(String room, int index, String name, boolean collision) {
+        try {
+            squares[index] = new Square();
+            squares[index].img = ImageIO.read(new File("resources/images/" + room + "/" + name + ".png"));
+            squares[index].collision = collision;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setMatrix(String roomName) {
 
         //READING MATRIX FROM FILE
@@ -94,16 +106,6 @@ public class Room {
                 }
             }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void setup(String room, int index, String name, boolean collision) {
-        try {
-            squares[index] = new Square();
-            squares[index].img = ImageIO.read(new File("resources/images/" + room + "/" + name + ".png"));
-            squares[index].collision = collision;
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -39,9 +39,9 @@ public class EnemyWithPistol extends Character{
         speed = 1;
 
         // COLLISION SQUARE OF THE PLAYER
-        areaOfCollision = new Rectangle(8, 16, 32, 32);
+        areaOfCollision = new Rectangle(8, 24, 32, 24);
         defaultCollisionAreaX = 8;
-        defaultCollisionAreaY = 16;
+        defaultCollisionAreaY = 24;
 
         maxHP = 10;
         HP = maxHP;

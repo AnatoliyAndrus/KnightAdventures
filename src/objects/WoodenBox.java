@@ -13,7 +13,7 @@ public class WoodenBox extends StaticObject {
 
         this.collision = true;
         this.defaultCollisionAreaX = 0;
-        this.defaultCollisionAreaY = 0;
-        this.areaOfCollision = new Rectangle(defaultCollisionAreaX, defaultCollisionAreaY, 48, 48);
+        this.defaultCollisionAreaY = 10;
+        this.areaOfCollision = new Rectangle(defaultCollisionAreaX, defaultCollisionAreaY, 48, 38);
     }
 }

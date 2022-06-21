@@ -324,7 +324,7 @@ public class UI {
     }
 
     private void drawScreenHint(Graphics2D g2d){
-        if(hintTimer!=0){
+        if(hintTimer > 0){
             hintTimer--;
             g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
             g2d.setColor(Color.WHITE);

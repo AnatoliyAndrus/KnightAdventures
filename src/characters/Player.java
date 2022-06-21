@@ -38,9 +38,9 @@ public class Player extends Character {
         speed = gp.FPS/20;
 
         // COLLISION SQUARE OF THE PLAYER
-        areaOfCollision = new Rectangle(8, 16, 32, 32);
+        areaOfCollision = new Rectangle(8, 24, 32, 24);
         defaultCollisionAreaX = 8;
-        defaultCollisionAreaY = 16;
+        defaultCollisionAreaY = 24;
 
         maxHP = 15;
         HP = maxHP;
@@ -187,7 +187,7 @@ public class Player extends Character {
             switch (gp.roomManager.currentRoom.staticObjects.get(index).name) {
                 case "woodenBox" -> {
                     gp.ui.makeScreenHint("Box hehehe", 1000);
-                    gp.roomManager.setCurrentRoom("dungeon");
+                    //gp.roomManager.setCurrentRoom("dungeon");
                     System.out.println("box");
                 }
                 case "shop" -> System.out.println("shop");

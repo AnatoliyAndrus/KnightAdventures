@@ -31,7 +31,9 @@ public class RoomManager {
         rooms.put("ruins", new Room("ruins",this, 0));
         rooms.put("castle", new Room("castle",this, 0));
         rooms.put("sea", new Room("sea",this, 0));
+        rooms.get("sea").isWaterRoom = true;
         rooms.put("swamp", new Room("swamp",this, 0));
+        rooms.get("swamp").isWaterRoom = true;
         rooms.put("cave", new Room("cave",this, 10));
         rooms.put("dungeon", new Room("dungeon",this, 240));
 
@@ -72,19 +74,110 @@ public class RoomManager {
         }
     }
 
-    public void draw(Graphics2D g2d) {
-        if(currentRoom.name.equals("ruins") || currentRoom.name.equals("castle") || currentRoom.name.equals("cave") || currentRoom.name.equals("dungeon")) {
-            drawForRoom(g2d);
+    public void drawFirstPart(Graphics2D g2d) {
+        if(!currentRoom.isWaterRoom) {
+            for (int row = 0; row < gp.maxRows; row++) {
+
+                for (int col = 0; col < gp.maxCols; col++) {
+                    if (currentMatrix[col][row] <= 12) {
+                        g2d.drawImage(currentRoom.squares[currentMatrix[col][row]].img,
+                                (col - 1) * gp.squareSize,
+                                (row - 1) * gp.squareSize,
+                                null);
+                    }
+                }
+            }
+        } else {
+            for (int row = 0; row < gp.maxRows; row++) {
+
+                for (int col = 0; col < gp.maxCols; col++) {
+                    if(currentMatrix[col][row] > 12) {
+                        g2d.drawImage(currentRoom.squares[currentMatrix[col][row]].img,
+                                (col - 1) * gp.squareSize,
+                                (row - 1) * gp.squareSize,
+                                null);
+                    }
+                }
+            }
         }
-        else if(currentRoom.name.equals("sea") || currentRoom.name.equals("swamp")) {
-            drawForWater(g2d);
+    }
+    public void drawShadows(Graphics2D g2d) {
+        if(!currentRoom.isWaterRoom) {
+            for (int row = 0; row < gp.maxRows; row++) {
+
+                for (int col = 0; col < gp.maxCols; col++) {
+                    if(currentMatrix[col][row] > 12) {
+                        for (int i = 0; i < 24; i++) {
+                            g2d.setColor(new Color(0, 0, 0, 10));
+                            g2d.fillRect((col - 1) * gp.squareSize - i,
+                                    (row - 1) * gp.squareSize - i,
+                                    gp.squareSize, gp.squareSize);
+                        }
+                    }
+                }
+            }
+        } else {
+            for (int row = 0; row < gp.maxRows; row++) {
+
+                for (int col = 0; col < gp.maxCols; col++) {
+                    if(currentMatrix[col][row] <= 12) {
+                        for (int i = 0; i < 24; i++) {
+                            g2d.setColor(new Color(0, 0, 0, 8));
+                            g2d.fillRect((col - 1) * gp.squareSize - i,
+                                    (row - 1) * gp.squareSize - i,
+                                    gp.squareSize, gp.squareSize);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    public void drawFirstLayer(Graphics2D g2d) {
+        if(!currentRoom.isWaterRoom) {
+            for (int row = 0; row < gp.maxRows; row++) {
+
+                for (int col = 0; col < gp.maxCols; col++) {
+                    if(currentMatrix[col][row] > 12 && currentMatrix[col][row] != 14 && currentMatrix[col][row] != 23 && currentMatrix[col][row] != 24) {
+                        g2d.drawImage(currentRoom.squares[currentMatrix[col][row]].img,
+                                (col - 1) * gp.squareSize,
+                                (row - 1) * gp.squareSize,
+                                null);
+                    }
+                }
+            }
+        } else {
+            for (int row = 0; row < gp.maxRows; row++) {
+
+                for (int col = 0; col < gp.maxCols; col++) {
+                    if(currentMatrix[col][row] <= 12) {
+                        g2d.drawImage(currentRoom.squares[currentMatrix[col][row]].img,
+                                (col - 1) * gp.squareSize,
+                                (row - 1) * gp.squareSize,
+                                null);
+                    }
+                }
+            }
+        }
+    }
+    public void drawFinalLayer(Graphics2D g2d) {
+        //THIS PART ONLY FOR INNER ROOMS
+        if(!currentRoom.isWaterRoom) {
+            for (int row = 0; row < gp.maxRows; row++) {
+
+                for (int col = 0; col < gp.maxCols; col++) {
+                    if(currentMatrix[col][row] == 14 || currentMatrix[col][row] == 23 || currentMatrix[col][row] == 24) {
+                        g2d.drawImage(currentRoom.squares[currentMatrix[col][row]].img,
+                                (col - 1) * gp.squareSize,
+                                (row - 1) * gp.squareSize,
+                                null);
+                    }
+                }
+            }
         }
     }
 
     public void setCurrentRoom(String roomName) {
-
         currentRoom = rooms.get(roomName);
-
         currentMatrix = currentRoom.roomMatrix;
     }
 
@@ -106,85 +199,4 @@ public class RoomManager {
         rooms.get("castle").addEnemy(new EnemyWithPistol(gp, 9, 11));
     }
 
-    private void drawForRoom(Graphics2D g2d) {
-        for (int row = 0; row < gp.maxRows; row++) {
-
-            for (int col = 0; col < gp.maxCols; col++) {
-
-                if(currentMatrix[col][row] <= 12) {
-                    g2d.drawImage(currentRoom.squares[currentMatrix[col][row]].img,
-                            (col - 1) * gp.squareSize,
-                            (row - 1) * gp.squareSize,
-                            null);
-                }
-            }
-        }
-        for (int row = 0; row < gp.maxRows; row++) {
-
-            for (int col = 0; col < gp.maxCols; col++) {
-
-                if(currentMatrix[col][row] > 12) {
-                    for (int i = 0; i < 24; i++) {
-                        g2d.setColor(new Color(0, 0, 0, 10));
-                        g2d.fillRect((col - 1) * gp.squareSize - i,
-                                (row - 1) * gp.squareSize - i,
-                                gp.squareSize, gp.squareSize);
-                    }
-                }
-            }
-        }
-        for (int row = 0; row < gp.maxRows; row++) {
-
-            for (int col = 0; col < gp.maxCols; col++) {
-
-                if(currentMatrix[col][row] > 12) {
-                    g2d.drawImage(currentRoom.squares[currentMatrix[col][row]].img,
-                            (col - 1) * gp.squareSize,
-                            (row - 1) * gp.squareSize,
-                            null);
-                }
-            }
-        }
-    }
-
-    private void drawForWater(Graphics2D g2d) {
-        for (int row = 0; row < gp.maxRows; row++) {
-
-            for (int col = 0; col < gp.maxCols; col++) {
-
-                if(currentMatrix[col][row] > 12) {
-                    g2d.drawImage(currentRoom.squares[currentMatrix[col][row]].img,
-                            (col - 1) * gp.squareSize,
-                            (row - 1) * gp.squareSize,
-                            null);
-                }
-            }
-        }
-        for (int row = 0; row < gp.maxRows; row++) {
-
-            for (int col = 0; col < gp.maxCols; col++) {
-
-                if(currentMatrix[col][row] <= 12) {
-                    for (int i = 0; i < 24; i++) {
-                        g2d.setColor(new Color(0, 0, 0, 8));
-                        g2d.fillRect((col - 1) * gp.squareSize - i,
-                                (row - 1) * gp.squareSize - i,
-                                gp.squareSize, gp.squareSize);
-                    }
-                }
-            }
-        }
-        for (int row = 0; row < gp.maxRows; row++) {
-
-            for (int col = 0; col < gp.maxCols; col++) {
-
-                if(currentMatrix[col][row] <= 12) {
-                    g2d.drawImage(currentRoom.squares[currentMatrix[col][row]].img,
-                            (col - 1) * gp.squareSize,
-                            (row - 1) * gp.squareSize,
-                            null);
-                }
-            }
-        }
-    }
 }
