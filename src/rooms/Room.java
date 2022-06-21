@@ -1,7 +1,7 @@
 package rooms;
 
 import characters.Character;
-import objects.GameObject;
+import objects.StaticObject;
 
 import javax.imageio.ImageIO;
 import java.io.BufferedReader;
@@ -17,7 +17,7 @@ public class Room {
 
     RoomManager sq;
 
-    public ArrayList<GameObject> gameObjects;
+    public ArrayList<StaticObject> staticObjects;
     public ArrayList<Character> enemies;
     public int[][] roomMatrix;
 
@@ -39,7 +39,7 @@ public class Room {
 
         roomMatrix = new int[sq.gp.maxCols][sq.gp.maxRows];
 
-        gameObjects = new ArrayList<>();
+        staticObjects = new ArrayList<>();
         enemies = new ArrayList<>();
     }
 
@@ -109,10 +109,10 @@ public class Room {
         }
     }
 
-    public void addGameObject(GameObject gameObject, int screenX, int screenY){
-        gameObjects.add(gameObject);
-        gameObjects.get(gameObjects.size() - 1).screenX = screenX;
-        gameObjects.get(gameObjects.size() - 1).screenY = screenY;
+    public void addGameObject(StaticObject staticObject, int screenX, int screenY){
+        staticObjects.add(staticObject);
+        staticObjects.get(staticObjects.size() - 1).screenX = screenX;
+        staticObjects.get(staticObjects.size() - 1).screenY = screenY;
     }
 
     public void addEnemy(Character ch){

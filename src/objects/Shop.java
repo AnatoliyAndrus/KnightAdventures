@@ -2,15 +2,14 @@ package objects;
 
 import main.GamePanel;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
-public class Shop extends GameObject{
+public class Shop extends StaticObject {
 
     public Shop(GamePanel gp) {
-        super(gp, "shop", "shop");
+        super(gp, "shop");
+
+        this.down1 = setImage("objects/shop");
 
         this.collision = true;
         this.defaultCollisionAreaX = 15;
@@ -18,7 +17,3 @@ public class Shop extends GameObject{
         this.areaOfCollision = new Rectangle(defaultCollisionAreaX, defaultCollisionAreaY, 308, 170);
     }
 }
-
-
-
-//336 240

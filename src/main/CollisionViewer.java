@@ -119,18 +119,18 @@ public class CollisionViewer {
 
         int index = -1;
 
-        for (int i = 0; i < gp.roomManager.currentRoom.gameObjects.size(); i++) {
+        for (int i = 0; i < gp.roomManager.currentRoom.staticObjects.size(); i++) {
              ch.areaOfCollision.x += ch.screenX;
              ch.areaOfCollision.y += ch.screenY;
 
-             gp.roomManager.currentRoom.gameObjects.get(i).areaOfCollision.x += gp.roomManager.currentRoom.gameObjects.get(i).screenX;
-             gp.roomManager.currentRoom.gameObjects.get(i).areaOfCollision.y += gp.roomManager.currentRoom.gameObjects.get(i).screenY;
+             gp.roomManager.currentRoom.staticObjects.get(i).areaOfCollision.x += gp.roomManager.currentRoom.staticObjects.get(i).screenX;
+             gp.roomManager.currentRoom.staticObjects.get(i).areaOfCollision.y += gp.roomManager.currentRoom.staticObjects.get(i).screenY;
 
              if (gp.keyR.up || ch.direction.equals("up")) {
                  ch.areaOfCollision.y -= ch.speed;
 
-                 if (ch.areaOfCollision.intersects(gp.roomManager.currentRoom.gameObjects.get(i).areaOfCollision)) {
-                     if (gp.roomManager.currentRoom.gameObjects.get(i).collision) {
+                 if (ch.areaOfCollision.intersects(gp.roomManager.currentRoom.staticObjects.get(i).areaOfCollision)) {
+                     if (gp.roomManager.currentRoom.staticObjects.get(i).collision) {
                          ch.collisionOnY = true;
                      }
 
@@ -142,8 +142,8 @@ public class CollisionViewer {
              if (gp.keyR.down || ch.direction.equals("down")) {
                  ch.areaOfCollision.y += ch.speed;
 
-                 if (ch.areaOfCollision.intersects(gp.roomManager.currentRoom.gameObjects.get(i).areaOfCollision)) {
-                     if (gp.roomManager.currentRoom.gameObjects.get(i).collision) {
+                 if (ch.areaOfCollision.intersects(gp.roomManager.currentRoom.staticObjects.get(i).areaOfCollision)) {
+                     if (gp.roomManager.currentRoom.staticObjects.get(i).collision) {
                          ch.collisionOnY = true;
                      }
 
@@ -155,8 +155,8 @@ public class CollisionViewer {
              if (gp.keyR.left || ch.direction.equals("left")) {
                  ch.areaOfCollision.x -= ch.speed;
 
-                 if (ch.areaOfCollision.intersects(gp.roomManager.currentRoom.gameObjects.get(i).areaOfCollision)) {
-                     if (gp.roomManager.currentRoom.gameObjects.get(i).collision) {
+                 if (ch.areaOfCollision.intersects(gp.roomManager.currentRoom.staticObjects.get(i).areaOfCollision)) {
+                     if (gp.roomManager.currentRoom.staticObjects.get(i).collision) {
                          ch.collisionOnX = true;
                      }
 
@@ -166,8 +166,8 @@ public class CollisionViewer {
              if (gp.keyR.right || ch.direction.equals("right")) {
                  ch.areaOfCollision.x += ch.speed;
 
-                 if (ch.areaOfCollision.intersects(gp.roomManager.currentRoom.gameObjects.get(i).areaOfCollision)) {
-                     if (gp.roomManager.currentRoom.gameObjects.get(i).collision) {
+                 if (ch.areaOfCollision.intersects(gp.roomManager.currentRoom.staticObjects.get(i).areaOfCollision)) {
+                     if (gp.roomManager.currentRoom.staticObjects.get(i).collision) {
                          ch.collisionOnX = true;
                      }
 
@@ -179,8 +179,8 @@ public class CollisionViewer {
              ch.areaOfCollision.x = ch.defaultCollisionAreaX;
              ch.areaOfCollision.y = ch.defaultCollisionAreaY;
 
-             gp.roomManager.currentRoom.gameObjects.get(i).areaOfCollision.x = gp.roomManager.currentRoom.gameObjects.get(i).defaultCollisionAreaX;
-             gp.roomManager.currentRoom.gameObjects.get(i).areaOfCollision.y = gp.roomManager.currentRoom.gameObjects.get(i).defaultCollisionAreaY;
+             gp.roomManager.currentRoom.staticObjects.get(i).areaOfCollision.x = gp.roomManager.currentRoom.staticObjects.get(i).defaultCollisionAreaX;
+             gp.roomManager.currentRoom.staticObjects.get(i).areaOfCollision.y = gp.roomManager.currentRoom.staticObjects.get(i).defaultCollisionAreaY;
         }
 
         //-1 IF NOT PLAYER
@@ -189,15 +189,15 @@ public class CollisionViewer {
 
     public void checkObjectCollision(Bullet bullet) {
 
-        for (int i = 0; i < gp.roomManager.currentRoom.gameObjects.size(); i++) {
+        for (int i = 0; i < gp.roomManager.currentRoom.staticObjects.size(); i++) {
              bullet.areaOfCollision.x += bullet.screenX;
              bullet.areaOfCollision.y += bullet.screenY;
 
-             gp.roomManager.currentRoom.gameObjects.get(i).areaOfCollision.x += gp.roomManager.currentRoom.gameObjects.get(i).screenX;
-             gp.roomManager.currentRoom.gameObjects.get(i).areaOfCollision.y += gp.roomManager.currentRoom.gameObjects.get(i).screenY;
+             gp.roomManager.currentRoom.staticObjects.get(i).areaOfCollision.x += gp.roomManager.currentRoom.staticObjects.get(i).screenX;
+             gp.roomManager.currentRoom.staticObjects.get(i).areaOfCollision.y += gp.roomManager.currentRoom.staticObjects.get(i).screenY;
 
-            if (bullet.areaOfCollision.intersects(gp.roomManager.currentRoom.gameObjects.get(i).areaOfCollision)) {
-                if (gp.roomManager.currentRoom.gameObjects.get(i).collision) {
+            if (bullet.areaOfCollision.intersects(gp.roomManager.currentRoom.staticObjects.get(i).areaOfCollision)) {
+                if (gp.roomManager.currentRoom.staticObjects.get(i).collision) {
                     gp.bullets.remove(bullet);
                 }
             }
@@ -206,8 +206,8 @@ public class CollisionViewer {
             bullet.areaOfCollision.x = bullet.defaultCollisionAreaX;
             bullet.areaOfCollision.y = bullet.defaultCollisionAreaY;
 
-            gp.roomManager.currentRoom.gameObjects.get(i).areaOfCollision.x = gp.roomManager.currentRoom.gameObjects.get(i).defaultCollisionAreaX;
-            gp.roomManager.currentRoom.gameObjects.get(i).areaOfCollision.y = gp.roomManager.currentRoom.gameObjects.get(i).defaultCollisionAreaY;
+            gp.roomManager.currentRoom.staticObjects.get(i).areaOfCollision.x = gp.roomManager.currentRoom.staticObjects.get(i).defaultCollisionAreaX;
+            gp.roomManager.currentRoom.staticObjects.get(i).areaOfCollision.y = gp.roomManager.currentRoom.staticObjects.get(i).defaultCollisionAreaY;
         }
     }
 

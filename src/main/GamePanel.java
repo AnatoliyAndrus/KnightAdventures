@@ -1,12 +1,9 @@
 package main;
 
 import bullets.Bullet;
-import characters.Character;
-import characters.EnemyWithPistol;
 import characters.Player;
-import objects.GameObject;
+import objects.StaticObject;
 import rooms.RoomManager;
-import visualEffects.LightArea;
 import visualEffects.VisualManager;
 
 import javax.swing.*;
@@ -68,7 +65,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setupGame(){
         //DEFAULT SETUP
-//        playMusic(0);
+        playMusic(0);
 
         visualManager.setup();
     }
@@ -151,19 +148,19 @@ public class GamePanel extends JPanel implements Runnable{
             //MAP
             roomManager.draw(g2d);
 
-            // OBJECTS
-            for (GameObject obj : roomManager.currentRoom.gameObjects) {
-                if (obj != null && obj.collision) obj.shadow(g2d);
-            }
-            for (GameObject obj : roomManager.currentRoom.gameObjects) {
-                if (obj != null) obj.draw(g2d);
-            }
-
             //BULLETS
             if(bullets.size() > 0) {
                 for (Bullet bullet : bullets) {
                     bullet.draw(g2d);
                 }
+            }
+
+            // OBJECTS
+            for (StaticObject obj : roomManager.currentRoom.staticObjects) {
+                if (obj != null && obj.collision) obj.shadow(g2d);
+            }
+            for (StaticObject obj : roomManager.currentRoom.staticObjects) {
+                if (obj != null) obj.draw(g2d);
             }
 
             //ENEMIES

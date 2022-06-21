@@ -4,10 +4,12 @@ import main.GamePanel;
 
 import java.awt.*;
 
-public class Torch extends GameObject{
+public class Torch extends StaticObject {
 
     public Torch(GamePanel gp){
-        super(gp, "torch", "torch");
+        super(gp, "torch");
+
+        this.down1 = setImage("objects/torch");
 
         this.collision = true;
         this.defaultCollisionAreaX = 0;

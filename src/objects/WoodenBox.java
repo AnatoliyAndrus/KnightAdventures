@@ -2,15 +2,14 @@ package objects;
 
 import main.GamePanel;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
-public class WoodenBox extends GameObject{
+public class WoodenBox extends StaticObject {
 
     public WoodenBox(GamePanel gp){
-        super(gp, "woodenBox", "box");
+        super(gp, "woodenBox");
+
+        this.down1 = setImage("objects/box");
 
         this.collision = true;
         this.defaultCollisionAreaX = 0;

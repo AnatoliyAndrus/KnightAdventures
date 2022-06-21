@@ -1,7 +1,7 @@
 package objects;
 
+import gameobject.GameObject;
 import main.GamePanel;
-import rooms.Room;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -9,42 +9,29 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class GameObject {
+public class StaticObject extends GameObject {
 
-    public BufferedImage image1, image2, image3;
+    public boolean collision;
 
     public String name;
 
-    public int imageNum = 1;
-
-    public int defaultCollisionAreaX;
-    public int defaultCollisionAreaY;
-
-    public Rectangle areaOfCollision;
-    public boolean collision;
-
-    public int screenX;
-    public int screenY;
-
-    GamePanel gp;
-
-    public GameObject(GamePanel gp, String name, String imageName) {
-        this.gp = gp;
+    public StaticObject(GamePanel gp, String name) {
+        super(gp);
         this.name = name;
-
-        try {
-            this.image1 = ImageIO.read(new File("resources/images/objects/" + imageName + ".png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
+    @Override
+    public void update() {
+
+    }
+
+    @Override
     public void draw(Graphics2D g2d) {
 
         BufferedImage image = switch (imageNum) {
-            case 1 -> image1;
-            case 2 -> image2;
-            case 3 -> image3;
+            case 1 -> down1;
+            case 2 -> down2;
+            case 3 -> down3;
             default -> null;
         };
 
