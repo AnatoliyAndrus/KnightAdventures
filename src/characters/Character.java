@@ -15,7 +15,7 @@ public class Character {
 
     public boolean isDead;
 
-    public BufferedImage up1, up2, up3, down1, down2, down3, left1, left2, left3, right1, right2, right3, heart, shield;
+    public BufferedImage up1, up2, up3, down1, down2, down3, left1, left2, left3, right1, right2, right3, heart1, heart2, heart3, heart4, shield;
     public String direction;
 
     //FOR SPRITE CHANGES

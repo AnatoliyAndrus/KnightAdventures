@@ -66,7 +66,10 @@ public class Player extends Character {
             right1 = ImageIO.read(new File("resources/images/" + path + "/knight_right_1.png"));
             right2 = ImageIO.read(new File("resources/images/" + path + "/knight_right_2.png"));
             right3 = ImageIO.read(new File("resources/images/" + path + "/knight_right_3.png"));
-            heart = ImageIO.read(new File("resources/images/objects/heart.png"));
+            heart1 = ImageIO.read(new File("resources/images/objects/heartImg/heart1.png"));
+            heart2 = ImageIO.read(new File("resources/images/objects/heartImg/heart2.png"));
+            heart3 = ImageIO.read(new File("resources/images/objects/heartImg/heart3.png"));
+            heart4 = ImageIO.read(new File("resources/images/objects/heartImg/heart4.png"));
             shield = ImageIO.read(new File("resources/images/objects/shield.png"));
 
         } catch (IOException e) {
