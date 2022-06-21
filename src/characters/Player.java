@@ -5,15 +5,17 @@ import main.KeyRecorder;
 
 import javax.imageio.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Player extends Character {
 
+    public BufferedImage heart1, heart2, heart3, heart4, shield;
+
     KeyRecorder keyR;
 
-    //FOR PLAYER TO STAND
     int standFrames = 0;
 
     public boolean hasTorch;
@@ -36,47 +38,41 @@ public class Player extends Character {
         speed = gp.FPS/20;
 
         // COLLISION SQUARE OF THE PLAYER
-        areaOfCollision = new Rectangle(8, 16, 32, 32);
+        areaOfCollision = new Rectangle(8, 24, 32, 24);
         defaultCollisionAreaX = 8;
-        defaultCollisionAreaY = 16;
+        defaultCollisionAreaY = 24;
 
         maxHP = 15;
         HP = maxHP;
         armor = 5;
-
-        direction = "down";
     }
 
     public void setPlayerImages(boolean torch) {
 
         String path;
-        if (torch) {
-            path = "playerWithTorch";
-        } else path = "player";
-        try {
-            up1 = ImageIO.read(new File("resources/images/" + path + "/knight_up_1.png"));
-            up2 = ImageIO.read(new File("resources/images/" + path + "/knight_up_2.png"));
-            up3 = ImageIO.read(new File("resources/images/" + path + "/knight_up_3.png"));
-            down1 = ImageIO.read(new File("resources/images/" + path + "/knight_down_1.png"));
-            down2 = ImageIO.read(new File("resources/images/" + path + "/knight_down_2.png"));
-            down3 = ImageIO.read(new File("resources/images/" + path + "/knight_down_3.png"));
-            left1 = ImageIO.read(new File("resources/images/" + path + "/knight_left_1.png"));
-            left2 = ImageIO.read(new File("resources/images/" + path + "/knight_left_2.png"));
-            left3 = ImageIO.read(new File("resources/images/" + path + "/knight_left_3.png"));
-            right1 = ImageIO.read(new File("resources/images/" + path + "/knight_right_1.png"));
-            right2 = ImageIO.read(new File("resources/images/" + path + "/knight_right_2.png"));
-            right3 = ImageIO.read(new File("resources/images/" + path + "/knight_right_3.png"));
-            heart1 = ImageIO.read(new File("resources/images/objects/heartImg/heart1.png"));
-            heart2 = ImageIO.read(new File("resources/images/objects/heartImg/heart2.png"));
-            heart3 = ImageIO.read(new File("resources/images/objects/heartImg/heart3.png"));
-            heart4 = ImageIO.read(new File("resources/images/objects/heartImg/heart4.png"));
-            shield = ImageIO.read(new File("resources/images/objects/shield.png"));
+        if (torch) path = "playerWithTorch";
+        else path = "player";
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        up1 = setImage(path + "/knight_up_1");
+        up2 = setImage(path + "/knight_up_2");
+        up3 = setImage(path + "/knight_up_3");
+        down1 = setImage(path + "/knight_down_1");
+        down2 = setImage(path + "/knight_down_2");
+        down3 = setImage(path + "/knight_down_3");
+        left1 = setImage(path + "/knight_left_1");
+        left2 = setImage(path + "/knight_left_2");
+        left3 = setImage(path + "/knight_left_3");
+        right1 = setImage(path + "/knight_right_1");
+        right2 = setImage(path + "/knight_right_2");
+        right3 = setImage(path + "/knight_right_3");
+        heart1 = setImage("objects/heart1");
+        heart2 = setImage("objects/heart2");
+        heart3 = setImage("objects/heart3");
+        heart4 = setImage("objects/heart4");
+        shield = setImage("objects/shield");
     }
 
+    @Override
     public void update() {
 
         //PLAYER MOVES
@@ -158,7 +154,6 @@ public class Player extends Character {
         }
         //PLAYER STANDS STILL
         else {
-
             standFrames ++;
 
             if(standFrames >= gp.FPS/3) {
@@ -166,14 +161,16 @@ public class Player extends Character {
             }
         }
 
+        //INVINCIBILITY TIME
         if(isInvincible) {
             invincibleFrames++;
-            if(invincibleFrames == gp.FPS * 2) {
+            if(invincibleFrames == gp.FPS * 0.5) {
                 isInvincible = false;
                 invincibleFrames = 0;
             }
         }
 
+        //PLAYER'S TORCH
         if (gp.roomManager.currentRoom.name.equals("dungeon") && !hasTorch) {
             hasTorch = true;
             setPlayerImages(true);
@@ -181,20 +178,19 @@ public class Player extends Character {
             hasTorch = false;
             setPlayerImages(false);
         }
-
     }
 
     private void interactObject(int index) {
         if (index != -1) {
 
-            switch (gp.roomManager.currentRoom.gameObjects.get(index).name) {
-                case "woodenBox":
-                    gp.roomManager.setCurrentRoom("dungeon");
+            //INTERACTING DIFFERENT OBJECTS
+            switch (gp.roomManager.currentRoom.staticObjects.get(index).name) {
+                case "woodenBox" -> {
+                    gp.ui.makeScreenHint("Box hehehe", 1000);
+                    //gp.roomManager.setCurrentRoom("dungeon");
                     System.out.println("box");
-                    break;
-                case "shop":
-                    System.out.println("shop");
-                    break;
+                }
+                case "shop" -> System.out.println("shop");
             }
 
         }
@@ -211,16 +207,10 @@ public class Player extends Character {
             HP--;
         }
 
+        //DEATH
         if (HP == 0){
             System.exit(0);
         }
     }
 
-    private void updateImage() {
-        imageCount++;
-        if(imageCount >= gp.FPS/5) {
-            imageNum = (imageNum == 1 ? 2 : imageNum == 2 ? 3 : 1);
-            imageCount = 0;
-        }
-    }
 }

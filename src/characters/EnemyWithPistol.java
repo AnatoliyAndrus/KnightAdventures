@@ -10,7 +10,6 @@ import java.io.IOException;
 
 public class EnemyWithPistol extends Character{
 
-    //FOR PLAYER TO STAND
     int standFrames = 0;
     int framesToCount = -gp.FPS;
 
@@ -40,37 +39,30 @@ public class EnemyWithPistol extends Character{
         speed = 1;
 
         // COLLISION SQUARE OF THE PLAYER
-        areaOfCollision = new Rectangle(8, 16, 32, 32);
+        areaOfCollision = new Rectangle(8, 24, 32, 24);
         defaultCollisionAreaX = 8;
-        defaultCollisionAreaY = 16;
+        defaultCollisionAreaY = 24;
 
         maxHP = 10;
         HP = maxHP;
-
-        direction = "down";
     }
 
     public void setEnemyImages() {
-
-        try {
-            up1 = ImageIO.read(new File("resources/images/enemyWithPistol/alien_up_1.png"));
-            up2 = ImageIO.read(new File("resources/images/enemyWithPistol/alien_up_2.png"));
-            up3 = ImageIO.read(new File("resources/images/enemyWithPistol/alien_up_3.png"));
-            down1 = ImageIO.read(new File("resources/images/enemyWithPistol/alien_down_1.png"));
-            down2 = ImageIO.read(new File("resources/images/enemyWithPistol/alien_down_2.png"));
-            down3 = ImageIO.read(new File("resources/images/enemyWithPistol/alien_down_3.png"));
-            left1 = ImageIO.read(new File("resources/images/enemyWithPistol/alien_left_1.png"));
-            left2 = ImageIO.read(new File("resources/images/enemyWithPistol/alien_left_2.png"));
-            left3 = ImageIO.read(new File("resources/images/enemyWithPistol/alien_left_3.png"));
-            right1 = ImageIO.read(new File("resources/images/enemyWithPistol/alien_right_1.png"));
-            right2 = ImageIO.read(new File("resources/images/enemyWithPistol/alien_right_2.png"));
-            right3 = ImageIO.read(new File("resources/images/enemyWithPistol/alien_right_3.png"));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        up1 = setImage("alien/alien_up_1");
+        up2 = setImage("alien/alien_up_2");
+        up3 = setImage("alien/alien_up_3");
+        down1 = setImage("alien/alien_down_1");
+        down2 = setImage("alien/alien_down_2");
+        down3 = setImage("alien/alien_down_3");
+        left1 = setImage("alien/alien_left_1");
+        left2 = setImage("alien/alien_left_2");
+        left3 = setImage("alien/alien_left_3");
+        right1 = setImage("alien/alien_right_1");
+        right2 = setImage("alien/alien_right_2");
+        right3 = setImage("alien/alien_right_3");
     }
 
+    @Override
     public void update() {
 
         playerDistance = Math.sqrt(Math.pow(gp.player.screenX - screenX, 2)
@@ -282,11 +274,4 @@ public class EnemyWithPistol extends Character{
         }
     }
 
-    private void updateImage() {
-        imageCount++;
-        if(imageCount >= gp.FPS/5) {
-            imageNum = (imageNum == 1 ? 2 : imageNum == 2 ? 3 : 1);
-            imageCount = 0;
-        }
-    }
 }

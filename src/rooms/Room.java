@@ -1,7 +1,7 @@
 package rooms;
 
 import characters.Character;
-import objects.GameObject;
+import objects.StaticObject;
 
 import javax.imageio.ImageIO;
 import java.io.BufferedReader;
@@ -17,7 +17,7 @@ public class Room {
 
     RoomManager sq;
 
-    public ArrayList<GameObject> gameObjects;
+    public ArrayList<StaticObject> staticObjects;
     public ArrayList<Character> enemies;
     public int[][] roomMatrix;
 
@@ -29,6 +29,8 @@ public class Room {
 
     public Square[] squares;
 
+    public boolean isWaterRoom;
+
     public Room(String name, RoomManager sq, int darkness) {
 
         this.name = name;
@@ -39,7 +41,7 @@ public class Room {
 
         roomMatrix = new int[sq.gp.maxCols][sq.gp.maxRows];
 
-        gameObjects = new ArrayList<>();
+        staticObjects = new ArrayList<>();
         enemies = new ArrayList<>();
     }
 
@@ -75,6 +77,16 @@ public class Room {
         setup(room, 25, "wall_standart", true);
     }
 
+    private void setup(String room, int index, String name, boolean collision) {
+        try {
+            squares[index] = new Square();
+            squares[index].img = ImageIO.read(new File("resources/images/" + room + "/" + name + ".png"));
+            squares[index].collision = collision;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setMatrix(String roomName) {
 
         //READING MATRIX FROM FILE
@@ -99,20 +111,10 @@ public class Room {
         }
     }
 
-    private void setup(String room, int index, String name, boolean collision) {
-        try {
-            squares[index] = new Square();
-            squares[index].img = ImageIO.read(new File("resources/images/" + room + "/" + name + ".png"));
-            squares[index].collision = collision;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void addGameObject(GameObject gameObject, int screenX, int screenY){
-        gameObjects.add(gameObject);
-        gameObjects.get(gameObjects.size() - 1).screenX = screenX;
-        gameObjects.get(gameObjects.size() - 1).screenY = screenY;
+    public void addGameObject(StaticObject staticObject, int screenX, int screenY){
+        staticObjects.add(staticObject);
+        staticObjects.get(staticObjects.size() - 1).screenX = screenX;
+        staticObjects.get(staticObjects.size() - 1).screenY = screenY;
     }
 
     public void addEnemy(Character ch){

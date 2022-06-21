@@ -1,50 +1,36 @@
 package characters;
 
+import gameobject.GameObject;
 import main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.*;
 
-public class Character {
+public class Character extends GameObject {
 
-    GamePanel gp;
-
-    public int screenX;
-    public int screenY;
     public int speed;
 
-    public boolean isDead;
+    public BufferedImage up1, up2, up3, left1, left2, left3, right1, right2, right3;
 
-    public BufferedImage up1, up2, up3, down1, down2, down3, left1, left2, left3, right1, right2, right3, heart1, heart2, heart3, heart4, shield;
-    public String direction;
-
-    //FOR SPRITE CHANGES
-    int imageCount = 0;
-    int imageNum = 1;
-
-    //FOR COLLISION
-    public Rectangle areaOfCollision;
-    public int defaultCollisionAreaX;
-    public int defaultCollisionAreaY;
     public boolean collisionOnX = false;
     public boolean collisionOnY = false;
+
+    public boolean isDead;
 
     public int maxHP;
     public int HP;
     public int armor;
 
     public Character(GamePanel gp) {
-        this.gp = gp;
+        super(gp);
     }
 
-    public void receiveDamage() {
-
-    }
-
+    @Override
     public void update() {
 
     }
 
+    @Override
     public void draw(Graphics2D g2d) {
 
         BufferedImage image = switch (direction) {
@@ -56,5 +42,17 @@ public class Character {
         };
 
         g2d.drawImage(image, screenX, screenY, null);
+    }
+
+    public void updateImage() {
+        imageCount++;
+        if(imageCount >= gp.FPS/5) {
+            imageNum = (imageNum == 1 ? 2 : imageNum == 2 ? 3 : 1);
+            imageCount = 0;
+        }
+    }
+
+    public void receiveDamage() {
+
     }
 }

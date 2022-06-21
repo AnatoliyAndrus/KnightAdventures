@@ -2,16 +2,16 @@ package main;
 
 import bullets.Bullet;
 import characters.Character;
-import characters.EnemyWithPistol;
 import characters.Player;
-import objects.GameObject;
+import gameobject.GameObject;
+import objects.StaticObject;
 import rooms.RoomManager;
-import visualEffects.LightArea;
 import visualEffects.VisualManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class GamePanel extends JPanel implements Runnable{
 
@@ -35,8 +35,9 @@ public class GamePanel extends JPanel implements Runnable{
     public CollisionViewer colViewer = new CollisionViewer(this);
     public VisualManager visualManager = new VisualManager(this);
 
-    //GAME CHARACTERS
+    //GAME OBJECTS
     public Player player = new Player(this, keyR);
+    ArrayList<GameObject> gameObjectsList = new ArrayList<>();
 
     //BULLETS
     public ArrayList<Bullet> bullets = new ArrayList<>();
@@ -68,7 +69,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setupGame(){
         //DEFAULT SETUP
-//        playMusic(0);
+        playMusic(0);
 
         visualManager.setup();
     }
@@ -148,16 +149,8 @@ public class GamePanel extends JPanel implements Runnable{
             ui.draw(g2d);
 
         } else {
-            //MAP
-            roomManager.draw(g2d);
-
-            // OBJECTS
-            for (GameObject obj : roomManager.currentRoom.gameObjects) {
-                if (obj != null && obj.collision) obj.shadow(g2d);
-            }
-            for (GameObject obj : roomManager.currentRoom.gameObjects) {
-                if (obj != null) obj.draw(g2d);
-            }
+            //ROOM FLOOR
+            roomManager.drawFirstPart(g2d);
 
             //BULLETS
             if(bullets.size() > 0) {
@@ -166,14 +159,45 @@ public class GamePanel extends JPanel implements Runnable{
                 }
             }
 
-            //ENEMIES
-            for (int i = 0; i < roomManager.currentRoom.enemies.size(); i++) {
-                if(!roomManager.currentRoom.enemies.get(i).isDead)
-                    roomManager.currentRoom.enemies.get(i).draw(g2d);
+            //ROOM SHADOWS AND TOP LAYER
+            roomManager.drawShadows(g2d);
+            roomManager.drawFirstLayer(g2d);
+
+            //STATIC OBJECTS SHADOWS
+            for (StaticObject obj : roomManager.currentRoom.staticObjects) {
+                if (obj != null && obj.collision) obj.shadow(g2d);
             }
 
-            //PLAYER
-            player.draw(g2d);
+            //FILLING GAME OBJECTS LIST
+            gameObjectsList.add(player);
+
+            for (StaticObject obj : roomManager.currentRoom.staticObjects) {
+                if (obj != null && obj.collision) {
+                    gameObjectsList.add(obj);
+                }
+            }
+            for (Character enemy : roomManager.currentRoom.enemies) {
+                if(enemy != null && !enemy.isDead) {
+                    gameObjectsList.add(enemy);
+                }
+            }
+            //SORTING GAME OBJECTS LIST
+            gameObjectsList.sort(new Comparator<GameObject>() {
+                @Override
+                public int compare(GameObject obj1, GameObject obj2) {
+
+                    return Integer.compare(obj1.screenY, obj2.screenY);
+                }
+            });
+
+            //DRAWING ALL GAME OBJECTS (PLAYER; ENEMIES; STATIC OBJECTS)
+            for (int i = 0; i < gameObjectsList.size(); i++) {
+                gameObjectsList.get(i).draw(g2d);
+            }
+            gameObjectsList = new ArrayList<>();
+
+            //ROOM FINAL BOTTOM LAYER
+            roomManager.drawFinalLayer(g2d);
 
             //VISUAL EFFECTS
             visualManager.draw(g2d);
