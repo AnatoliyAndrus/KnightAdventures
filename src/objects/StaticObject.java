@@ -12,7 +12,8 @@ import java.io.IOException;
 public class StaticObject extends GameObject {
 
     public boolean collision;
-
+    public boolean isInteracted;
+    public int interactingFrames = 0;
     public String name;
 
     public StaticObject(GamePanel gp, String name) {
@@ -22,7 +23,10 @@ public class StaticObject extends GameObject {
 
     @Override
     public void update() {
-
+        if (interactingFrames > 0) {
+            interactingFrames--;
+            isInteracted = true;
+        } else isInteracted = false;
     }
 
     @Override

@@ -69,7 +69,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setupGame(){
         //DEFAULT SETUP
-        playMusic(0);
+//        playMusic(0);
 
         visualManager.setup();
     }
@@ -123,6 +123,11 @@ public class GamePanel extends JPanel implements Runnable{
 
             //PLAYER
             player.update();
+
+            //OBJECTS
+            for (StaticObject obj : roomManager.currentRoom.staticObjects) {
+                obj.update();
+            }
 
             //BULLETS
             for (int i = 0; i < bullets.size(); i++) {

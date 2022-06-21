@@ -103,7 +103,10 @@ public class Player extends Character {
             gp.colViewer.checkMapCollision(this);
             // CHECK COLLISION OF OBJECTS
             int index = gp.colViewer.checkObjectCollision(this, true);
-            interactObject(index);
+            //INTERACTING
+            if (index >= 0 && !gp.roomManager.currentRoom.staticObjects.get(index).isInteracted) {
+                interactObject(index);
+            }
             // CHECK COLLISION WITH ENEMIES
             gp.colViewer.checkCharacterCollision(this, true);
 
@@ -186,13 +189,31 @@ public class Player extends Character {
             //INTERACTING DIFFERENT OBJECTS
             switch (gp.roomManager.currentRoom.staticObjects.get(index).name) {
                 case "woodenBox" -> {
-                    gp.ui.makeScreenHint("Box hehehe", 1000);
-                    //gp.roomManager.setCurrentRoom("dungeon");
-                    System.out.println("box");
+                    gp.ui.makeScreenHint("This is just a box hehe", 150);
                 }
-                case "shop" -> System.out.println("shop");
-            }
+                case "shop" -> {
+                    //ADD DOTA SOUND
+                    int phrase = (int) (Math.random() * 3) + 1;
 
+                    switch (phrase){
+                        case 1 -> {
+                            gp.roomManager.currentRoom.staticObjects.get(index).interactingFrames = 150;
+                            gp.ui.makeScreenHint("Seller: Welcome to the Secret shop!#(press F)", 150);
+                            gp.playSound(1);
+                        }
+                        case 2 -> {
+                            gp.roomManager.currentRoom.staticObjects.get(index).interactingFrames = 150;
+                            gp.ui.makeScreenHint("Seller: What're you buying?#(press F)", 150);
+                            gp.playSound(2);
+                        }
+                        case 3 -> {
+                            gp.roomManager.currentRoom.staticObjects.get(index).interactingFrames = 150;
+                            gp.ui.makeScreenHint("Seller: Ho ho! You found me!#(press F)", 150);
+                            gp.playSound(3);
+                        }
+                    }
+                }
+            }
         }
     }
 

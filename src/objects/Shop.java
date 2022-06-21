@@ -14,6 +14,6 @@ public class Shop extends StaticObject {
         this.collision = true;
         this.defaultCollisionAreaX = 15;
         this.defaultCollisionAreaY = 30;
-        this.areaOfCollision = new Rectangle(defaultCollisionAreaX, defaultCollisionAreaY, 308, 170);
+        this.areaOfCollision = new Rectangle(defaultCollisionAreaX, defaultCollisionAreaY, 308, 175);
     }
 }

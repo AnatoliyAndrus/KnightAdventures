@@ -7,7 +7,9 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class UI {
 
@@ -25,8 +27,10 @@ public class UI {
 
     Shape ring, oval;
 
+    //SCREEN HINTS
     String hint;
     int hintTimer;
+    int maxHintLength = 30;
 
     public UI(GamePanel gp) {
         this.gp = gp;
@@ -319,18 +323,45 @@ public class UI {
     }
 
     public void makeScreenHint(String hint, int hintTimer){
-        this.hint=hint;
-        this.hintTimer=hintTimer;
+        this.hint = hint;
+        this.hintTimer = hintTimer;
     }
 
     private void drawScreenHint(Graphics2D g2d){
         if(hintTimer > 0){
             hintTimer--;
-            g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+            ArrayList<String> hints = new ArrayList<>(Arrays.asList(hint.split("#")));
+            g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 30));
+
+            String max = "";
+            for (int i = 0; i < hints.size(); i++) {
+                if (hints.get(i).length() > max.length()) max = hints.get(i);
+            }
+
+            int x = getCenterX(max, g2d);
+            int y = gp.squareSize * 2;
+
+            g2d.setColor(new Color(0,0,0, 150));
+            g2d.fillRoundRect(x - 36,
+                    y - (int) g2d.getFontMetrics().getStringBounds(max, g2d).getHeight() - 20,
+                    (int) g2d.getFontMetrics().getStringBounds(max, g2d).getWidth() + 72,
+                    (int) (g2d.getFontMetrics().getStringBounds(max, g2d).getHeight() * hints.size()) + 48,
+                    25, 25);
+
+            g2d.setColor(new Color(255,255,255, 100));
+            g2d.setStroke(new BasicStroke(5));
+            g2d.drawRoundRect(x - 36,
+                    y - (int) g2d.getFontMetrics().getStringBounds(max, g2d).getHeight() - 20,
+                    (int) g2d.getFontMetrics().getStringBounds(max, g2d).getWidth() + 72,
+                    (int) (g2d.getFontMetrics().getStringBounds(max, g2d).getHeight() * hints.size()) + 48,
+                    25, 25);
+
             g2d.setColor(Color.WHITE);
-            g2d.drawString(hint, gp.maxScreenWidth-gp.squareSize*2, gp.maxScreenHeight-gp.squareSize*2);
-        }else{
-            hint = "";
+            for (int i = 0; i < hints.size(); i++) {
+                x = getCenterX(hints.get(i), g2d);
+                y = 2 * gp.squareSize + (int) (g2d.getFontMetrics().getStringBounds(hints.get(i), g2d).getHeight()) * i;
+                g2d.drawString(hints.get(i), x, y);
+            }
         }
     }
 
@@ -349,8 +380,6 @@ public class UI {
 
         g2d.drawString(screenText, x, y);
     }
-
-
 
     private int getCenterX (String str, Graphics2D g2d) {
         int length = (int) g2d.getFontMetrics().getStringBounds(str, g2d).getWidth();
