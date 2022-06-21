@@ -25,6 +25,9 @@ public class UI {
 
     Shape ring, oval;
 
+    String hint;
+    int hintTimer;
+
     public UI(GamePanel gp) {
         this.gp = gp;
 
@@ -52,6 +55,7 @@ public class UI {
         if (gp.currentState == gp.gameState) {
             drawDarkScreen(g2d);
             drawPlayerHP(g2d);
+            drawScreenHint(g2d);
         }
         //PAUSE STATE
         if (gp.currentState == gp.pauseState) {
@@ -312,6 +316,22 @@ public class UI {
         Area area = new Area(outer);
         area.subtract(new Area(inner));
         return area;
+    }
+
+    public void makeScreenHint(String hint, int hintTimer){
+        this.hint=hint;
+        this.hintTimer=hintTimer;
+    }
+
+    private void drawScreenHint(Graphics2D g2d){
+        if(hintTimer!=0){
+            hintTimer--;
+            g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+            g2d.setColor(Color.WHITE);
+            g2d.drawString(hint, gp.maxScreenWidth-gp.squareSize*2, gp.maxScreenHeight-gp.squareSize*2);
+        }else{
+            hint = "";
+        }
     }
 
     private void drawPauseScreen(Graphics2D g2d){

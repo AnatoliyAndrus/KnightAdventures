@@ -189,8 +189,11 @@ public class Player extends Character {
 
             switch (gp.roomManager.currentRoom.gameObjects.get(index).name) {
                 case "woodenBox":
+                    gp.ui.makeScreenHint("Box hehehe", 1000);
+                    /*
                     gp.roomManager.setCurrentRoom("dungeon");
                     System.out.println("box");
+                     */
                     break;
                 case "shop":
                     System.out.println("shop");
