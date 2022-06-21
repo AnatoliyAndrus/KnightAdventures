@@ -17,6 +17,8 @@ public class UI {
     BufferedImage start, loading;
     BufferedImage[] hearts = new BufferedImage[5];
 
+    boolean init;
+
     public int optionNum = 1;
     public boolean loadingScreen;
     public int loadingFrames = 0;
@@ -60,12 +62,29 @@ public class UI {
     }
 
     public void drawPlayerHP(Graphics2D g2d) {
-        if ((gp.player.maxHP - gp.player.HP) % 3 == 0 && gp.player.maxHP != gp.player.HP) {
-
+        System.out.println(gp.player.HP);
+        if(init == false){
+            for(int i = 0; i<hearts.length; i++){
+                hearts[i]=gp.player.heart1;
+            }
+            init = true;
         }
-        for(int i = 1; i <= (gp.player.HP + 2) / 3; i++) {
+        int currentHeart = (gp.player.HP+2)/3;
+        if(gp.player.HP%3==0&&gp.player.HP!=0){
+            hearts[currentHeart-1]=gp.player.heart1;
+            if(currentHeart!=5) {
+                hearts[currentHeart] = gp.player.heart4;
+            }
+        }
+        if(gp.player.HP%3==2){
+            hearts[currentHeart-1]=gp.player.heart2;
+        }
+        if(gp.player.HP%3==1){
+            hearts[currentHeart-1]=gp.player.heart3;
+        }
+        for(int i = 1; i <=5; i++) {
 
-            g2d.drawImage(gp.player.heart1, i* gp.squareSize, 0, null);
+            g2d.drawImage(hearts[i-1], i* gp.squareSize, 0, null);
         }
         for(int i = 1; i <= gp.player.armor; i++) {
             g2d.drawImage(gp.player.shield, i * gp.squareSize, gp.squareSize - 5, null);
