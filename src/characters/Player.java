@@ -168,7 +168,7 @@ public class Player extends Character {
 
         if(isInvincible) {
             invincibleFrames++;
-            if(invincibleFrames == gp.FPS * 2) {
+            if(invincibleFrames == gp.FPS * 0.5) {
                 isInvincible = false;
                 invincibleFrames = 0;
             }
@@ -211,7 +211,7 @@ public class Player extends Character {
             HP--;
         }
 
-        if (HP == 0){
+        if (HP <= 0){
             System.exit(0);
         }
     }

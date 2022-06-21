@@ -7,7 +7,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.lang.reflect.Array;
+import java.util.Arrays;
 
 public class UI {
 
@@ -15,7 +15,7 @@ public class UI {
     Font gameFont;
     String screenText;
     BufferedImage start, loading;
-    BufferedImage[] hearts = new BufferedImage[5];
+    BufferedImage[] hearts;
 
     boolean init;
 
@@ -61,18 +61,21 @@ public class UI {
         }
     }
 
+    /**
+     * draws players HP
+     * @param g2d graphics
+     */
     public void drawPlayerHP(Graphics2D g2d) {
-        System.out.println(gp.player.HP);
-        if(init == false){
-            for(int i = 0; i<hearts.length; i++){
-                hearts[i]=gp.player.heart1;
-            }
+
+        if(!init){
+            hearts = new BufferedImage[gp.player.maxHP/3];
+            Arrays.fill(hearts, gp.player.heart1);
             init = true;
         }
         int currentHeart = (gp.player.HP+2)/3;
         if(gp.player.HP%3==0&&gp.player.HP!=0){
             hearts[currentHeart-1]=gp.player.heart1;
-            if(currentHeart!=5) {
+            if(currentHeart!=gp.player.maxHP/3) {
                 hearts[currentHeart] = gp.player.heart4;
             }
         }
@@ -82,10 +85,11 @@ public class UI {
         if(gp.player.HP%3==1){
             hearts[currentHeart-1]=gp.player.heart3;
         }
-        for(int i = 1; i <=5; i++) {
+        for(int i = 1; i <=gp.player.maxHP/3; i++) {
 
             g2d.drawImage(hearts[i-1], i* gp.squareSize, 0, null);
         }
+
         for(int i = 1; i <= gp.player.armor; i++) {
             g2d.drawImage(gp.player.shield, i * gp.squareSize, gp.squareSize - 5, null);
         }
@@ -138,7 +142,7 @@ public class UI {
         g2d.setColor(Color.WHITE);
         g2d.drawString(screenText, x, y);
 
-        if (loadingFrames == gp.FPS * 5 || true) {
+        if (loadingFrames == gp.FPS * 5||true) {
             gp.setupGame();
             gp.currentState = gp.gameState;
             loadingScreen = false;
@@ -325,6 +329,8 @@ public class UI {
 
         g2d.drawString(screenText, x, y);
     }
+
+
 
     private int getCenterX (String str, Graphics2D g2d) {
         int length = (int) g2d.getFontMetrics().getStringBounds(str, g2d).getWidth();
