@@ -240,7 +240,7 @@ public class CollisionViewer {
 
                         if (player) {
                             if (!gp.player.isInvincible) {
-                                gp.player.HP--;
+                                gp.player.receiveDamage();
                                 gp.player.isInvincible = true;
                             }
                         }
@@ -251,7 +251,7 @@ public class CollisionViewer {
                             ch.collisionOnY = true;
                             ;
                             if (!gp.player.isInvincible) {
-                                gp.player.HP--;
+                                gp.player.receiveDamage();
                                 gp.player.isInvincible = true;
                             }
                         }
@@ -269,7 +269,7 @@ public class CollisionViewer {
 
                         if (player) {
                             if (!gp.player.isInvincible) {
-                                gp.player.HP--;
+                                gp.player.receiveDamage();
                                 gp.player.isInvincible = true;
                             }
                         }
@@ -279,7 +279,7 @@ public class CollisionViewer {
                         if (ch.areaOfCollision.intersects(gp.player.areaOfCollision)) {
                             ch.collisionOnY = true;
                             if (!gp.player.isInvincible) {
-                                gp.player.HP--;
+                                gp.player.receiveDamage();
                                 gp.player.isInvincible = true;
                             }
                         }
@@ -297,7 +297,7 @@ public class CollisionViewer {
 
                         if (player) {
                             if (!gp.player.isInvincible) {
-                                gp.player.HP--;
+                                gp.player.receiveDamage();
                                 gp.player.isInvincible = true;
                             }
                         }
@@ -307,7 +307,7 @@ public class CollisionViewer {
                         if (ch.areaOfCollision.intersects(gp.player.areaOfCollision)) {
                             ch.collisionOnX = true;
                             if (!gp.player.isInvincible) {
-                                gp.player.HP--;
+                                gp.player.receiveDamage();
                                 gp.player.isInvincible = true;
                             }
                         }
@@ -323,7 +323,7 @@ public class CollisionViewer {
 
                         if (player) {
                             if (!gp.player.isInvincible) {
-                                gp.player.HP--;
+                                gp.player.receiveDamage();
                                 gp.player.isInvincible = true;
                             }
                         }
@@ -333,7 +333,7 @@ public class CollisionViewer {
                         if (ch.areaOfCollision.intersects(gp.player.areaOfCollision)) {
                             ch.collisionOnX = true;
                             if (!gp.player.isInvincible) {
-                                gp.player.HP--;
+                                gp.player.receiveDamage();
                                 gp.player.isInvincible = true;
                             }
                         }
@@ -393,9 +393,10 @@ public class CollisionViewer {
             bullet.areaOfCollision.x += bullet.screenX;
             bullet.areaOfCollision.y += bullet.screenY;
 
-            if (bullet.areaOfCollision.intersects(gp.player.areaOfCollision)) {
+            if (bullet.areaOfCollision.intersects(gp.player.areaOfCollision)&&!gp.player.isInvincible) {
 
                 gp.player.receiveDamage();
+                gp.player.isInvincible=true;
                 gp.bullets.remove(bullet);
             }
 
