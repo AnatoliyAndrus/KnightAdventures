@@ -26,11 +26,12 @@ public class RoomManager {
         setCurrentRoom("ruins");
         setGameObjects();
         setEnemies();
-        checkProgress();
     }
 
     public void setMaps() {
         rooms.put("ruins", new Room("ruins",this, 0));
+        rooms.get("ruins").phase = "completed";
+
         rooms.put("castle", new Room("castle",this, 0));
         rooms.put("sea", new Room("sea",this, 0));
         rooms.get("sea").isWaterRoom = true;
@@ -187,9 +188,12 @@ public class RoomManager {
     public void setGameObjects() {
         rooms.get("ruins").addGameObject(new WoodenBox(gp), gp.squareSize * 10, gp.squareSize * 10);
         rooms.get("ruins").addGameObject(new Shop(gp), gp.squareSize * 9, (int)(gp.squareSize * 0.5));
-        rooms.get("castle").addGameObject(new WoodenBox(gp), gp.squareSize * 10, gp.squareSize * 10);
-        rooms.get("sea").addGameObject(new WoodenBox(gp), gp.squareSize * 10, gp.squareSize * 10);
-        rooms.get("swamp").addGameObject(new WoodenBox(gp), gp.squareSize * 10, gp.squareSize * 10);
+        rooms.get("ruins").addGameObject(new Door(gp, "ruins"), gp.squareSize * 11, gp.squareSize * 16);
+        rooms.get("ruins").addGameObject(new Door(gp, "ruins"), gp.squareSize * 12, gp.squareSize * 16);
+        rooms.get("ruins").addGameObject(new Door(gp, "ruins"), gp.squareSize * 13, gp.squareSize * 16);
+//        rooms.get("castle").addGameObject(new WoodenBox(gp), gp.squareSize * 10, gp.squareSize * 10);
+//        rooms.get("sea").addGameObject(new WoodenBox(gp), gp.squareSize * 10, gp.squareSize * 10);
+//        rooms.get("swamp").addGameObject(new WoodenBox(gp), gp.squareSize * 10, gp.squareSize * 10);
         for (int i = gp.squareSize * 4; i < gp.squareSize * 21; i+= gp.squareSize * 8) {
             rooms.get("cave").addGameObject(new Torch(gp), i, gp.squareSize * 3 + 24);
             rooms.get("cave").addGameObject(new Torch(gp), i, gp.squareSize * 12 + 8);
@@ -202,12 +206,5 @@ public class RoomManager {
         rooms.get("castle").addEnemy(new EnemyWithPistol(gp, 9, 11));
         rooms.get("castle").addEnemy(new EnemyWithFangs(gp, 18, 6));
         rooms.get("castle").addEnemy(new EnemyWithFangs(gp, 4, 6));
-    }
-
-    public void checkProgress() {
-        if (currentRoom.enemies.size() == 0) {
-            currentRoom.isCompleted = true;
-            System.out.println("completed");
-        }
     }
 }

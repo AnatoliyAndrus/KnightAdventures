@@ -173,6 +173,12 @@ public class GamePanel extends JPanel implements Runnable{
                 if (obj != null && obj.collision) obj.shadow(g2d);
             }
 
+            for (StaticObject obj : roomManager.currentRoom.staticObjects) {
+                if (obj != null && !obj.collision) {
+                    obj.draw(g2d);
+                }
+            }
+
             //FILLING GAME OBJECTS LIST
             gameObjectsList.add(player);
 

@@ -30,7 +30,9 @@ public class Room {
     public Square[] squares;
 
     public boolean isWaterRoom;
-    public boolean isCompleted = true;
+
+    public boolean playerEntered;
+    public String phase = "initial";
 
     public Room(String name, RoomManager sq, int darkness) {
 
@@ -120,5 +122,34 @@ public class Room {
 
     public void addEnemy(Character ch){
         enemies.add(ch);
+    }
+
+    public void update() {
+        if (!playerEntered) playerEntered = checkEntrance();
+        checkProgress();
+
+        switch (phase) {
+            case "initial" -> {}
+            case "in progress" -> {
+
+            }
+            case "completed" -> {}
+        }
+    }
+
+    public boolean checkEntrance() {
+        return (sq.gp.player.screenX > sq.gp.squareSize * 2
+                && sq.gp.player.screenX < sq.gp.maxScreenWidth - sq.gp.squareSize * 3)
+                || (sq.gp.player.screenY > sq.gp.squareSize * 2
+                && sq.gp.player.screenY < sq.gp.maxScreenHeight - sq.gp.squareSize * 3);
+    }
+
+    public void checkProgress() {
+        if (phase.equals("initial") && playerEntered) {
+            phase = "in progress";
+        }
+        if (enemies.size() == 0 && phase.equals("in progress")) {
+            phase = "completed";
+        }
     }
 }
