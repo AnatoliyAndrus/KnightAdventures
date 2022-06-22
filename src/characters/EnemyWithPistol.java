@@ -2,10 +2,8 @@ package characters;
 
 import bullets.Bullet;
 import main.GamePanel;
-import javax.imageio.ImageIO;
+
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 
 public class EnemyWithPistol extends Character{
