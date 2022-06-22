@@ -16,7 +16,7 @@ public class Torch extends StaticObject {
                 addImage("torch_block_2");
                 addImage("torch_block_3");
                 addImage("torch_block_4");
-                noAnimation = setImage("objects/torch_block/torch_1");
+                noAnimation = setImage("objects/torch_block/torch_block_1");
 
                 defaultCollisionAreaX = 0;
                 defaultCollisionAreaY = 10;

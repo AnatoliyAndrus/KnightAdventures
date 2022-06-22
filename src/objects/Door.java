@@ -2,9 +2,8 @@ package objects;
 import main.GamePanel;
 import java.awt.*;
 
-public class Door extends StaticObject{
+public class Door extends StaticObject {
 
-    public String relatedRoom;
     public boolean unlocked;
 
     public Door(GamePanel gp, String relatedRoom) {

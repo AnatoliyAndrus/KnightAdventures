@@ -1,6 +1,7 @@
 package rooms;
 
 import characters.Character;
+import objects.Door;
 import objects.StaticObject;
 
 import javax.imageio.ImageIO;
@@ -18,6 +19,7 @@ public class Room {
 
     public ArrayList<StaticObject> staticObjects;
     public ArrayList<Character> enemies;
+    public ArrayList<Character> enemiesData;
     public int[][] roomMatrix;
 
     //NAVIGATION
@@ -38,12 +40,13 @@ public class Room {
         this.name = name;
         squares = new Square[30];
 
-        this.sq=sq;
+        this.sq = sq;
 
         roomMatrix = new int[sq.gp.maxCols][sq.gp.maxRows];
 
         staticObjects = new ArrayList<>();
         enemies = new ArrayList<>();
+        enemiesData = new ArrayList<>();
     }
 
     public void setAllImages(String room) {
@@ -112,42 +115,62 @@ public class Room {
         }
     }
 
-    public void addGameObject(StaticObject staticObject, int screenX, int screenY){
+    public void addGameObject(StaticObject staticObject, int screenX, int screenY) {
         staticObjects.add(staticObject);
         staticObjects.get(staticObjects.size() - 1).screenX = screenX;
         staticObjects.get(staticObjects.size() - 1).screenY = screenY;
     }
 
-    public void addEnemy(Character ch){
-        enemies.add(ch);
+    public void addEnemiesData(Character ch) {
+        enemiesData.add(ch);
     }
 
     public void update() {
-        if (!playerEntered) playerEntered = checkEntrance();
-        checkProgress();
+        System.out.println(this.name + " " + this.phase + " entr " + playerEntered);
 
+        if (!playerEntered) playerEntered = checkEntrance();
         switch (phase) {
             case "initial" -> {}
             case "in progress" -> {
-
+                if (enemies.size() == 0) {
+                    setEnemiesInRoom();
+                    for (StaticObject staticObject: staticObjects) {
+                        if (staticObject.name.equals("door")) {
+                            staticObject.setAnimation(StaticObject.ANIMATION_ONCE);
+                            staticObject.collision = true;
+                            staticObject.noAnimation = staticObject.images.get(staticObject.images.size() - 1);
+                        }
+                    }
+                }
             }
-            case "completed" -> {}
+            case "completed" -> {
+                for (StaticObject staticObject: staticObjects) {
+                    if (staticObject.name.equals("door") && sq.rooms.get(staticObject.relatedRoom).phase.equals("completed")) {
+                        staticObject.setAnimation(StaticObject.ANIMATION_ONCE_REVERSE);
+                        staticObject.collision = false;
+                        staticObject.noAnimation = staticObject.images.get(0);
+                    }
+                }
+            }
         }
+
+        checkProgress();
     }
 
     public boolean checkEntrance() {
-        return (sq.gp.player.screenX > sq.gp.squareSize * 2
-                && sq.gp.player.screenX < sq.gp.maxScreenWidth - sq.gp.squareSize * 3)
-                || (sq.gp.player.screenY > sq.gp.squareSize * 2
-                && sq.gp.player.screenY < sq.gp.maxScreenHeight - sq.gp.squareSize * 3);
+        return (sq.gp.player.screenX > sq.gp.squareSize * 2 && sq.gp.player.screenX < sq.gp.maxScreenWidth - sq.gp.squareSize * 3
+                && sq.gp.player.screenY > sq.gp.squareSize * 2 && sq.gp.player.screenY < sq.gp.maxScreenHeight - sq.gp.squareSize * 3);
     }
 
     public void checkProgress() {
         if (phase.equals("initial") && playerEntered) {
             phase = "in progress";
-        }
-        if (enemies.size() == 0 && phase.equals("in progress")) {
+        } else if (enemies.size() == 0 && phase.equals("in progress")) {
             phase = "completed";
         }
+    }
+
+    public void setEnemiesInRoom() {
+        enemies.addAll(enemiesData);
     }
 }

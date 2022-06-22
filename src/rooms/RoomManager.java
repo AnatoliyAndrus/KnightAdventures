@@ -206,10 +206,10 @@ public class RoomManager {
     }
 
     public void setEnemies() {
-        rooms.get("castle").addEnemy(new EnemyWithPistol(gp, 18, 11));
-        rooms.get("castle").addEnemy(new EnemyWithPistol(gp, 4, 11));
-        rooms.get("castle").addEnemy(new EnemyWithPistol(gp, 9, 11));
-        rooms.get("castle").addEnemy(new EnemyWithFangs(gp, 18, 6));
-        rooms.get("castle").addEnemy(new EnemyWithFangs(gp, 4, 6));
+        rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, 18, 11));
+        rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, 4, 11));
+        rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, 9, 11));
+        rooms.get("castle").addEnemiesData(new EnemyWithFangs(gp, 18, 6));
+        rooms.get("castle").addEnemiesData(new EnemyWithFangs(gp, 4, 6));
     }
 }

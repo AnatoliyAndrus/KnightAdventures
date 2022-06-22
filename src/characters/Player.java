@@ -42,7 +42,7 @@ public class Player extends Character {
     public void setDefaultParameters() {
         screenX = gp.squareSize * (gp.maxCols - 3) / 2;
         screenY = gp.squareSize * (gp.maxRows - 3) / 2;
-        speed = gp.FPS/20;
+        speed = gp.FPS/5;
 
         // COLLISION SQUARE OF THE PLAYER
         areaOfCollision = new Rectangle(8, 24, 32, 24);
@@ -147,20 +147,20 @@ public class Player extends Character {
             if(screenY < 0) {
                 gp.bullets = new ArrayList<>();
                 resetObjectsTimers();
-                gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.upRoom.name);
                 screenY = gp.squareSize*(gp.maxRows - 3);
+                gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.upRoom.name);
             }
             if(screenX < 0) {
                 gp.bullets = new ArrayList<>();
                 resetObjectsTimers();
-                gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.leftRoom.name);
                 screenX = gp.squareSize * (gp.maxCols - 3);
+                gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.leftRoom.name);
             }
             if(screenX > gp.squareSize * (gp.maxCols - 3)) {
                 gp.bullets = new ArrayList<>();
                 resetObjectsTimers();
-                gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.rightRoom.name);
                 screenX = 0;
+                gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.rightRoom.name);
             }
 
             updateImage();

@@ -17,6 +17,8 @@ public class StaticObject extends GameObject {
     public final static int ANIMATION_ONCE = 2;
     public final static int ANIMATION_ONCE_REVERSE = 3;
 
+    public boolean changing;
+
     public ArrayList<BufferedImage> images;
     public BufferedImage noAnimation;
     public int isAnimated;
@@ -25,6 +27,8 @@ public class StaticObject extends GameObject {
     public boolean collision;
     public boolean isInteracted;
     public int interactingFrames = 0;
+
+    public String relatedRoom;
 
     public StaticObject(GamePanel gp, String name) {
         super(gp);
@@ -45,8 +49,11 @@ public class StaticObject extends GameObject {
 
     @Override
     public void update() {
+        if (isAnimated == NO_ANIMATION){
+            imageNum = -1;
+        }
         //CONTINUOUS ANIMATION
-        if(isAnimated == ANIMATION_CONTINUOUSLY) {
+        else if(isAnimated == ANIMATION_CONTINUOUSLY) {
             if(imageNum < 0) imageNum = 0;
 
             imageFrames++;
@@ -55,15 +62,39 @@ public class StaticObject extends GameObject {
                 imageNum++;
                 if(imageNum == images.size()) imageNum = 0;
             }
-        } else {
-            imageNum = -1;
         }
+        //ANIMATION ONCE
+        else if(isAnimated == ANIMATION_ONCE) {
+            if(imageNum < 0 || changing) {
+                imageNum = 0;
+                changing = false;
+            }
 
-        //ONE ANIMATION CYCLE
-
-
+            imageFrames++;
+            if(imageFrames == framesToChangeSprite) {
+                imageFrames = 0;
+                imageNum++;
+                if(imageNum == images.size()) {
+                    setAnimation(NO_ANIMATION);
+                }
+            }
+        }
         //ONE REVERSE ANIMATION CYCLE
+        else if(isAnimated == ANIMATION_ONCE_REVERSE) {
+            if(imageNum < 0 || changing) {
+                imageNum = images.size() - 1;
+                changing = false;
+            }
 
+            imageFrames++;
+            if(imageFrames == framesToChangeSprite) {
+                imageFrames = 0;
+                imageNum--;
+                if(imageNum == 0) {
+                    setAnimation(NO_ANIMATION);
+                }
+            }
+        }
 
         //INTERACTION TIMEOUT
         if (interactingFrames > 0) {
@@ -83,6 +114,9 @@ public class StaticObject extends GameObject {
 
     public void setAnimation(int animationType) {
         this.isAnimated = animationType;
+        if (animationType == ANIMATION_ONCE || animationType == ANIMATION_ONCE_REVERSE) {
+            changing = true;
+        }
     }
 
     public void shadow(Graphics2D g2d) {

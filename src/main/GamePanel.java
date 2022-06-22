@@ -124,6 +124,9 @@ public class GamePanel extends JPanel implements Runnable{
             //PLAYER
             player.update();
 
+            //ROOM
+            roomManager.currentRoom.update();
+
             //OBJECTS
             for (StaticObject obj : roomManager.currentRoom.staticObjects) {
                 obj.update();
@@ -157,13 +160,6 @@ public class GamePanel extends JPanel implements Runnable{
             //ROOM FLOOR
             roomManager.drawFirstPart(g2d);
 
-            //BULLETS
-            if(bullets.size() > 0) {
-                for (Bullet bullet : bullets) {
-                    bullet.draw(g2d);
-                }
-            }
-
             //ROOM SHADOWS AND TOP LAYER
             roomManager.drawShadows(g2d);
             roomManager.drawFirstLayer(g2d);
@@ -179,6 +175,13 @@ public class GamePanel extends JPanel implements Runnable{
             for (StaticObject obj : roomManager.currentRoom.staticObjects) {
                 if (obj != null && !obj.collision) {
                     obj.draw(g2d);
+                }
+            }
+
+            //BULLETS
+            if(bullets.size() > 0) {
+                for (Bullet bullet : bullets) {
+                    bullet.draw(g2d);
                 }
             }
 
