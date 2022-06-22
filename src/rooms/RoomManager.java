@@ -88,6 +88,7 @@ public class RoomManager {
                 }
             }
         } else {
+            //WATER ROOMS
             for (int row = 0; row < gp.maxRows; row++) {
 
                 for (int col = 0; col < gp.maxCols; col++) {
@@ -99,9 +100,34 @@ public class RoomManager {
                     }
                 }
             }
+            for (int row = 0; row < gp.maxRows; row++) {
+
+                for (int col = 0; col < gp.maxCols; col++) {
+                    if(currentMatrix[col][row] <= 12) {
+                        for (int i = 0; i < 24; i++) {
+                            g2d.setColor(new Color(0, 0, 0, 8));
+                            g2d.fillRect((col - 1) * gp.squareSize - i,
+                                    (row - 1) * gp.squareSize - i,
+                                    gp.squareSize, gp.squareSize);
+                        }
+                    }
+                }
+            }
+            for (int row = 0; row < gp.maxRows; row++) {
+
+                for (int col = 0; col < gp.maxCols; col++) {
+                    if(currentMatrix[col][row] <= 12) {
+                        g2d.drawImage(currentRoom.squares[currentMatrix[col][row]].img,
+                                (col - 1) * gp.squareSize,
+                                (row - 1) * gp.squareSize,
+                                null);
+                    }
+                }
+            }
         }
     }
     public void drawShadows(Graphics2D g2d) {
+        //THIS PART ONLY FOR INNER ROOMS
         if(!currentRoom.isWaterRoom) {
             for (int row = 0; row < gp.maxRows; row++) {
 
@@ -116,40 +142,15 @@ public class RoomManager {
                     }
                 }
             }
-        } else {
-            for (int row = 0; row < gp.maxRows; row++) {
-
-                for (int col = 0; col < gp.maxCols; col++) {
-                    if(currentMatrix[col][row] <= 12) {
-                        for (int i = 0; i < 24; i++) {
-                            g2d.setColor(new Color(0, 0, 0, 8));
-                            g2d.fillRect((col - 1) * gp.squareSize - i,
-                                    (row - 1) * gp.squareSize - i,
-                                    gp.squareSize, gp.squareSize);
-                        }
-                    }
-                }
-            }
         }
     }
     public void drawFirstLayer(Graphics2D g2d) {
+        //THIS PART ONLY FOR INNER ROOMS
         if(!currentRoom.isWaterRoom) {
             for (int row = 0; row < gp.maxRows; row++) {
 
                 for (int col = 0; col < gp.maxCols; col++) {
                     if(currentMatrix[col][row] > 12 && currentMatrix[col][row] != 14 && currentMatrix[col][row] != 23 && currentMatrix[col][row] != 24) {
-                        g2d.drawImage(currentRoom.squares[currentMatrix[col][row]].img,
-                                (col - 1) * gp.squareSize,
-                                (row - 1) * gp.squareSize,
-                                null);
-                    }
-                }
-            }
-        } else {
-            for (int row = 0; row < gp.maxRows; row++) {
-
-                for (int col = 0; col < gp.maxCols; col++) {
-                    if(currentMatrix[col][row] <= 12) {
                         g2d.drawImage(currentRoom.squares[currentMatrix[col][row]].img,
                                 (col - 1) * gp.squareSize,
                                 (row - 1) * gp.squareSize,

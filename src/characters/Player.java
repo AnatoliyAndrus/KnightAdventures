@@ -23,6 +23,10 @@ public class Player extends Character {
     public boolean isInvincible;
     public int invincibleFrames = 0;
 
+    public boolean isReloading;
+    public int reloadingFrames;
+    public int requiredReloadingFrames = 24;
+
     public Player(GamePanel gp, KeyRecorder keyR) {
         super(gp);
 
@@ -173,6 +177,15 @@ public class Player extends Character {
             }
         }
 
+        //RELOADING TIME
+        if(isReloading) {
+            reloadingFrames++;
+            if(reloadingFrames == requiredReloadingFrames) {
+                isReloading = false;
+                reloadingFrames = 0;
+            }
+        }
+
         //PLAYER'S TORCH
         if (gp.roomManager.currentRoom.name.equals("dungeon") && !hasTorch) {
             hasTorch = true;
@@ -199,17 +212,17 @@ public class Player extends Character {
                         case 1 -> {
                             gp.roomManager.currentRoom.staticObjects.get(index).interactingFrames = 150;
                             gp.ui.makeScreenHint("Seller: Welcome to the Secret shop!#(press F)", 150);
-                            gp.playSound(1);
+                            gp.playSound(3);
                         }
                         case 2 -> {
                             gp.roomManager.currentRoom.staticObjects.get(index).interactingFrames = 150;
                             gp.ui.makeScreenHint("Seller: What're you buying?#(press F)", 150);
-                            gp.playSound(2);
+                            gp.playSound(4);
                         }
                         case 3 -> {
                             gp.roomManager.currentRoom.staticObjects.get(index).interactingFrames = 150;
                             gp.ui.makeScreenHint("Seller: Ho ho! You found me!#(press F)", 150);
-                            gp.playSound(3);
+                            gp.playSound(5);
                         }
                     }
                 }

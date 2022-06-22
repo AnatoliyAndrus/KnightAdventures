@@ -20,12 +20,14 @@ public class MouseRecorder implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if(gp.currentState == gp.gameState) {
+        if(gp.currentState == gp.gameState && !gp.player.isReloading) {
             gp.bullets.add(new Bullet(gp, "player_bullet",
                     2, 2,
                     6, 6,
                     gp.player.screenX + 19, gp.player.screenY + 30,
                     e.getX() - 5, e.getY() - 5, true));
+            gp.player.isReloading = true;
+            gp.playSound(1);
         }
     }
 

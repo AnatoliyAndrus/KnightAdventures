@@ -25,6 +25,8 @@ public class EnemyWithPistol extends Character{
     int movingTime;
     int standTime;
 
+    public int requiredReloadingFrames = 60;
+
     public EnemyWithPistol(GamePanel gp, int col, int row) {
         super(gp);
 
@@ -39,9 +41,9 @@ public class EnemyWithPistol extends Character{
         speed = 1;
 
         // COLLISION SQUARE OF THE PLAYER
-        areaOfCollision = new Rectangle(8, 24, 32, 24);
+        areaOfCollision = new Rectangle(8, 15, 32, 33);
         defaultCollisionAreaX = 8;
-        defaultCollisionAreaY = 24;
+        defaultCollisionAreaY = 15;
 
         maxHP = 10;
         HP = maxHP;
@@ -209,7 +211,7 @@ public class EnemyWithPistol extends Character{
 
                 framesToCount++;
 
-                if(framesToCount == gp.FPS) {
+                if(framesToCount == requiredReloadingFrames) {
 
                     gp.bullets.add(new Bullet(gp, "enemy_bullet",
                             2, 2,
@@ -217,6 +219,7 @@ public class EnemyWithPistol extends Character{
                             screenX + 19, screenY + 30,
                             gp.player.screenX + 19, gp.player.screenY + 30, false));
 
+                    gp.playSound(2);
                     framesToCount = 0;
                 }
             }

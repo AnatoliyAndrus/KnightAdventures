@@ -14,9 +14,11 @@ public class Music {
 
     public Music() {
         soundFiles[0] = new File("resources/sound/mainTrack.wav");
-        soundFiles[1] = new File("resources/sound/welcome.wav");
-        soundFiles[2] = new File("resources/sound/what_buying.wav");
-        soundFiles[3] = new File("resources/sound/hoho_foundme.wav");
+        soundFiles[1] = new File("resources/sound/player_single_shot.wav");
+        soundFiles[2] = new File("resources/sound/alien_single_shot.wav");
+        soundFiles[3] = new File("resources/sound/welcome.wav");
+        soundFiles[4] = new File("resources/sound/what_buying.wav");
+        soundFiles[5] = new File("resources/sound/hoho_foundme.wav");
     }
 
     public void setClip(int index) {

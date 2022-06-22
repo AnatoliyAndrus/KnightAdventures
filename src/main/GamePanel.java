@@ -69,7 +69,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setupGame(){
         //DEFAULT SETUP
-//        playMusic(0);
+        playMusic(0);
 
         visualManager.setup();
     }
@@ -229,6 +229,9 @@ public class GamePanel extends JPanel implements Runnable{
     public void playSound(int index) {
         sounds.setClip(index);
         sounds.play();
+    }
+    public void pauseSound() {
+        sounds.stop();
     }
 
     private void collectGarbage() {
