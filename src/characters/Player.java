@@ -2,12 +2,10 @@ package characters;
 
 import main.GamePanel;
 import main.KeyRecorder;
+import main.UI;
 
-import javax.imageio.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Player extends Character {
@@ -15,6 +13,7 @@ public class Player extends Character {
     public BufferedImage heart1, heart2, heart3, heart4, shield;
 
     KeyRecorder keyR;
+    UI ui;
 
     int standFrames = 0;
 
@@ -31,6 +30,7 @@ public class Player extends Character {
         super(gp);
 
         this.keyR = keyR;
+        this.ui = gp.ui;
 
         setDefaultParameters();
         setPlayerImages(false);
@@ -49,6 +49,7 @@ public class Player extends Character {
         maxHP = 15;
         HP = maxHP;
         armor = 5;
+        name = "player";
     }
 
     public void setPlayerImages(boolean torch) {
@@ -136,23 +137,43 @@ public class Player extends Character {
             //MOVING BETWEEN ROOMS
             if(screenY > gp.squareSize * (gp.maxRows - 3)) {
                 gp.bullets = new ArrayList<>();
-                gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.downRoom.name);
-                screenY = 0;
+                if (gp.roomManager.currentRoom.isCompleted) {
+                    gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.downRoom.name);
+                    screenY = 0;
+                } else {
+                    ui.makeScreenHint("You haven't finished#this room yet!", 75);
+
+                }
             }
             if(screenY < 0) {
                 gp.bullets = new ArrayList<>();
-                gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.upRoom.name);
-                screenY = gp.squareSize*(gp.maxRows - 3);
+                if (gp.roomManager.currentRoom.isCompleted) {
+                    gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.upRoom.name);
+                    screenY = gp.squareSize*(gp.maxRows - 3);
+                } else {
+                    ui.makeScreenHint("You haven't finished#this room yet!", 75);
+
+                }
             }
             if(screenX < 0) {
                 gp.bullets = new ArrayList<>();
-                gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.leftRoom.name);
-                screenX = gp.squareSize*(gp.maxCols - 3);
+                if (gp.roomManager.currentRoom.isCompleted) {
+                    gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.leftRoom.name);
+                    screenX = gp.squareSize * (gp.maxCols - 3);
+                } else {
+                    ui.makeScreenHint("You haven't finished#this room yet!", 75);
+
+                }
             }
             if(screenX > gp.squareSize * (gp.maxCols - 3)) {
                 gp.bullets = new ArrayList<>();
-                gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.rightRoom.name);
-                screenX = 0;
+                if (gp.roomManager.currentRoom.isCompleted) {
+                    gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.rightRoom.name);
+                    screenX = 0;
+                } else {
+                    ui.makeScreenHint("You haven't finished#this room yet!", 75);
+
+                }
             }
 
             updateImage();

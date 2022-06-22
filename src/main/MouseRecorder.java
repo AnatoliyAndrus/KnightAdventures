@@ -27,6 +27,7 @@ public class MouseRecorder implements MouseListener {
                     gp.player.screenX + 19, gp.player.screenY + 30,
                     e.getX() - 5, e.getY() - 5, true));
             gp.player.isReloading = true;
+            gp.playSound(7);
             gp.playSound(1);
         }
     }

@@ -19,6 +19,11 @@ public class Music {
         soundFiles[3] = new File("resources/sound/welcome.wav");
         soundFiles[4] = new File("resources/sound/what_buying.wav");
         soundFiles[5] = new File("resources/sound/hoho_foundme.wav");
+        soundFiles[6] = new File("resources/sound/enemy_claw_hit.wav");
+        soundFiles[7] = new File("resources/sound/patron_shell.wav");
+        soundFiles[8] = new File("resources/sound/claw_enemy_hitted.wav");
+        soundFiles[9] = new File("resources/sound/alien_hitted.wav");
+        soundFiles[10] = new File("resources/sound/player_hitted.wav");
     }
 
     public void setClip(int index) {

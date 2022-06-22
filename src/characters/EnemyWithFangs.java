@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 
-public class EnemyWithPistol extends Character{
+public class EnemyWithFangs extends Character{
 
     int standFrames = 0;
     int framesToCount = -gp.FPS;
@@ -22,12 +22,15 @@ public class EnemyWithPistol extends Character{
     public boolean tempMoving;
     public int tempMovingFrames = 0;
 
+    public boolean recover;
+    public int tempDamageFrames = 0;
+
     int movingTime;
     int standTime;
 
     public int requiredReloadingFrames = 60;
 
-    public EnemyWithPistol(GamePanel gp, int col, int row) {
+    public EnemyWithFangs(GamePanel gp, int col, int row) {
         super(gp);
 
         screenX = gp.squareSize * col;
@@ -38,31 +41,31 @@ public class EnemyWithPistol extends Character{
     }
 
     public void setDefaultParameters() {
-        speed = 1;
+        speed = 2;
 
         // COLLISION SQUARE OF THE PLAYER
         areaOfCollision = new Rectangle(8, 15, 32, 33);
         defaultCollisionAreaX = 8;
         defaultCollisionAreaY = 15;
 
-        maxHP = 10;
+        maxHP = 8;
         HP = maxHP;
-        name = "alien";
+        name = "enemyWithFangs";
     }
 
     public void setEnemyImages() {
-        up1 = setImage("alien/alien_up_1");
-        up2 = setImage("alien/alien_up_2");
-        up3 = setImage("alien/alien_up_3");
-        down1 = setImage("alien/alien_down_1");
-        down2 = setImage("alien/alien_down_2");
-        down3 = setImage("alien/alien_down_3");
-        left1 = setImage("alien/alien_left_1");
-        left2 = setImage("alien/alien_left_2");
-        left3 = setImage("alien/alien_left_3");
-        right1 = setImage("alien/alien_right_1");
-        right2 = setImage("alien/alien_right_2");
-        right3 = setImage("alien/alien_right_3");
+        up1 = setImage("alien_claws/alien_claws_up_1");
+        up2 = setImage("alien_claws/alien_claws_up_2");
+        up3 = setImage("alien_claws/alien_claws_up_3");
+        down1 = setImage("alien_claws/alien_claws_down_1");
+        down2 = setImage("alien_claws/alien_claws_down_2");
+        down3 = setImage("alien_claws/alien_claws_down_3");
+        left1 = setImage("alien_claws/alien_claws_left_1");
+        left2 = setImage("alien_claws/alien_claws_left_2");
+        left3 = setImage("alien_claws/alien_claws_left_3");
+        right1 = setImage("alien_claws/alien_claws_right_1");
+        right2 = setImage("alien_claws/alien_claws_right_2");
+        right3 = setImage("alien_claws/alien_claws_right_3");
     }
 
     @Override
@@ -71,7 +74,7 @@ public class EnemyWithPistol extends Character{
         playerDistance = Math.sqrt(Math.pow(gp.player.screenX - screenX, 2)
                 + Math.pow(gp.player.screenY - gp.player.areaOfCollision.height/2.0 - (screenY - areaOfCollision.height/2.0), 2));
 
-        if(playerDistance < gp.squareSize * 12) {
+        if(playerDistance < gp.squareSize * 10) {
             if(!agressive) framesToCount = 0;
             agressive = true;
             moving = true;
@@ -83,7 +86,6 @@ public class EnemyWithPistol extends Character{
                 tempMoving = false;
             }
             agressive = false;
-            speed = 1;
         }
 
         //NOT AGRESSIVE
@@ -203,28 +205,6 @@ public class EnemyWithPistol extends Character{
                     tempMovingFrames = 0;
                 }
             }
-
-            //Agressive modes
-            if (playerDistance < gp.squareSize * 2) {
-                speed = 2;
-            } else {
-                speed = 1;
-
-                framesToCount++;
-
-                if(framesToCount == requiredReloadingFrames) {
-
-                    gp.bullets.add(new Bullet(gp, "enemy_bullet",
-                            2, 2,
-                            6, 6,
-                            screenX + 19, screenY + 30,
-                            gp.player.screenX + 19, gp.player.screenY + 30, false));
-
-                    gp.playSound(2);
-                    framesToCount = 0;
-                }
-            }
-
         }
 
         collisionOnX = false;
@@ -256,6 +236,7 @@ public class EnemyWithPistol extends Character{
             }
             updateImage();
         }
+
         //ENEMY STANDS STILL
         else {
             standFrames ++;
@@ -263,17 +244,30 @@ public class EnemyWithPistol extends Character{
                 imageNum = 1;
             }
         }
+
+        //ENEMY RECOVERS
+        if(recover) {
+            tempDamageFrames++;
+            if(tempDamageFrames == 30) {
+                speed = 3;
+                recover = false;
+                tempDamageFrames = 0;
+            }
+        }
     }
 
     @Override
     public void receiveDamage() {
 
+        recover = true;
+        speed = 1;
+
         //ADD SOUNDS LATER + ANIMATIONS
         if(HP > 0) {
-            HP--;
+            HP --;
         }
 
-        if (HP == 0){
+        if (HP <= 0){
             isDead = true;
         }
     }

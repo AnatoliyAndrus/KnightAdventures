@@ -25,6 +25,7 @@ public class GameObject {
     public int defaultCollisionAreaY;
 
     public String direction = "down";
+    public String name;
 
     public GameObject(GamePanel gp) {this.gp = gp;}
 

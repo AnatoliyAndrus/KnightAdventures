@@ -30,6 +30,7 @@ public class Room {
     public Square[] squares;
 
     public boolean isWaterRoom;
+    public boolean isCompleted = true;
 
     public Room(String name, RoomManager sq, int darkness) {
 

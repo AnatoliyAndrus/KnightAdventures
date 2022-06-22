@@ -249,9 +249,10 @@ public class CollisionViewer {
                     if (!player) {
                         if (ch.areaOfCollision.intersects(gp.player.areaOfCollision)) {
                             ch.collisionOnY = true;
-                            ;
+
                             if (!gp.player.isInvincible) {
                                 gp.player.receiveDamage();
+                                gp.playSound(6);
                                 gp.player.isInvincible = true;
                             }
                         }
@@ -280,6 +281,7 @@ public class CollisionViewer {
                             ch.collisionOnY = true;
                             if (!gp.player.isInvincible) {
                                 gp.player.receiveDamage();
+                                gp.playSound(6);
                                 gp.player.isInvincible = true;
                             }
                         }
@@ -308,6 +310,7 @@ public class CollisionViewer {
                             ch.collisionOnX = true;
                             if (!gp.player.isInvincible) {
                                 gp.player.receiveDamage();
+                                gp.playSound(6);
                                 gp.player.isInvincible = true;
                             }
                         }
@@ -334,6 +337,7 @@ public class CollisionViewer {
                             ch.collisionOnX = true;
                             if (!gp.player.isInvincible) {
                                 gp.player.receiveDamage();
+                                gp.playSound(6);
                                 gp.player.isInvincible = true;
                             }
                         }
@@ -373,6 +377,11 @@ public class CollisionViewer {
                     if (bullet.areaOfCollision.intersects(gp.roomManager.currentRoom.enemies.get(i).areaOfCollision)) {
 
                         gp.roomManager.currentRoom.enemies.get(i).receiveDamage();
+                        if (gp.roomManager.currentRoom.enemies.get(i).name.equals("alien")) {
+                            gp.playSound(9);
+                        } else {
+                            gp.playSound(8);
+                        }
                         gp.bullets.remove(bullet);
                     }
 
@@ -395,6 +404,7 @@ public class CollisionViewer {
 
             if (bullet.areaOfCollision.intersects(gp.player.areaOfCollision)&&!gp.player.isInvincible) {
 
+                gp.playSound(10);
                 gp.player.receiveDamage();
                 gp.player.isInvincible=true;
                 gp.bullets.remove(bullet);
