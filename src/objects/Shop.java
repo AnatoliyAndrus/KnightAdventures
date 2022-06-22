@@ -9,7 +9,10 @@ public class Shop extends StaticObject {
     public Shop(GamePanel gp) {
         super(gp, "shop");
 
-        this.down1 = setImage("objects/shop");
+        addImage("shop_1");
+        noAnimation = setImage("objects/shop/shop_1");
+        isAnimated = StaticObject.NO_ANIMATION;
+        framesToChangeSprite = 60;
 
         this.collision = true;
         this.defaultCollisionAreaX = 15;

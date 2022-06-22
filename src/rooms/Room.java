@@ -13,7 +13,6 @@ import java.util.ArrayList;
 public class Room {
 
     public String name;
-    public int darkness;
 
     RoomManager sq;
 
@@ -34,10 +33,9 @@ public class Room {
     public boolean playerEntered;
     public String phase = "initial";
 
-    public Room(String name, RoomManager sq, int darkness) {
+    public Room(String name, RoomManager sq) {
 
         this.name = name;
-        this.darkness = darkness;
         squares = new Square[30];
 
         this.sq=sq;

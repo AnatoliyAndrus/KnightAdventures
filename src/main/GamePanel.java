@@ -167,12 +167,15 @@ public class GamePanel extends JPanel implements Runnable{
             //ROOM SHADOWS AND TOP LAYER
             roomManager.drawShadows(g2d);
             roomManager.drawFirstLayer(g2d);
+            //ROOM FINAL BOTTOM LAYER
+            roomManager.drawFinalLayer(g2d);
 
             //STATIC OBJECTS SHADOWS
             for (StaticObject obj : roomManager.currentRoom.staticObjects) {
                 if (obj != null && obj.collision) obj.shadow(g2d);
             }
 
+            //STATIC OBJECTS WITH NO COLLISION
             for (StaticObject obj : roomManager.currentRoom.staticObjects) {
                 if (obj != null && !obj.collision) {
                     obj.draw(g2d);
@@ -206,9 +209,6 @@ public class GamePanel extends JPanel implements Runnable{
                 gameObjectsList.get(i).draw(g2d);
             }
             gameObjectsList = new ArrayList<>();
-
-            //ROOM FINAL BOTTOM LAYER
-            roomManager.drawFinalLayer(g2d);
 
             //VISUAL EFFECTS
             visualManager.draw(g2d);

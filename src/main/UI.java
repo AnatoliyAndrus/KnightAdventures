@@ -24,12 +24,11 @@ public class UI {
     public boolean loadingScreen;
     public int loadingFrames = 0;
 
-    Shape ring, oval;
+    Shape ring;
 
     //SCREEN HINTS
     String hint;
     int hintTimer;
-    int maxHintLength = 30;
 
     public UI(GamePanel gp) {
         this.gp = gp;
@@ -264,14 +263,22 @@ public class UI {
         }
 
         //ROOM DARKNESS
-        if (gp.player.hasTorch) drawLight(g2d);
+        if (gp.roomManager.currentRoom.name.equals("dungeon") && gp.player.hasTorch) drawLight(g2d);
     }
 
     public void drawLight(Graphics2D g2d) {
-        //PLAYER HAS LIGHT
-        double centerX = gp.player.screenX + (double) gp.squareSize / 2;
-        double centerY = gp.player.screenY + (double) gp.squareSize / 2;
+
+        double centerX;
+        double centerY;
         double innerRadius = 114;
+
+        if(gp.player.hasTorch) {
+            centerX = gp.player.screenX + (double) gp.squareSize / 2;
+            centerY = gp.player.screenY + (double) gp.squareSize / 2;
+        } else {
+            centerX = gp.squareSize * 14 + gp.squareSize/2.0;
+            centerY = gp.squareSize * 15 + gp.squareSize/2.0;
+        }
 
         Area rect = new Area(new Rectangle2D.Double(0,0,gp.maxScreenWidth, gp.maxScreenHeight));
         Ellipse2D inner = new Ellipse2D.Double(
@@ -279,12 +286,12 @@ public class UI {
                 centerY - innerRadius,
                 innerRadius * 2,
                 innerRadius * 2);
-        oval = new Area(inner);
-        rect.subtract(new Area(inner));
+        Area oval = new Area(inner);
+        rect.subtract(oval);
         g2d.setColor(new Color(0, 0, 0, 245));
         g2d.fill(rect);
 
-        //WITH BLUR
+//        //WITH BLUR
 //        for(int i = 1; i < innerRadius; i += 1) {
 //            ring = createRingShape(centerX, centerY, i + 1, i);
 //            g2d.setColor(new Color(0, 0, 0, (int) ((i / (innerRadius - 1)) * 240)));
@@ -315,9 +322,9 @@ public class UI {
                 innerRadius * 2,
                 innerRadius * 2);
 
-        oval = new Area(inner);
+        Area oval = new Area(inner);
         Area area = new Area(outer);
-        area.subtract(new Area(inner));
+        area.subtract(oval);
         return area;
     }
 

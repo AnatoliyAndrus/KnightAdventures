@@ -134,7 +134,7 @@ public class CollisionViewer {
                          ch.collisionOnY = true;
                      }
 
-                     if (player) index = i;
+                     if (player && !gp.roomManager.currentRoom.staticObjects.get(i).isInteracted) index = i;
                  }
 
                  ch.areaOfCollision.y += ch.speed;
@@ -147,7 +147,7 @@ public class CollisionViewer {
                          ch.collisionOnY = true;
                      }
 
-                     if (player) index = i;
+                     if (player && !gp.roomManager.currentRoom.staticObjects.get(i).isInteracted) index = i;
                  }
 
                  ch.areaOfCollision.y -= ch.speed;
@@ -160,7 +160,7 @@ public class CollisionViewer {
                          ch.collisionOnX = true;
                      }
 
-                     if (player) index = i;
+                     if (player && !gp.roomManager.currentRoom.staticObjects.get(i).isInteracted) index = i;
                  }
              }
              if (gp.keyR.right || ch.direction.equals("right")) {
@@ -171,7 +171,7 @@ public class CollisionViewer {
                          ch.collisionOnX = true;
                      }
 
-                     if (player) index = i;
+                     if (player && !gp.roomManager.currentRoom.staticObjects.get(i).isInteracted) index = i;
                  }
              }
 

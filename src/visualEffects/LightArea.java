@@ -21,7 +21,7 @@ public class LightArea {
     Color[] colors = new Color[5];
     float[] fractions = new float[5];
 
-    public LightArea(GamePanel gp) {
+    public LightArea(GamePanel gp, boolean dungeon) {
         this.gp = gp;
 
         darknessFilter = new BufferedImage(gp.maxScreenWidth, gp.maxScreenHeight, BufferedImage.TYPE_INT_ARGB);
@@ -29,17 +29,19 @@ public class LightArea {
 
         lightArea = new Area(new Rectangle2D.Double(0,0,gp.maxScreenWidth,gp.maxScreenHeight));
 
+        float f = dungeon ? 0.96f : 0.85f;
+
         colors[0] = new Color(0,0,0,0f);
         colors[1] = new Color(0,0,0,0.25f);
         colors[2] = new Color(0,0,0,0.5f);
         colors[3] = new Color(0,0,0,0.75f);
-        colors[4] = new Color(0,0,0,0.85f);
+        colors[4] = new Color(0,0,0,f);
 
         fractions[0] = 0f;
         fractions[1] = 0.25f;
         fractions[2] = 0.5f;
         fractions[3] = 0.75f;
-        fractions[4] = 0.85f;
+        fractions[4] = f;
     }
 
     public void addLightCircle(int centerX, int centerY, int innerRadius) {

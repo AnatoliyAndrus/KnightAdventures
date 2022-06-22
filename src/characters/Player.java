@@ -3,6 +3,7 @@ package characters;
 import main.GamePanel;
 import main.KeyRecorder;
 import main.UI;
+import objects.StaticObject;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -25,6 +26,8 @@ public class Player extends Character {
     public boolean isReloading;
     public int reloadingFrames;
     public int requiredReloadingFrames = 24;
+
+    public String interactedObject;
 
     public Player(GamePanel gp, KeyRecorder keyR) {
         super(gp);
@@ -106,10 +109,10 @@ public class Player extends Character {
 
             // CHECK COLLISION OF THE MAP
             gp.colViewer.checkMapCollision(this);
-            // CHECK COLLISION OF OBJECTS
+            // CHECK COLLISION OF STATIC OBJECTS
             int index = gp.colViewer.checkObjectCollision(this, true);
-            //INTERACTING
-            if (index >= 0 && !gp.roomManager.currentRoom.staticObjects.get(index).isInteracted) {
+            //INTERACTING STATIC OBJECTS
+            if (index >= 0) {
                 interactObject(index);
             }
             // CHECK COLLISION WITH ENEMIES
@@ -137,26 +140,27 @@ public class Player extends Character {
             //MOVING BETWEEN ROOMS
             if(screenY > gp.squareSize * (gp.maxRows - 3)) {
                 gp.bullets = new ArrayList<>();
+                resetObjectsTimers();
                 gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.downRoom.name);
                 screenY = 0;
             }
             if(screenY < 0) {
                 gp.bullets = new ArrayList<>();
+                resetObjectsTimers();
                 gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.upRoom.name);
                 screenY = gp.squareSize*(gp.maxRows - 3);
-
             }
             if(screenX < 0) {
                 gp.bullets = new ArrayList<>();
+                resetObjectsTimers();
                 gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.leftRoom.name);
                 screenX = gp.squareSize * (gp.maxCols - 3);
-
             }
             if(screenX > gp.squareSize * (gp.maxCols - 3)) {
                 gp.bullets = new ArrayList<>();
+                resetObjectsTimers();
                 gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.rightRoom.name);
                 screenX = 0;
-
             }
 
             updateImage();
@@ -168,7 +172,7 @@ public class Player extends Character {
             standFrames ++;
 
             if(standFrames >= gp.FPS/3) {
-                imageNum = 1;
+                imageNum = 0;
             }
         }
 
@@ -190,14 +194,6 @@ public class Player extends Character {
             }
         }
 
-        //PLAYER'S TORCH
-        if (gp.roomManager.currentRoom.name.equals("dungeon") && !hasTorch) {
-            hasTorch = true;
-            setPlayerImages(true);
-        } else if (!gp.roomManager.currentRoom.name.equals("dungeon") && hasTorch) {
-            hasTorch = false;
-            setPlayerImages(false);
-        }
     }
 
     private void interactObject(int index) {
@@ -206,9 +202,11 @@ public class Player extends Character {
             //INTERACTING DIFFERENT OBJECTS
             switch (gp.roomManager.currentRoom.staticObjects.get(index).name) {
                 case "woodenBox" -> {
+                    interactedObject = "woodenBox";
                     gp.ui.makeScreenHint("This is just a box hehe", 150);
                 }
                 case "shop" -> {
+                    interactedObject = "shop";
                     //ADD DOTA SOUND
                     int phrase = (int) (Math.random() * 3) + 1;
 
@@ -230,7 +228,34 @@ public class Player extends Character {
                         }
                     }
                 }
+                case "torch_left", "torch_right" -> {
+                    if(gp.roomManager.currentRoom.name.equals("dungeon")) {
+                        interactedObject = "dungeonTorches";
+                        gp.roomManager.currentRoom.staticObjects.get(0).interactingFrames = 150;
+                        gp.roomManager.currentRoom.staticObjects.get(1).interactingFrames = 150;
+
+                        if(!hasTorch) {
+                            gp.ui.makeScreenHint("Light up your torch here...#(press F)", 150);
+                            hasTorch = true;
+                            setPlayerImages(true);
+                            gp.roomManager.currentRoom.staticObjects.get(0).setAnimation(StaticObject.NO_ANIMATION);
+                            gp.roomManager.currentRoom.staticObjects.get(1).setAnimation(StaticObject.NO_ANIMATION);
+                        } else {
+                            gp.ui.makeScreenHint("Light is locked here forever...", 150);
+                            hasTorch = false;
+                            setPlayerImages(false);
+                            gp.roomManager.currentRoom.staticObjects.get(0).setAnimation(StaticObject.ANIMATION_CONTINUOUSLY);
+                            gp.roomManager.currentRoom.staticObjects.get(1).setAnimation(StaticObject.ANIMATION_CONTINUOUSLY);
+                        }
+                    }
+                }
             }
+        }
+    }
+
+    public void resetObjectsTimers() {
+        for (StaticObject obj: gp.roomManager.currentRoom.staticObjects) {
+            obj.interactingFrames = 0;
         }
     }
 

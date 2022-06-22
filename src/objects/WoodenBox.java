@@ -9,7 +9,10 @@ public class WoodenBox extends StaticObject {
     public WoodenBox(GamePanel gp){
         super(gp, "woodenBox");
 
-        this.down1 = setImage("objects/box");
+        addImage("woodenBox_1");
+        noAnimation = setImage("objects/woodenBox/woodenBox_1");
+        isAnimated = StaticObject.NO_ANIMATION;
+        framesToChangeSprite = 60;
 
         this.collision = true;
         this.defaultCollisionAreaX = 0;

@@ -10,9 +10,12 @@ public class Door extends StaticObject{
     public Door(GamePanel gp, String relatedRoom) {
         super(gp, "door");
 
-        this.down1 = setImage("objects/doors/door_1");
-        this.down2 = setImage("objects/doors/door_2");
-        this.down3 = setImage("objects/doors/door_3");
+        addImage("door_opened");
+        addImage("door_1");
+        addImage("door_closed");
+        noAnimation = setImage("objects/door/door_opened");
+        isAnimated = StaticObject.NO_ANIMATION;
+        framesToChangeSprite = 20;
 
         this.relatedRoom = relatedRoom;
         this.collision = false;

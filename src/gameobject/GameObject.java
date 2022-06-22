@@ -12,22 +12,21 @@ public class GameObject {
 
     public GamePanel gp;
 
-    public BufferedImage down1, down2, down3;
+    public int imageFrames = 0;
+    public int imageNum = 0;
 
     public int screenX;
     public int screenY;
-
-    public int imageCount = 0;
-    public int imageNum = 1;
 
     public Rectangle areaOfCollision;
     public int defaultCollisionAreaX;
     public int defaultCollisionAreaY;
 
-    public String direction = "down";
     public String name;
 
-    public GameObject(GamePanel gp) {this.gp = gp;}
+    public GameObject(GamePanel gp) {
+        this.gp = gp;
+    }
 
     public BufferedImage setImage(String imagePath) {
 
