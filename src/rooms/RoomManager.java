@@ -30,7 +30,7 @@ public class RoomManager {
 
     public void setMaps() {
         rooms.put("ruins", new Room("ruins",this));
-        rooms.get("ruins").phase = "completed";
+        rooms.get("ruins").phase = "game beginning phase";
 
         rooms.put("castle", new Room("castle",this));
         rooms.put("sea", new Room("sea",this));
@@ -189,27 +189,59 @@ public class RoomManager {
         //RUINS
         rooms.get("ruins").addGameObject(new WoodenBox(gp), gp.squareSize * 10, gp.squareSize * 10);
         rooms.get("ruins").addGameObject(new Shop(gp), gp.squareSize * 9, (int)(gp.squareSize * 0.5));
-        rooms.get("ruins").addGameObject(new Door(gp, "ruins"), gp.squareSize * 11, gp.squareSize * 16);
-        rooms.get("ruins").addGameObject(new Door(gp, "ruins"), gp.squareSize * 12, gp.squareSize * 16);
-        rooms.get("ruins").addGameObject(new Door(gp, "ruins"), gp.squareSize * 13, gp.squareSize * 16);
+        rooms.get("ruins").addGameObject(new Door(gp, "ruins", "closed"), gp.squareSize * 11, gp.squareSize * 15);
+        rooms.get("ruins").addGameObject(new Door(gp, "ruins", "closed"), gp.squareSize * 12, gp.squareSize * 15);
+        rooms.get("ruins").addGameObject(new Door(gp, "ruins", "closed"), gp.squareSize * 13, gp.squareSize * 15);
+
         //CASTLE
+        rooms.get("castle").addGameObject(new Door(gp, "castle", "opened"), gp.squareSize * 11, gp.squareSize);
+        rooms.get("castle").addGameObject(new Door(gp, "castle", "opened"), gp.squareSize * 12, gp.squareSize);
+        rooms.get("castle").addGameObject(new Door(gp, "castle", "opened"), gp.squareSize * 13, gp.squareSize);
+        rooms.get("castle").addGameObject(new Door(gp, "castle", "closed"), gp.squareSize * 23, gp.squareSize * 7);
+        rooms.get("castle").addGameObject(new Door(gp, "castle", "closed"), gp.squareSize * 23, gp.squareSize * 8);
+        rooms.get("castle").addGameObject(new Door(gp, "castle", "closed"), gp.squareSize * 23, gp.squareSize * 9);
+        rooms.get("castle").addGameObject(new Door(gp, "swamp", "closed"), gp.squareSize, gp.squareSize * 7);
+        rooms.get("castle").addGameObject(new Door(gp, "swamp", "closed"), gp.squareSize, gp.squareSize * 8);
+        rooms.get("castle").addGameObject(new Door(gp, "swamp", "closed"), gp.squareSize, gp.squareSize * 9);
+
         //SEA
+        rooms.get("sea").addGameObject(new Door(gp, "sea", "opened"), gp.squareSize, gp.squareSize * 7);
+        rooms.get("sea").addGameObject(new Door(gp, "sea", "opened"), gp.squareSize, gp.squareSize * 8);
+        rooms.get("sea").addGameObject(new Door(gp, "sea", "opened"), gp.squareSize, gp.squareSize * 9);
+        rooms.get("sea").addGameObject(new Door(gp, "sea", "closed"), gp.squareSize * 11, gp.squareSize);
+        rooms.get("sea").addGameObject(new Door(gp, "sea", "closed"), gp.squareSize * 12, gp.squareSize);
+        rooms.get("sea").addGameObject(new Door(gp, "sea", "closed"), gp.squareSize * 13, gp.squareSize);
+
         //SWAMP
+        rooms.get("swamp").addGameObject(new Door(gp, "swamp", "opened"), gp.squareSize * 11, gp.squareSize * 15);
+        rooms.get("swamp").addGameObject(new Door(gp, "swamp", "opened"), gp.squareSize * 12, gp.squareSize * 15);
+        rooms.get("swamp").addGameObject(new Door(gp, "swamp", "opened"), gp.squareSize * 13, gp.squareSize * 15);
+
         //CAVE
         for (int i = gp.squareSize * 4; i < gp.squareSize * 21; i+= gp.squareSize * 8) {
             rooms.get("cave").addGameObject(new Torch(gp, "torch_block"), i, gp.squareSize * 3 + 24);
             rooms.get("cave").addGameObject(new Torch(gp, "torch_block"), i, gp.squareSize * 12 + 8);
         }
+        rooms.get("cave").addGameObject(new Door(gp, "cave", "opened"), gp.squareSize * 23, gp.squareSize * 7);
+        rooms.get("cave").addGameObject(new Door(gp, "cave", "opened"), gp.squareSize * 23, gp.squareSize * 8);
+        rooms.get("cave").addGameObject(new Door(gp, "cave", "opened"), gp.squareSize * 23, gp.squareSize * 9);
+        rooms.get("cave").addGameObject(new Door(gp, "cave", "closed"), gp.squareSize * 11, gp.squareSize);
+        rooms.get("cave").addGameObject(new Door(gp, "cave", "closed"), gp.squareSize * 12, gp.squareSize);
+        rooms.get("cave").addGameObject(new Door(gp, "cave", "closed"), gp.squareSize * 13, gp.squareSize);
+
         //DUNGEON
         rooms.get("dungeon").addGameObject(new Torch(gp, "torch_left"), gp.squareSize * 11, gp.squareSize * 15);
         rooms.get("dungeon").addGameObject(new Torch(gp, "torch_right"), gp.squareSize * 13, gp.squareSize * 15);
+        rooms.get("dungeon").addGameObject(new Door(gp, "dungeon", "opened"), gp.squareSize * 11, gp.squareSize * 15);
+        rooms.get("dungeon").addGameObject(new Door(gp, "dungeon", "opened"), gp.squareSize * 12, gp.squareSize * 15);
+        rooms.get("dungeon").addGameObject(new Door(gp, "dungeon", "opened"), gp.squareSize * 13, gp.squareSize * 15);
     }
 
     public void setEnemies() {
         rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, 18, 11));
-        rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, 4, 11));
-        rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, 9, 11));
-        rooms.get("castle").addEnemiesData(new EnemyWithFangs(gp, 18, 6));
-        rooms.get("castle").addEnemiesData(new EnemyWithFangs(gp, 4, 6));
+        rooms.get("sea").addEnemiesData(new EnemyWithPistol(gp, 4, 11));
+        rooms.get("swamp").addEnemiesData(new EnemyWithPistol(gp, 9, 11));
+        rooms.get("cave").addEnemiesData(new EnemyWithFangs(gp, 18, 6));
+        rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, 4, 6));
     }
 }

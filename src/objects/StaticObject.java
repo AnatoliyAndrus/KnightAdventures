@@ -29,6 +29,7 @@ public class StaticObject extends GameObject {
     public int interactingFrames = 0;
 
     public String relatedRoom;
+    public boolean unlocked;
 
     public StaticObject(GamePanel gp, String name) {
         super(gp);
@@ -63,7 +64,7 @@ public class StaticObject extends GameObject {
                 if(imageNum == images.size()) imageNum = 0;
             }
         }
-        //ANIMATION ONCE
+        //ONE ANIMATION CYCLE
         else if(isAnimated == ANIMATION_ONCE) {
             if(imageNum < 0 || changing) {
                 imageNum = 0;
@@ -76,6 +77,7 @@ public class StaticObject extends GameObject {
                 imageNum++;
                 if(imageNum == images.size()) {
                     setAnimation(NO_ANIMATION);
+                    imageNum = -1;
                 }
             }
         }
@@ -92,6 +94,8 @@ public class StaticObject extends GameObject {
                 imageNum--;
                 if(imageNum == 0) {
                     setAnimation(NO_ANIMATION);
+                    if(name.equals("door")) collision = false;
+                    imageNum = -1;
                 }
             }
         }

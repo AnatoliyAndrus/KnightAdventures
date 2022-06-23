@@ -160,23 +160,26 @@ public class GamePanel extends JPanel implements Runnable{
             //ROOM FLOOR
             roomManager.drawFirstPart(g2d);
 
-            //ROOM SHADOWS AND TOP LAYER
-            roomManager.drawShadows(g2d);
-            roomManager.drawFirstLayer(g2d);
-            //ROOM FINAL BOTTOM LAYER
-            roomManager.drawFinalLayer(g2d);
-
-            //STATIC OBJECTS SHADOWS
-            for (StaticObject obj : roomManager.currentRoom.staticObjects) {
-                if (obj != null && obj.collision) obj.shadow(g2d);
-            }
-
             //STATIC OBJECTS WITH NO COLLISION
             for (StaticObject obj : roomManager.currentRoom.staticObjects) {
                 if (obj != null && !obj.collision) {
                     obj.draw(g2d);
                 }
             }
+
+            //STATIC OBJECTS WITH COLLISION SHADOWS
+            for (StaticObject obj : roomManager.currentRoom.staticObjects) {
+                if (obj != null && obj.collision) obj.shadow(g2d);
+            }
+
+            //ROOM SHADOWS AND TOP LAYER
+            roomManager.drawShadows(g2d);
+
+            //ROOM FIRST LAYER
+            roomManager.drawFirstLayer(g2d);
+
+            //ROOM FINAL BOTTOM LAYER
+            roomManager.drawFinalLayer(g2d);
 
             //BULLETS
             if(bullets.size() > 0) {

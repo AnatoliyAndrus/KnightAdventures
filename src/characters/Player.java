@@ -42,7 +42,7 @@ public class Player extends Character {
     public void setDefaultParameters() {
         screenX = gp.squareSize * (gp.maxCols - 3) / 2;
         screenY = gp.squareSize * (gp.maxRows - 3) / 2;
-        speed = gp.FPS/5;
+        speed = gp.FPS/20;
 
         // COLLISION SQUARE OF THE PLAYER
         areaOfCollision = new Rectangle(8, 24, 32, 24);
@@ -209,6 +209,9 @@ public class Player extends Character {
                     interactedObject = "shop";
                     //ADD DOTA SOUND
                     int phrase = (int) (Math.random() * 3) + 1;
+                    if(gp.roomManager.currentRoom.phase.equals("game beginning phase")) {
+                        gp.roomManager.currentRoom.phase = "completed";
+                    }
 
                     switch (phrase){
                         case 1 -> {

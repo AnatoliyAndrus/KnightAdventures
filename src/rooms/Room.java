@@ -34,6 +34,7 @@ public class Room {
 
     public boolean playerEntered;
     public String phase = "initial";
+    public boolean changingPhase;
 
     public Room(String name, RoomManager sq) {
 
@@ -126,48 +127,47 @@ public class Room {
     }
 
     public void update() {
-        System.out.println(this.name + " " + this.phase + " entr " + playerEntered);
+        playerEntered = checkEntrance();
 
-        if (!playerEntered) playerEntered = checkEntrance();
         switch (phase) {
-            case "initial" -> {}
+            case "initial" -> {
+                if (playerEntered && (!name.equals("dungeon") || sq.gp.player.hasTorch)) {
+                    changingPhase = true;
+                    phase = "in progress";
+                }
+            }
             case "in progress" -> {
-                if (enemies.size() == 0) {
+                if (enemies.size() == 0 && changingPhase) {
                     setEnemiesInRoom();
                     for (StaticObject staticObject: staticObjects) {
-                        if (staticObject.name.equals("door")) {
+                        if (staticObject.name.equals("door") && !staticObject.collision) {
                             staticObject.setAnimation(StaticObject.ANIMATION_ONCE);
                             staticObject.collision = true;
                             staticObject.noAnimation = staticObject.images.get(staticObject.images.size() - 1);
                         }
                     }
+                    changingPhase = false;
+                }
+                if (enemies.size() == 0) {
+                    phase = "completed";
                 }
             }
             case "completed" -> {
-                for (StaticObject staticObject: staticObjects) {
-                    if (staticObject.name.equals("door") && sq.rooms.get(staticObject.relatedRoom).phase.equals("completed")) {
+                for (StaticObject staticObject : staticObjects) {
+                    if (staticObject.name.equals("door") && sq.rooms.get(staticObject.relatedRoom).phase.equals("completed") && !staticObject.unlocked) {
                         staticObject.setAnimation(StaticObject.ANIMATION_ONCE_REVERSE);
-                        staticObject.collision = false;
                         staticObject.noAnimation = staticObject.images.get(0);
+                        staticObject.unlocked = true;
                     }
                 }
             }
         }
 
-        checkProgress();
     }
 
     public boolean checkEntrance() {
         return (sq.gp.player.screenX > sq.gp.squareSize * 2 && sq.gp.player.screenX < sq.gp.maxScreenWidth - sq.gp.squareSize * 3
                 && sq.gp.player.screenY > sq.gp.squareSize * 2 && sq.gp.player.screenY < sq.gp.maxScreenHeight - sq.gp.squareSize * 3);
-    }
-
-    public void checkProgress() {
-        if (phase.equals("initial") && playerEntered) {
-            phase = "in progress";
-        } else if (enemies.size() == 0 && phase.equals("in progress")) {
-            phase = "completed";
-        }
     }
 
     public void setEnemiesInRoom() {
