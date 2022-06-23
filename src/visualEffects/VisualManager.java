@@ -24,8 +24,8 @@ public class VisualManager {
         caveLightArea.addLightCircle(12 * gp.squareSize + 24, 4 * gp.squareSize, 190);
 
         dungeonLightArea = new LightArea(gp, true);
-        dungeonLightArea.addLightCircle(11 * gp.squareSize + 5, 15 * gp.squareSize + 24, 67);
-        dungeonLightArea.addLightCircle(14 * gp.squareSize - 5, 15 * gp.squareSize + 24, 67);
+        dungeonLightArea.addLightCircle(11 * gp.squareSize + 5, 14 * gp.squareSize + 24, 67);
+        dungeonLightArea.addLightCircle(14 * gp.squareSize - 5, 14 * gp.squareSize + 24, 67);
     }
 
     public void draw(Graphics2D g2d) {

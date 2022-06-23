@@ -26,6 +26,8 @@ public class Bullet {
     public int initialY;
     public int finalX;
     public int finalY;
+    double deltaX;
+    double deltaY;
 
     public double screenX;
     public double screenY;
@@ -35,6 +37,7 @@ public class Bullet {
     public String direction;
 
     public boolean shooterIsPlayer;
+    boolean changedPlayerDir;
 
     public Bullet(GamePanel gp, String imgName,
                   int defaultCollisionAreaX,
@@ -83,22 +86,38 @@ public class Bullet {
             case "upLeft" -> {
                 screenX -= speedX;
                 screenY -= speedY;
-                if(shooterIsPlayer) gp.player.direction = "left";
+                if(shooterIsPlayer && !changedPlayerDir) {
+                    if(lookingUpOrDown()) gp.player.direction = "up";
+                    else gp.player.direction = "left";
+                    changePlayerDirection();
+                }
             }
             case "upRight" -> {
                 screenX += speedX;
                 screenY -= speedY;
-                if(shooterIsPlayer) gp.player.direction = "right";
+                if(shooterIsPlayer && !changedPlayerDir) {
+                    if(lookingUpOrDown()) gp.player.direction = "up";
+                    else gp.player.direction = "right";
+                    changePlayerDirection();
+                }
             }
             case "downLeft" -> {
                 screenX -= speedX;
                 screenY += speedY;
-                if(shooterIsPlayer) gp.player.direction = "left";
+                if(shooterIsPlayer && !changedPlayerDir) {
+                    if(lookingUpOrDown()) gp.player.direction = "down";
+                    else gp.player.direction = "left";
+                    changePlayerDirection();
+                }
             }
             case "downRight" -> {
                 screenX += speedX;
                 screenY += speedY;
-                if(shooterIsPlayer) gp.player.direction = "right";
+                if(shooterIsPlayer && !changedPlayerDir) {
+                    if(lookingUpOrDown()) gp.player.direction = "down";
+                    else gp.player.direction = "right";
+                    changePlayerDirection();
+                }
             }
         }
 
@@ -119,8 +138,8 @@ public class Bullet {
 
     }
     private void setDefaultValues() {
-        double deltaX = finalX - initialX;
-        double deltaY = finalY - initialY;
+        deltaX = finalX - initialX;
+        deltaY = finalY - initialY;
 
         if (deltaX > 0 && deltaY > 0) {
             direction = "downRight";
@@ -153,6 +172,14 @@ public class Bullet {
             speedX = Math.sqrt(Math.pow(speed, 2) / (1 + Math.pow(proportion, 2)));
             speedY = speedX * proportion;
         }
+    }
+    private void changePlayerDirection() {
+        gp.player.lastBulletDirection = gp.player.direction;
+        gp.player.lastBulletFrames = 6;
+        changedPlayerDir = true;
+    }
+    private boolean lookingUpOrDown() {
+        return (Math.abs(deltaY) >= Math.abs(deltaX) && proportion >= 2);
     }
 }
 

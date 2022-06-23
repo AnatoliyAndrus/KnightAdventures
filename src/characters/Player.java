@@ -18,6 +18,11 @@ public class Player extends Character {
 
     int standFrames = 0;
 
+    public boolean scriptsAreActive;
+
+    public String lastBulletDirection;
+    public int lastBulletFrames = 0;
+
     public boolean hasTorch;
 
     public boolean isInvincible;
@@ -83,6 +88,8 @@ public class Player extends Character {
     @Override
     public void update() {
 
+        scriptsAreActive = checkForActiveScripts();
+
         //PLAYER MOVES
         if(keyR.up || keyR.down || keyR.left || keyR.right) {
 
@@ -118,6 +125,22 @@ public class Player extends Character {
             // CHECK COLLISION WITH ENEMIES
             gp.colViewer.checkCharacterCollision(this, true);
 
+            //STOPPING PLAYER DURING DOORS ANIMATION
+            if(scriptsAreActive) {
+                collisionOnX = true;
+                collisionOnY = true;
+                direction = "down";
+                imageNum = 0;
+                lastBulletFrames = 0;
+            } else {
+                updateImage();
+
+                if(lastBulletFrames > 0) {
+                    lastBulletFrames--;
+                    direction = lastBulletDirection;
+                }
+            }
+
             //HORIZONTAL MOVEMENT
             if (!collisionOnX) {
                 if (keyR.left) {
@@ -144,26 +167,24 @@ public class Player extends Character {
                 gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.downRoom.name);
                 screenY = 0;
             }
-            if(screenY < 0) {
+            else if(screenY < 0) {
                 gp.bullets = new ArrayList<>();
                 resetObjectsTimers();
-                screenY = gp.squareSize*(gp.maxRows - 3);
+                screenY = gp.squareSize * (gp.maxRows - 3);
                 gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.upRoom.name);
             }
-            if(screenX < 0) {
+            else if(screenX < 0) {
                 gp.bullets = new ArrayList<>();
                 resetObjectsTimers();
                 screenX = gp.squareSize * (gp.maxCols - 3);
                 gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.leftRoom.name);
             }
-            if(screenX > gp.squareSize * (gp.maxCols - 3)) {
+            else if(screenX > gp.squareSize * (gp.maxCols - 3)) {
                 gp.bullets = new ArrayList<>();
                 resetObjectsTimers();
                 screenX = 0;
                 gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.rightRoom.name);
             }
-
-            updateImage();
 
             speed = tmpSpeed;
         }
@@ -209,8 +230,9 @@ public class Player extends Character {
                     interactedObject = "shop";
                     //ADD DOTA SOUND
                     int phrase = (int) (Math.random() * 3) + 1;
-                    if(gp.roomManager.currentRoom.phase.equals("game beginning phase")) {
+                    if(gp.roomManager.currentRoom.phase.equals("ruins unique phase")) {
                         gp.roomManager.currentRoom.phase = "completed";
+                        gp.roomManager.currentRoom.changingPhase = true;
                     }
 
                     switch (phrase){
@@ -277,5 +299,9 @@ public class Player extends Character {
         if (HP == 0){
             System.exit(0);
         }
+    }
+
+    private boolean checkForActiveScripts() {
+        return (gp.roomManager.currentRoom.doorsOpeningNow > 0) || (gp.roomManager.currentRoom.doorsClosingNow > 0) ;
     }
 }

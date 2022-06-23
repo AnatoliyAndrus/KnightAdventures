@@ -43,7 +43,7 @@ public class EnemyWithPistol extends Character{
         defaultCollisionAreaX = 8;
         defaultCollisionAreaY = 15;
 
-        maxHP = 10;
+        maxHP = 1;
         HP = maxHP;
         name = "alien";
     }

@@ -130,13 +130,11 @@ public class CollisionViewer {
                  ch.areaOfCollision.y -= ch.speed;
 
                  if (ch.areaOfCollision.intersects(gp.roomManager.currentRoom.staticObjects.get(i).areaOfCollision)) {
-                     if (gp.roomManager.currentRoom.staticObjects.get(i).collision ||
-                             (!player && gp.roomManager.currentRoom.staticObjects.get(i).name.equals("door"))) {
+                     if (gp.roomManager.currentRoom.staticObjects.get(i).collision) {
                          ch.collisionOnY = true;
                      }
 
-                     if (player && !gp.roomManager.currentRoom.staticObjects.get(i).isInteracted &&
-                             !gp.roomManager.currentRoom.staticObjects.get(i).name.equals("door")) index = i;
+                     if (player && !gp.roomManager.currentRoom.staticObjects.get(i).isInteracted) index = i;
                  }
 
                  ch.areaOfCollision.y += ch.speed;
@@ -145,13 +143,11 @@ public class CollisionViewer {
                  ch.areaOfCollision.y += ch.speed;
 
                  if (ch.areaOfCollision.intersects(gp.roomManager.currentRoom.staticObjects.get(i).areaOfCollision)) {
-                     if (gp.roomManager.currentRoom.staticObjects.get(i).collision ||
-                             (!player && gp.roomManager.currentRoom.staticObjects.get(i).name.equals("door"))) {
+                     if (gp.roomManager.currentRoom.staticObjects.get(i).collision) {
                          ch.collisionOnY = true;
                      }
 
-                     if (player && !gp.roomManager.currentRoom.staticObjects.get(i).isInteracted &&
-                             !gp.roomManager.currentRoom.staticObjects.get(i).name.equals("door")) index = i;
+                     if (player && !gp.roomManager.currentRoom.staticObjects.get(i).isInteracted) index = i;
                  }
 
                  ch.areaOfCollision.y -= ch.speed;
@@ -160,26 +156,22 @@ public class CollisionViewer {
                  ch.areaOfCollision.x -= ch.speed;
 
                  if (ch.areaOfCollision.intersects(gp.roomManager.currentRoom.staticObjects.get(i).areaOfCollision)) {
-                     if (gp.roomManager.currentRoom.staticObjects.get(i).collision ||
-                             (!player && gp.roomManager.currentRoom.staticObjects.get(i).name.equals("door"))) {
+                     if (gp.roomManager.currentRoom.staticObjects.get(i).collision) {
                          ch.collisionOnX = true;
                      }
 
-                     if (player && !gp.roomManager.currentRoom.staticObjects.get(i).isInteracted &&
-                             !gp.roomManager.currentRoom.staticObjects.get(i).name.equals("door")) index = i;
+                     if (player && !gp.roomManager.currentRoom.staticObjects.get(i).isInteracted) index = i;
                  }
              }
              if (gp.keyR.right || ch.direction.equals("right")) {
                  ch.areaOfCollision.x += ch.speed;
 
                  if (ch.areaOfCollision.intersects(gp.roomManager.currentRoom.staticObjects.get(i).areaOfCollision)) {
-                     if (gp.roomManager.currentRoom.staticObjects.get(i).collision ||
-                             (!player && gp.roomManager.currentRoom.staticObjects.get(i).name.equals("door"))) {
+                     if (gp.roomManager.currentRoom.staticObjects.get(i).collision) {
                          ch.collisionOnX = true;
                      }
 
-                     if (player && !gp.roomManager.currentRoom.staticObjects.get(i).isInteracted &&
-                             !gp.roomManager.currentRoom.staticObjects.get(i).name.equals("door")) index = i;
+                     if (player && !gp.roomManager.currentRoom.staticObjects.get(i).isInteracted) index = i;
                  }
              }
 

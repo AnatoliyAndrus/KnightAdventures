@@ -45,7 +45,7 @@ public class EnemyWithFangs extends Character{
         defaultCollisionAreaX = 8;
         defaultCollisionAreaY = 15;
 
-        maxHP = 8;
+        maxHP = 1;
         HP = maxHP;
         name = "enemyWithFangs";
     }

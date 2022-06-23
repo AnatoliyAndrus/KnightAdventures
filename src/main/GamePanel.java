@@ -160,14 +160,15 @@ public class GamePanel extends JPanel implements Runnable{
             //ROOM FLOOR
             roomManager.drawFirstPart(g2d);
 
-            //STATIC OBJECTS WITH NO COLLISION
+            //STATIC OBJECTS WITH NO COLLISION (w/o opened doors)
             for (StaticObject obj : roomManager.currentRoom.staticObjects) {
-                if (obj != null && !obj.collision) {
+                if (obj != null && !obj.collision && !((obj.name.equals("door_horizontal") || obj.name.equals("door_vertical")) &&
+                        obj.animation == StaticObject.ANIMATION_ONCE)) {
                     obj.draw(g2d);
                 }
             }
 
-            //STATIC OBJECTS WITH COLLISION SHADOWS
+            //STATIC OBJECTS SHADOWS
             for (StaticObject obj : roomManager.currentRoom.staticObjects) {
                 if (obj != null && obj.collision) obj.shadow(g2d);
             }
@@ -192,7 +193,9 @@ public class GamePanel extends JPanel implements Runnable{
             gameObjectsList.add(player);
 
             for (StaticObject obj : roomManager.currentRoom.staticObjects) {
-                if (obj != null && obj.collision) {
+                if (obj != null && (obj.collision ||
+                        ((obj.name.equals("door_horizontal") || obj.name.equals("door_vertical")) &&
+                                obj.animation == StaticObject.ANIMATION_ONCE))) {
                     gameObjectsList.add(obj);
                 }
             }

@@ -1,7 +1,6 @@
 package rooms;
 
 import characters.Character;
-import objects.Door;
 import objects.StaticObject;
 
 import javax.imageio.ImageIO;
@@ -35,6 +34,10 @@ public class Room {
     public boolean playerEntered;
     public String phase = "initial";
     public boolean changingPhase;
+    public boolean enemiesSpawned;
+
+    public int doorsOpeningNow = 0;
+    public int doorsClosingNow = 0;
 
     public Room(String name, RoomManager sq) {
 
@@ -138,26 +141,85 @@ public class Room {
             }
             case "in progress" -> {
                 if (enemies.size() == 0 && changingPhase) {
-                    setEnemiesInRoom();
                     for (StaticObject staticObject: staticObjects) {
-                        if (staticObject.name.equals("door") && !staticObject.collision) {
+                        if ((staticObject.name.equals("door_horizontal") || staticObject.name.equals("door_vertical")) && !staticObject.collision) {
                             staticObject.setAnimation(StaticObject.ANIMATION_ONCE);
-                            staticObject.collision = true;
                             staticObject.noAnimation = staticObject.images.get(staticObject.images.size() - 1);
+                            doorsClosingNow++;
                         }
                     }
+                    sq.gp.playSound(11);
+
                     changingPhase = false;
                 }
-                if (enemies.size() == 0) {
+                if (enemies.size() == 0 && enemiesSpawned) {
+                    changingPhase = true;
                     phase = "completed";
                 }
             }
             case "completed" -> {
-                for (StaticObject staticObject : staticObjects) {
-                    if (staticObject.name.equals("door") && sq.rooms.get(staticObject.relatedRoom).phase.equals("completed") && !staticObject.unlocked) {
-                        staticObject.setAnimation(StaticObject.ANIMATION_ONCE_REVERSE);
-                        staticObject.noAnimation = staticObject.images.get(0);
-                        staticObject.unlocked = true;
+                if(changingPhase && playerEntered) {
+                    boolean allDoorsUnlocked = true;
+                    boolean doorsOpening = false;
+                    for (StaticObject staticObject : staticObjects) {
+                        if ((staticObject.name.equals("door_horizontal") || staticObject.name.equals("door_vertical")) &&
+                                sq.rooms.get(staticObject.relatedRoom).phase.equals("completed") &&
+                                !staticObject.unlocked && !sq.gp.player.hasTorch) {
+                            staticObject.setAnimation(StaticObject.ANIMATION_ONCE_REVERSE);
+                            staticObject.noAnimation = staticObject.images.get(0);
+                            staticObject.unlocked = true;
+                            doorsOpening = true;
+                            doorsOpeningNow++;
+                        }
+                        if ((staticObject.name.equals("door_horizontal") || staticObject.name.equals("door_vertical")) && !staticObject.unlocked) {
+                            allDoorsUnlocked = false;
+                        }
+                    }
+                    if(doorsOpening) {
+                        sq.gp.playSound(11);
+                    }
+                    if(allDoorsUnlocked){
+                        changingPhase = false;
+                    }
+                }
+                if(!changingPhase) {
+                    switch (name) {
+                        case "ruins" -> {}
+                        case "castle" -> {}
+                        case "sea" -> {}
+                        case "swamp" -> {}
+                        case "cave" -> {}
+                        case "dungeon" -> {
+                            if (sq.gp.player.hasTorch) {
+                                boolean doorsClosing = false;
+                                for (StaticObject staticObject : staticObjects) {
+                                    if ((staticObject.name.equals("door_horizontal") || staticObject.name.equals("door_vertical")) &&
+                                            !staticObject.collision && staticObject.animation != StaticObject.ANIMATION_ONCE) {
+                                        staticObject.setAnimation(StaticObject.ANIMATION_ONCE);
+                                        staticObject.noAnimation = staticObject.images.get(staticObject.images.size() - 1);
+                                        doorsClosing = true;
+                                        doorsClosingNow++;
+                                    }
+                                }
+                                if(doorsClosing) {
+                                    sq.gp.playSound(11);
+                                }
+                            } else {
+                                boolean doorsOpening = false;
+                                for (StaticObject staticObject : staticObjects) {
+                                    if ((staticObject.name.equals("door_horizontal") || staticObject.name.equals("door_vertical")) &&
+                                            staticObject.collision && staticObject.animation != StaticObject.ANIMATION_ONCE_REVERSE) {
+                                        staticObject.setAnimation(StaticObject.ANIMATION_ONCE_REVERSE);
+                                        staticObject.noAnimation = staticObject.images.get(0);
+                                        doorsOpening = true;
+                                        doorsOpeningNow++;
+                                    }
+                                }
+                                if(doorsOpening) {
+                                    sq.gp.playSound(11);
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -166,11 +228,12 @@ public class Room {
     }
 
     public boolean checkEntrance() {
-        return (sq.gp.player.screenX > sq.gp.squareSize * 2 && sq.gp.player.screenX < sq.gp.maxScreenWidth - sq.gp.squareSize * 3
-                && sq.gp.player.screenY > sq.gp.squareSize * 2 && sq.gp.player.screenY < sq.gp.maxScreenHeight - sq.gp.squareSize * 3);
+        return (sq.gp.player.screenX >= sq.gp.squareSize * 2 - 8 && sq.gp.player.screenX <= sq.gp.maxScreenWidth - sq.gp.squareSize * 3 + 8
+                && sq.gp.player.screenY >= sq.gp.squareSize * 2 - 24 && sq.gp.player.screenY <= sq.gp.maxScreenHeight - sq.gp.squareSize * 3);
     }
 
     public void setEnemiesInRoom() {
         enemies.addAll(enemiesData);
+        enemiesSpawned = true;
     }
 }

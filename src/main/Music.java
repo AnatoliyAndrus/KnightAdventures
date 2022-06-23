@@ -12,17 +12,18 @@ public class Music {
     public long currentSecond;
 
     public Music() {
-        soundFiles[0] = new File("resources/sound/mainTrack.wav");
-        soundFiles[1] = new File("resources/sound/player_single_shot.wav");
-        soundFiles[2] = new File("resources/sound/alien_single_shot.wav");
-        soundFiles[3] = new File("resources/sound/welcome.wav");
-        soundFiles[4] = new File("resources/sound/what_buying.wav");
-        soundFiles[5] = new File("resources/sound/hoho_foundme.wav");
-        soundFiles[6] = new File("resources/sound/enemy_claw_hit.wav");
-        soundFiles[7] = new File("resources/sound/patron_shell.wav");
-        soundFiles[8] = new File("resources/sound/claw_enemy_hitted.wav");
-        soundFiles[9] = new File("resources/sound/alien_hitted.wav");
-        soundFiles[10] = new File("resources/sound/player_hitted.wav");
+        soundFiles[0] = new File("resources/sound/musics/mainTrack.wav");
+        soundFiles[1] = new File("resources/sound/attacks/player_single_shot.wav");
+        soundFiles[2] = new File("resources/sound/attacks/alien_single_shot.wav");
+        soundFiles[3] = new File("resources/sound/shop/welcome.wav");
+        soundFiles[4] = new File("resources/sound/shop/what_buying.wav");
+        soundFiles[5] = new File("resources/sound/shop/hoho_foundme.wav");
+        soundFiles[6] = new File("resources/sound/attacks/enemy_claw_hit.wav");
+        soundFiles[7] = new File("resources/sound/attacks/patron_shell.wav");
+        soundFiles[8] = new File("resources/sound/attacks/claw_enemy_hitted.wav");
+        soundFiles[9] = new File("resources/sound/attacks/alien_hitted.wav");
+        soundFiles[10] = new File("resources/sound/attacks/player_hitted.wav");
+        soundFiles[11] = new File("resources/sound/door/door_opens.wav");
     }
 
     public void setClip(int index) {

@@ -29,7 +29,7 @@ public class LightArea {
 
         lightArea = new Area(new Rectangle2D.Double(0,0,gp.maxScreenWidth,gp.maxScreenHeight));
 
-        float f = dungeon ? 0.96f : 0.85f;
+        float f = dungeon ? 0.97f : 0.85f;
 
         colors[0] = new Color(0,0,0,0f);
         colors[1] = new Color(0,0,0,0.25f);

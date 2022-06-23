@@ -21,7 +21,7 @@ public class StaticObject extends GameObject {
 
     public ArrayList<BufferedImage> images;
     public BufferedImage noAnimation;
-    public int isAnimated;
+    public int animation;
     public int framesToChangeSprite;
 
     public boolean collision;
@@ -50,11 +50,11 @@ public class StaticObject extends GameObject {
 
     @Override
     public void update() {
-        if (isAnimated == NO_ANIMATION){
+        if (animation == NO_ANIMATION){
             imageNum = -1;
         }
         //CONTINUOUS ANIMATION
-        else if(isAnimated == ANIMATION_CONTINUOUSLY) {
+        else if(animation == ANIMATION_CONTINUOUSLY) {
             if(imageNum < 0) imageNum = 0;
 
             imageFrames++;
@@ -65,7 +65,7 @@ public class StaticObject extends GameObject {
             }
         }
         //ONE ANIMATION CYCLE
-        else if(isAnimated == ANIMATION_ONCE) {
+        else if(animation == ANIMATION_ONCE) {
             if(imageNum < 0 || changing) {
                 imageNum = 0;
                 changing = false;
@@ -75,14 +75,21 @@ public class StaticObject extends GameObject {
             if(imageFrames == framesToChangeSprite) {
                 imageFrames = 0;
                 imageNum++;
-                if(imageNum == images.size()) {
+                if(imageNum == images.size() - 1) {
                     setAnimation(NO_ANIMATION);
+                    if((name.equals("door_horizontal") || name.equals("door_vertical"))) {
+                        collision = true;
+                        gp.roomManager.currentRoom.doorsClosingNow--;
+                        if(!gp.roomManager.currentRoom.enemiesSpawned) {
+                            gp.roomManager.currentRoom.setEnemiesInRoom();
+                        }
+                    }
                     imageNum = -1;
                 }
             }
         }
         //ONE REVERSE ANIMATION CYCLE
-        else if(isAnimated == ANIMATION_ONCE_REVERSE) {
+        else if(animation == ANIMATION_ONCE_REVERSE) {
             if(imageNum < 0 || changing) {
                 imageNum = images.size() - 1;
                 changing = false;
@@ -94,7 +101,10 @@ public class StaticObject extends GameObject {
                 imageNum--;
                 if(imageNum == 0) {
                     setAnimation(NO_ANIMATION);
-                    if(name.equals("door")) collision = false;
+                    if((name.equals("door_horizontal") || name.equals("door_vertical"))) {
+                        collision = false;
+                        gp.roomManager.currentRoom.doorsOpeningNow--;
+                    }
                     imageNum = -1;
                 }
             }
@@ -117,7 +127,7 @@ public class StaticObject extends GameObject {
     }
 
     public void setAnimation(int animationType) {
-        this.isAnimated = animationType;
+        this.animation = animationType;
         if (animationType == ANIMATION_ONCE || animationType == ANIMATION_ONCE_REVERSE) {
             changing = true;
         }

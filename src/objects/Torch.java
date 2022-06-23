@@ -30,8 +30,8 @@ public class Torch extends StaticObject {
                 noAnimation = setImage("objects/torch_left/torch_left_noAnimation");
 
                 defaultCollisionAreaX = 0;
-                defaultCollisionAreaY = 8;
-                areaOfCollision = new Rectangle(0, 8, 144, 40);
+                defaultCollisionAreaY = -17;
+                areaOfCollision = new Rectangle(0, 8, 144, 42);
             }
             case "torch_right" -> {
                 this.collision = false;
@@ -41,12 +41,12 @@ public class Torch extends StaticObject {
                 noAnimation = setImage("objects/torch_right/torch_right_noAnimation");
 
                 defaultCollisionAreaX = -96;
-                defaultCollisionAreaY = 8;
-                areaOfCollision = new Rectangle(-96, 8, 144, 40);
+                defaultCollisionAreaY = -17;
+                areaOfCollision = new Rectangle(-96, 8, 144, 42);
             }
         }
 
-        isAnimated = StaticObject.ANIMATION_CONTINUOUSLY;
+        animation = StaticObject.ANIMATION_CONTINUOUSLY;
         framesToChangeSprite = 10;
     }
 
