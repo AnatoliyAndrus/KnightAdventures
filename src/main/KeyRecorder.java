@@ -1,5 +1,7 @@
 package main;
 
+import objects.StaticObject;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -65,6 +67,37 @@ public class KeyRecorder implements KeyListener {
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 gp.currentState = gp.pauseState;
 //                gp.pauseMusic();
+            }
+            //F INTERACTIONS
+            if (e.getKeyCode() == KeyEvent.VK_F) {
+                switch (gp.player.interactedObjectName) {
+                    case "shop" -> {
+                        if(gp.roomManager.currentRoom.phase.equals("ruins unique phase")) {
+                            gp.roomManager.currentRoom.phase = "completed";
+                            gp.roomManager.currentRoom.changingPhase = true;
+                        }
+                    }
+                    case "dungeonTorches" -> {
+                        if(gp.roomManager.currentRoom.name.equals("dungeon") &&
+                                !gp.roomManager.currentRoom.staticObjects.get(0).isInteracted &&
+                                !gp.roomManager.currentRoom.staticObjects.get(1).isInteracted) {
+                            gp.roomManager.currentRoom.staticObjects.get(0).interactingFrames = 150;
+                            gp.roomManager.currentRoom.staticObjects.get(1).interactingFrames = 150;
+
+                            if (!gp.player.hasTorch) {
+                                gp.player.hasTorch = true;
+                                gp.player.setPlayerImages(true);
+                                gp.roomManager.currentRoom.staticObjects.get(0).setAnimation(StaticObject.NO_ANIMATION);
+                                gp.roomManager.currentRoom.staticObjects.get(1).setAnimation(StaticObject.NO_ANIMATION);
+                            } else {
+                                gp.player.hasTorch = false;
+                                gp.player.setPlayerImages(false);
+                                gp.roomManager.currentRoom.staticObjects.get(0).setAnimation(StaticObject.ANIMATION_CONTINUOUSLY);
+                                gp.roomManager.currentRoom.staticObjects.get(1).setAnimation(StaticObject.ANIMATION_CONTINUOUSLY);
+                            }
+                        }
+                    }
+                }
             }
         }
         //PAUSE

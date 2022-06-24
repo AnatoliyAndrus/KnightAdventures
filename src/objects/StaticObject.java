@@ -114,9 +114,11 @@ public class StaticObject extends GameObject {
         if (interactingFrames > 0) {
             interactingFrames--;
             isInteracted = true;
-        } else {
-            isInteracted = false;
-            gp.player.interactedObject = "";
+
+            if (interactingFrames == 0) {
+                isInteracted = false;
+                gp.player.interactedObjectName = "";
+            }
         }
     }
 
