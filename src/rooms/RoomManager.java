@@ -1,5 +1,6 @@
 package rooms;
 
+import characters.Boss;
 import characters.EnemyWithFangs;
 import characters.EnemyWithPistol;
 import main.GamePanel;
@@ -221,6 +222,10 @@ public class RoomManager {
         rooms.get("dungeon").addGameObject(new Torch(gp, "torch_left"), gp.squareSize * 11, gp.squareSize * 14);
         rooms.get("dungeon").addGameObject(new Torch(gp, "torch_right"), gp.squareSize * 13, gp.squareSize * 14);
         rooms.get("dungeon").addGameObject(new Door(gp, "dungeon", "opened", "door_horizontal"), gp.squareSize * 11, gp.squareSize * 14);
+
+        //FINAL MAP
+        rooms.get("finalMap").addGameObject(new WoodenBox(gp), gp.squareSize * 10, gp.squareSize * 10);
+        rooms.get("finalMap").addGameObject(new Door(gp, "finalMap", "opened", "door_horizontal"), gp.squareSize * 11, 0);
     }
 
     public void setEnemies() {
@@ -229,5 +234,6 @@ public class RoomManager {
         rooms.get("swamp").addEnemiesData(new EnemyWithPistol(gp, 9, 11));
         rooms.get("cave").addEnemiesData(new EnemyWithFangs(gp, 18, 6));
         rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, 4, 6));
+        rooms.get("finalMap").addEnemiesData(new Boss(gp));
     }
 }

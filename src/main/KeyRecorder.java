@@ -92,6 +92,11 @@ public class KeyRecorder implements KeyListener {
 
                         gp.player.interactedObjectName = "";
                     }
+                    case "woodenBox" -> {
+                        if(gp.roomManager.currentRoom.name.equals("finalMap")) {
+                            gp.roomManager.currentRoom.bossSpawned = true;
+                        }
+                    }
                 }
             }
         }

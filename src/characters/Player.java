@@ -292,8 +292,6 @@ public class Player extends Character {
 
     @Override
     public void receiveDamage() {
-
-        //ADD SOUNDS LATER + ANIMATIONS
         if(armor > 0){
             armor--;
         }

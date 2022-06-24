@@ -265,8 +265,6 @@ public class EnemyWithPistol extends Character{
 
     @Override
     public void receiveDamage() {
-
-        //ADD SOUNDS LATER + ANIMATIONS
         if(HP > 0) {
             HP--;
         }
@@ -275,5 +273,4 @@ public class EnemyWithPistol extends Character{
             isDead = true;
         }
     }
-
 }

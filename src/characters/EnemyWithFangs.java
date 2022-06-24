@@ -259,7 +259,6 @@ public class EnemyWithFangs extends Character{
         recover = true;
         speed = 1;
 
-        //ADD SOUNDS LATER + ANIMATIONS
         if(HP > 0) {
             HP --;
         }

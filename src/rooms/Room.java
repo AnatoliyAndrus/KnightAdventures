@@ -35,6 +35,7 @@ public class Room {
     public String phase = "initial";
     public boolean changingPhase;
     public boolean enemiesSpawned;
+    public boolean bossSpawned;
 
     public int doorsOpeningNow = 0;
     public int doorsClosingNow = 0;
@@ -139,9 +140,16 @@ public class Room {
 
         switch (phase) {
             case "initial" -> {
-                if (playerEntered && (!name.equals("dungeon") || sq.gp.player.hasTorch)) {
-                    changingPhase = true;
-                    phase = "in progress";
+                if (!name.equals("finalMap")) {
+                    if (playerEntered && (!name.equals("dungeon") || sq.gp.player.hasTorch)) {
+                        changingPhase = true;
+                        phase = "in progress";
+                    }
+                } else {
+                    if (playerEntered && bossSpawned) {
+                        changingPhase = true;
+                        phase = "in progress";
+                    }
                 }
             }
             case "in progress" -> {
