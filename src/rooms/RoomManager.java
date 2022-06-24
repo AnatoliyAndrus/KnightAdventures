@@ -39,6 +39,7 @@ public class RoomManager {
         rooms.get("swamp").isWaterRoom = true;
         rooms.put("cave", new Room("cave",this));
         rooms.put("dungeon", new Room("dungeon",this));
+        rooms.put("finalMap", new Room("finalMap",this));
 
         //NEIGHBOURS
         rooms.get("ruins").upRoom = null;
@@ -47,7 +48,7 @@ public class RoomManager {
         rooms.get("ruins").rightRoom = null;
 
         rooms.get("castle").upRoom = rooms.get("ruins");
-        rooms.get("castle").downRoom = null;
+        rooms.get("castle").downRoom = rooms.get("finalMap");
         rooms.get("castle").leftRoom = rooms.get("cave");
         rooms.get("castle").rightRoom = rooms.get("sea");
 
@@ -70,6 +71,11 @@ public class RoomManager {
         rooms.get("dungeon").downRoom = rooms.get("cave");
         rooms.get("dungeon").leftRoom = null;
         rooms.get("dungeon").rightRoom = null;
+
+        rooms.get("finalMap").upRoom = rooms.get("castle");
+        rooms.get("finalMap").downRoom = null;
+        rooms.get("finalMap").leftRoom = null;
+        rooms.get("finalMap").rightRoom = null;
 
         for (String room: rooms.keySet()) {
             rooms.get(room).setAllImages(room);

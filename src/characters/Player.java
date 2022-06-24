@@ -34,6 +34,8 @@ public class Player extends Character {
 
     public String interactedObjectName = "";
 
+    int index = -1;
+
     public Player(GamePanel gp, KeyRecorder keyR) {
         super(gp);
 
@@ -47,7 +49,7 @@ public class Player extends Character {
     public void setDefaultParameters() {
         screenX = gp.squareSize * (gp.maxCols - 3) / 2;
         screenY = gp.squareSize * (gp.maxRows - 3) / 2;
-        speed = gp.FPS/10;
+        speed = gp.FPS/20;
 
         // COLLISION SQUARE OF THE PLAYER
         areaOfCollision = new Rectangle(8, 24, 32, 24);
@@ -117,10 +119,13 @@ public class Player extends Character {
             // CHECK COLLISION OF THE MAP
             gp.colViewer.checkMapCollision(this);
             // CHECK COLLISION OF STATIC OBJECTS
-            int index = gp.colViewer.checkObjectCollision(this, true);
+            if (gp.keyR.up || gp.keyR.down || gp.keyR.left || gp.keyR.right) {
+                index = gp.colViewer.checkObjectCollision(this, true);
+            }
+            int tmp = index;
             //INTERACTING STATIC OBJECTS
-            if (index >= 0) {
-                interactObject(index);
+            if (tmp >= 0) {
+                interactObject(tmp);
             }
             // CHECK COLLISION WITH ENEMIES
             gp.colViewer.checkCharacterCollision(this, true);
@@ -251,13 +256,13 @@ public class Player extends Character {
                 case "torch_left", "torch_right" -> {
                     if(gp.roomManager.currentRoom.name.equals("dungeon")) {
                         interactedObjectName = "dungeonTorches";
-//                        gp.roomManager.currentRoom.staticObjects.get(0).interactingFrames = 150;
-//                        gp.roomManager.currentRoom.staticObjects.get(1).interactingFrames = 150;
+                        gp.roomManager.currentRoom.staticObjects.get(0).interactingFrames = 120;
+                        gp.roomManager.currentRoom.staticObjects.get(1).interactingFrames = 120;
 
                         if(!hasTorch) {
-                            gp.ui.makeScreenHint("Light up your torch here...#(press F)", 150);
+                            gp.ui.makeScreenHint("Light up your torch here...#(press F)", 120);
                         } else {
-                            gp.ui.makeScreenHint("Light is locked here forever...#(press F)", 150);
+                            gp.ui.makeScreenHint("Light is locked here forever...#(press F)", 120);
                         }
 
 //                        if (!gp.player.hasTorch) {
@@ -280,6 +285,8 @@ public class Player extends Character {
     public void resetObjectsTimers() {
         for (StaticObject obj: gp.roomManager.currentRoom.staticObjects) {
             obj.interactingFrames = 0;
+            obj.isInteracted = false;
+            interactedObjectName = "";
         }
     }
 

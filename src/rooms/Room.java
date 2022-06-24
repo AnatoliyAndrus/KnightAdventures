@@ -83,6 +83,11 @@ public class Room {
         setup(room, 23, "wall_down-left-door", true);
         setup(room, 24, "wall_down-right-door", true);
         setup(room, 25, "wall_standart", true);
+
+        if (name.equals("finalMap")) {
+            setup(room, 26, "wall_addition-left-corner", true);
+            setup(room, 27, "wall_addition-right-corner", true);
+        }
     }
 
     private void setup(String room, int index, String name, boolean collision) {
