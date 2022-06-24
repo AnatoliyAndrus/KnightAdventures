@@ -24,8 +24,8 @@ public class MouseRecorder implements MouseListener {
             gp.bullets.add(new Bullet(gp, "player_bullet",
                     2, 2,
                     6, 6,
-                    gp.player.screenX + 19, gp.player.screenY + 30,
-                    e.getX() - 5, e.getY() - 5, true));
+                    (int)gp.player.screenX + 19, (int)gp.player.screenY + 30,
+                    e.getX() - 5, e.getY() - 5, "player", false));
             gp.player.isReloading = true;
             gp.playSound(7);
             gp.playSound(1);

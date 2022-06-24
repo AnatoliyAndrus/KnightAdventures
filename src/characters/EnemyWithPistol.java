@@ -215,8 +215,8 @@ public class EnemyWithPistol extends Character{
                     gp.bullets.add(new Bullet(gp, "enemy_bullet",
                             2, 2,
                             6, 6,
-                            screenX + 19, screenY + 30,
-                            gp.player.screenX + 19, gp.player.screenY + 30, false));
+                            (int)screenX + 19, (int)screenY + 30,
+                            (int)gp.player.screenX + 19, (int)gp.player.screenY + 30, "alien", false));
 
                     gp.playSound(2);
                     framesToCount = 0;
@@ -269,7 +269,7 @@ public class EnemyWithPistol extends Character{
             HP--;
         }
 
-        if (HP == 0){
+        if (HP <= 0){
             isDead = true;
         }
     }

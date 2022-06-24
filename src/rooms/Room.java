@@ -157,7 +157,6 @@ public class Room {
                     for (StaticObject staticObject: staticObjects) {
                         if ((staticObject.name.equals("door_horizontal") || staticObject.name.equals("door_vertical")) && !staticObject.collision) {
                             staticObject.setAnimation(StaticObject.ANIMATION_ONCE);
-                            staticObject.noAnimation = staticObject.images.get(staticObject.images.size() - 1);
                             doorsClosingNow++;
                         }
                     }
@@ -179,7 +178,6 @@ public class Room {
                                 sq.rooms.get(staticObject.relatedRoom).phase.equals("completed") &&
                                 !staticObject.unlocked && !sq.gp.player.hasTorch) {
                             staticObject.setAnimation(StaticObject.ANIMATION_ONCE_REVERSE);
-                            staticObject.noAnimation = staticObject.images.get(0);
                             staticObject.unlocked = true;
                             doorsOpening = true;
                             doorsOpeningNow++;
@@ -209,7 +207,6 @@ public class Room {
                                     if ((staticObject.name.equals("door_horizontal") || staticObject.name.equals("door_vertical")) &&
                                             !staticObject.collision && staticObject.animation != StaticObject.ANIMATION_ONCE) {
                                         staticObject.setAnimation(StaticObject.ANIMATION_ONCE);
-                                        staticObject.noAnimation = staticObject.images.get(staticObject.images.size() - 1);
                                         doorsClosing = true;
                                         doorsClosingNow++;
                                     }
@@ -223,7 +220,6 @@ public class Room {
                                     if ((staticObject.name.equals("door_horizontal") || staticObject.name.equals("door_vertical")) &&
                                             staticObject.collision && staticObject.animation != StaticObject.ANIMATION_ONCE_REVERSE) {
                                         staticObject.setAnimation(StaticObject.ANIMATION_ONCE_REVERSE);
-                                        staticObject.noAnimation = staticObject.images.get(0);
                                         doorsOpening = true;
                                         doorsOpeningNow++;
                                     }

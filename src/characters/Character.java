@@ -22,6 +22,8 @@ public class Character extends GameObject {
     public int HP;
     public int armor;
 
+    public boolean isInvincible;
+
     public Character(GamePanel gp) {
         super(gp);
     }
@@ -42,7 +44,7 @@ public class Character extends GameObject {
             default -> null;
         };
 
-        g2d.drawImage(image, screenX, screenY, null);
+        g2d.drawImage(image, (int)screenX, (int)screenY, null);
     }
 
     public void updateImage() {

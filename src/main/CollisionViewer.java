@@ -1,6 +1,7 @@
 package main;
 
 import bullets.Bullet;
+import characters.Boss;
 import characters.Character;
 
 public class CollisionViewer {
@@ -14,10 +15,10 @@ public class CollisionViewer {
     public void checkMapCollision(Character ch) {
 
         //COORDINATES
-        int characterLeftWorldX = ch.screenX + ch.areaOfCollision.x + gp.squareSize;
-        int characterRightWorldX = ch.screenX + ch.areaOfCollision.x + ch.areaOfCollision.width + gp.squareSize;
-        int characterTopWorldY = ch.screenY + ch.areaOfCollision.y + gp.squareSize;
-        int characterBottomWorldY = ch.screenY + ch.areaOfCollision.y + ch.areaOfCollision.height + gp.squareSize;
+        int characterLeftWorldX = (int)ch.screenX + ch.areaOfCollision.x + gp.squareSize;
+        int characterRightWorldX = (int)ch.screenX + ch.areaOfCollision.x + ch.areaOfCollision.width + gp.squareSize;
+        int characterTopWorldY = (int)ch.screenY + ch.areaOfCollision.y + gp.squareSize;
+        int characterBottomWorldY = (int)ch.screenY + ch.areaOfCollision.y + ch.areaOfCollision.height + gp.squareSize;
 
         //SIDES
         int characterLeftSide = characterLeftWorldX / gp.squareSize;
@@ -234,7 +235,8 @@ public class CollisionViewer {
                     ch.areaOfCollision.y -= ch.speed;
 
                     if (ch.areaOfCollision.intersects(gp.roomManager.currentRoom.enemies.get(i).areaOfCollision)) {
-                        if (!ch.equals(gp.roomManager.currentRoom.enemies.get(i))) {
+                        if (!ch.equals(gp.roomManager.currentRoom.enemies.get(i)) && !(player &&
+                                gp.roomManager.currentRoom.enemies.get(i).name.equals("boss"))) {
                             ch.collisionOnY = true;
                         }
 
@@ -264,7 +266,8 @@ public class CollisionViewer {
                     ch.areaOfCollision.y += ch.speed;
 
                     if (ch.areaOfCollision.intersects(gp.roomManager.currentRoom.enemies.get(i).areaOfCollision)) {
-                        if (!ch.equals(gp.roomManager.currentRoom.enemies.get(i))) {
+                        if (!ch.equals(gp.roomManager.currentRoom.enemies.get(i)) && !(player &&
+                                gp.roomManager.currentRoom.enemies.get(i).name.equals("boss"))) {
                             ch.collisionOnY = true;
                         }
 
@@ -293,7 +296,8 @@ public class CollisionViewer {
                     ch.areaOfCollision.x -= ch.speed;
 
                     if (ch.areaOfCollision.intersects(gp.roomManager.currentRoom.enemies.get(i).areaOfCollision)) {
-                        if (!ch.equals(gp.roomManager.currentRoom.enemies.get(i))) {
+                        if (!ch.equals(gp.roomManager.currentRoom.enemies.get(i)) && !(player &&
+                                gp.roomManager.currentRoom.enemies.get(i).name.equals("boss"))) {
                             ch.collisionOnX = true;
                         }
 
@@ -320,7 +324,8 @@ public class CollisionViewer {
                     ch.areaOfCollision.x += ch.speed;
 
                     if (ch.areaOfCollision.intersects(gp.roomManager.currentRoom.enemies.get(i).areaOfCollision)) {
-                        if (!ch.equals(gp.roomManager.currentRoom.enemies.get(i))) {
+                        if (!ch.equals(gp.roomManager.currentRoom.enemies.get(i)) && !(player &&
+                                gp.roomManager.currentRoom.enemies.get(i).name.equals("boss"))) {
                             ch.collisionOnX = true;
                         }
 
@@ -363,7 +368,7 @@ public class CollisionViewer {
 
     public void checkCharacterCollision(Bullet bullet) {
 
-        if(bullet.shooterIsPlayer) {
+        if(bullet.shooter.equals("player")) {
 
             for (int i = 0; i < gp.roomManager.currentRoom.enemies.size(); i++) {
                 if (!gp.roomManager.currentRoom.enemies.get(i).isDead) {
@@ -374,7 +379,8 @@ public class CollisionViewer {
                     bullet.areaOfCollision.x += bullet.screenX;
                     bullet.areaOfCollision.y += bullet.screenY;
 
-                    if (bullet.areaOfCollision.intersects(gp.roomManager.currentRoom.enemies.get(i).areaOfCollision)) {
+                    if (bullet.areaOfCollision.intersects(gp.roomManager.currentRoom.enemies.get(i).areaOfCollision) &&
+                            !gp.roomManager.currentRoom.enemies.get(i).isInvincible) {
 
                         gp.roomManager.currentRoom.enemies.get(i).receiveDamage();
                         if (gp.roomManager.currentRoom.enemies.get(i).name.equals("alien")) {
@@ -417,5 +423,29 @@ public class CollisionViewer {
             gp.player.areaOfCollision.x = gp.player.defaultCollisionAreaX;
             gp.player.areaOfCollision.y = gp.player.defaultCollisionAreaY;
         }
+    }
+
+    public void checkPlayerCollision(Boss boss) {
+
+        boss.areaOfCollision.x += (int)boss.screenX;
+        boss.areaOfCollision.y += (int)boss.screenY;
+
+        gp.player.areaOfCollision.x += gp.player.screenX;
+        gp.player.areaOfCollision.y += gp.player.screenY;
+
+        if(boss.areaOfCollision.intersects(gp.player.areaOfCollision)) {
+            if (!gp.player.isInvincible) {
+                //sound
+                gp.player.receiveDamage();
+                gp.player.isInvincible = true;
+            }
+        }
+
+        //RESTORING STANDARD VALUES
+        boss.areaOfCollision.x = boss.defaultCollisionAreaX;
+        boss.areaOfCollision.y = boss.defaultCollisionAreaY;
+
+        gp.player.areaOfCollision.x = gp.player.defaultCollisionAreaX;
+        gp.player.areaOfCollision.y = gp.player.defaultCollisionAreaY;
     }
 }

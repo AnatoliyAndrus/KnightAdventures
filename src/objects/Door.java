@@ -52,7 +52,7 @@ public class Door extends StaticObject {
         }
 
         animation = StaticObject.NO_ANIMATION;
-        framesToChangeSprite = 1;
+        framesToChangeSprite = 10;
 
         this.relatedRoom = relatedRoom;
     }

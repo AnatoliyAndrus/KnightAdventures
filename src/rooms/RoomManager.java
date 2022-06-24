@@ -224,7 +224,7 @@ public class RoomManager {
         rooms.get("dungeon").addGameObject(new Door(gp, "dungeon", "opened", "door_horizontal"), gp.squareSize * 11, gp.squareSize * 14);
 
         //FINAL MAP
-        rooms.get("finalMap").addGameObject(new WoodenBox(gp), gp.squareSize * 10, gp.squareSize * 10);
+        rooms.get("finalMap").addGameObject(new Lever(gp), gp.squareSize * 12, gp.squareSize * 12);
         rooms.get("finalMap").addGameObject(new Door(gp, "finalMap", "opened", "door_horizontal"), gp.squareSize * 11, 0);
     }
 

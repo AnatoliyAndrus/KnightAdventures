@@ -264,18 +264,18 @@ public class Player extends Character {
                         } else {
                             gp.ui.makeScreenHint("Light is locked here forever...#(press F)", 120);
                         }
+                    }
+                }
+                case "lever" -> {
+                    switch(gp.roomManager.currentRoom.name) {
 
-//                        if (!gp.player.hasTorch) {
-//                            gp.player.hasTorch = true;
-//                            gp.player.setPlayerImages(true);
-//                            gp.roomManager.currentRoom.staticObjects.get(0).setAnimation(StaticObject.NO_ANIMATION);
-//                            gp.roomManager.currentRoom.staticObjects.get(1).setAnimation(StaticObject.NO_ANIMATION);
-//                        } else {
-//                            gp.player.hasTorch = false;
-//                            gp.player.setPlayerImages(false);
-//                            gp.roomManager.currentRoom.staticObjects.get(0).setAnimation(StaticObject.ANIMATION_CONTINUOUSLY);
-//                            gp.roomManager.currentRoom.staticObjects.get(1).setAnimation(StaticObject.ANIMATION_CONTINUOUSLY);
-//                        }
+                        case "finalMap" -> {
+                            if(gp.roomManager.currentRoom.phase.equals("initial")) {
+                                interactedObjectName = "lever";
+                                gp.roomManager.currentRoom.staticObjects.get(0).interactingFrames = 150;
+                                gp.ui.makeScreenHint("Boss is coming...#(press F)", 150);
+                            }
+                        }
                     }
                 }
             }
@@ -300,7 +300,7 @@ public class Player extends Character {
         }
 
         //DEATH
-        if (HP == 0){
+        if (HP <= 0){
             System.exit(0);
         }
     }

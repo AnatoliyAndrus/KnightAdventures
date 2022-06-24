@@ -7,18 +7,21 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Bullet {
 
     GamePanel gp;
-    BufferedImage img;
+    public ArrayList<BufferedImage> images;
+    BufferedImage noAnimation;
+    public String bulletName;
 
     public Rectangle areaOfCollision;
 
     public int defaultCollisionAreaX;
     public int defaultCollisionAreaY;
 
-    public final int speed = 10;
+    public int speed;
     public double speedX;
     public double speedY;
 
@@ -36,10 +39,12 @@ public class Bullet {
 
     public String direction;
 
-    public boolean shooterIsPlayer;
-    boolean changedPlayerDir;
+    public String shooter;
+    public boolean changedPlayerDir;
 
-    public Bullet(GamePanel gp, String imgName,
+    public boolean bossMortar;
+
+    public Bullet(GamePanel gp, String bulletName,
                   int defaultCollisionAreaX,
                   int defaultCollisionAreaY,
                   int collisionWidth,
@@ -48,14 +53,24 @@ public class Bullet {
                   int initialY,
                   int finalX,
                   int finalY,
-                  boolean shooterIsPlayer) {
+                  String shooter, boolean bossMortar) {
 
         this.gp = gp;
 
         try {
-            this.img = ImageIO.read(new File("resources/images/bullets/" + imgName + ".png"));
+            this.noAnimation = ImageIO.read(new File("resources/images/bullets/" + bulletName + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        this.bulletName = bulletName;
+
+        this.shooter = shooter;
+        this.bossMortar = bossMortar;
+
+        if(bossMortar) {
+            speed = 10;
+        } else {
+            speed = 10;
         }
 
         this.defaultCollisionAreaX = defaultCollisionAreaX;
@@ -75,66 +90,92 @@ public class Bullet {
         this.screenX = initialX;
         this.screenY = initialY;
 
-        this.shooterIsPlayer = shooterIsPlayer;
-
         setDefaultValues();
     }
 
     public void update(){
 
-        switch (direction) {
-            case "upLeft" -> {
-                screenX -= speedX;
-                screenY -= speedY;
-                if(shooterIsPlayer && !changedPlayerDir) {
-                    if(lookingUpOrDown()) gp.player.direction = "up";
-                    else gp.player.direction = "left";
-                    changePlayerDirection();
+        if(bossMortar) {
+            if(deltaY > 0) screenY += speed;
+            else screenY -= speed;
+        } else {
+            switch (direction) {
+                case "upLeft" -> {
+                    screenX -= speedX;
+                    screenY -= speedY;
+                    if (shooter.equals("player") && !changedPlayerDir) {
+                        if (lookingUpOrDown()) gp.player.direction = "up";
+                        else gp.player.direction = "left";
+                        changePlayerDirection();
+                    }
                 }
-            }
-            case "upRight" -> {
-                screenX += speedX;
-                screenY -= speedY;
-                if(shooterIsPlayer && !changedPlayerDir) {
-                    if(lookingUpOrDown()) gp.player.direction = "up";
-                    else gp.player.direction = "right";
-                    changePlayerDirection();
+                case "upRight" -> {
+                    screenX += speedX;
+                    screenY -= speedY;
+                    if (shooter.equals("player") && !changedPlayerDir) {
+                        if (lookingUpOrDown()) gp.player.direction = "up";
+                        else gp.player.direction = "right";
+                        changePlayerDirection();
+                    }
                 }
-            }
-            case "downLeft" -> {
-                screenX -= speedX;
-                screenY += speedY;
-                if(shooterIsPlayer && !changedPlayerDir) {
-                    if(lookingUpOrDown()) gp.player.direction = "down";
-                    else gp.player.direction = "left";
-                    changePlayerDirection();
+                case "downLeft" -> {
+                    screenX -= speedX;
+                    screenY += speedY;
+                    if (shooter.equals("player") && !changedPlayerDir) {
+                        if (lookingUpOrDown()) gp.player.direction = "down";
+                        else gp.player.direction = "left";
+                        changePlayerDirection();
+                    }
                 }
-            }
-            case "downRight" -> {
-                screenX += speedX;
-                screenY += speedY;
-                if(shooterIsPlayer && !changedPlayerDir) {
-                    if(lookingUpOrDown()) gp.player.direction = "down";
-                    else gp.player.direction = "right";
-                    changePlayerDirection();
+                case "downRight" -> {
+                    screenX += speedX;
+                    screenY += speedY;
+                    if (shooter.equals("player") && !changedPlayerDir) {
+                        if (lookingUpOrDown()) gp.player.direction = "down";
+                        else gp.player.direction = "right";
+                        changePlayerDirection();
+                    }
                 }
             }
         }
 
-        //CHECK MAP COLLISION
-        gp.colViewer.checkMapCollision(this);
-        //CHECK OBJECT COLLISION
-        gp.colViewer.checkObjectCollision(this);
-        //CHECK CHARACTERS COLLISION
-        gp.colViewer.checkCharacterCollision(this);
+        if(!bossMortar) {
+            //CHECK MAP COLLISION
+            gp.colViewer.checkMapCollision(this);
+            //CHECK OBJECT COLLISION
+            gp.colViewer.checkObjectCollision(this);
+            //CHECK CHARACTERS COLLISION
+            gp.colViewer.checkCharacterCollision(this);
 
-        if(screenX < 0 || screenX > gp.squareSize*(gp.maxCols - 2) || screenY < 0 || screenY > gp.squareSize*(gp.maxRows - 2)) {
-            gp.bullets.remove(this);
+            if(screenX < 0 || screenX > gp.squareSize*(gp.maxCols - 2) || screenY < 0 || screenY > gp.squareSize*(gp.maxRows - 2)) {
+                gp.bullets.remove(this);
+            }
+        } else {
+            if(screenY >= finalY && bulletName.equals("small_missile_3")) {
+                for (int i = 0; i < gp.roomManager.currentRoom.staticObjects.size(); i++) {
+                    if(gp.roomManager.currentRoom.staticObjects.get(i).name.equals("target") &&
+                            gp.roomManager.currentRoom.staticObjects.get(i).screenX == finalX &&
+                            gp.roomManager.currentRoom.staticObjects.get(i).screenY == finalY) {
+                        gp.roomManager.currentRoom.staticObjects.get(i).isGarbage = true;
+                        break;
+                    }
+                }
+                if(new Rectangle((int)gp.player.screenX, (int)gp.player.screenY, 48, 48).intersects(new Rectangle(finalX, finalY, 48, 48)) &&
+                        !gp.player.isInvincible) {
+                    gp.player.receiveDamage();
+                    gp.player.isInvincible = true;
+                }
+                gp.bullets.remove(this);
+            }
+
+            if(screenX < -gp.squareSize || screenX > gp.squareSize*(gp.maxCols - 1) || screenY < -gp.squareSize * 2 || screenY > gp.squareSize*(gp.maxRows - 1)) {
+                gp.bullets.remove(this);
+            }
         }
     }
     public void draw(Graphics2D g2d){
 
-        g2d.drawImage(img, (int)screenX, (int)screenY, null);
+        g2d.drawImage(noAnimation, (int)screenX, (int)screenY, null);
 
     }
     private void setDefaultValues() {

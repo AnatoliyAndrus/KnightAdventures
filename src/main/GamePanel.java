@@ -185,7 +185,8 @@ public class GamePanel extends JPanel implements Runnable{
             //BULLETS
             if(bullets.size() > 0) {
                 for (Bullet bullet : bullets) {
-                    bullet.draw(g2d);
+                    if(!bullet.bossMortar)
+                        bullet.draw(g2d);
                 }
             }
 
@@ -209,7 +210,7 @@ public class GamePanel extends JPanel implements Runnable{
                 @Override
                 public int compare(GameObject obj1, GameObject obj2) {
 
-                    return Integer.compare(obj1.screenY, obj2.screenY);
+                    return Integer.compare((int)obj1.screenY, (int)obj2.screenY);
                 }
             });
 
@@ -218,6 +219,14 @@ public class GamePanel extends JPanel implements Runnable{
                 gameObjectsList.get(i).draw(g2d);
             }
             gameObjectsList = new ArrayList<>();
+
+            //MORTAR BOSS MISSILES
+            if(bullets.size() > 0) {
+                for (Bullet bullet : bullets) {
+                    if(bullet.bossMortar)
+                        bullet.draw(g2d);
+                }
+            }
 
             //VISUAL EFFECTS
             visualManager.draw(g2d);
@@ -254,6 +263,11 @@ public class GamePanel extends JPanel implements Runnable{
         for (int i = 0; i < roomManager.currentRoom.enemies.size(); i++) {
             if(roomManager.currentRoom.enemies.get(i).isDead)
                 roomManager.currentRoom.enemies.remove(roomManager.currentRoom.enemies.get(i));
+        }
+        //GARBAGE STATIC OBJECTS
+        for (int i = 0; i < roomManager.currentRoom.staticObjects.size(); i++) {
+            if(roomManager.currentRoom.staticObjects.get(i).isGarbage)
+                roomManager.currentRoom.staticObjects.remove(roomManager.currentRoom.staticObjects.get(i));
         }
     }
 }

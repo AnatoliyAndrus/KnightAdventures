@@ -31,6 +31,8 @@ public class StaticObject extends GameObject {
     public String relatedRoom;
     public boolean unlocked;
 
+    public boolean isGarbage;
+
     public StaticObject(GamePanel gp, String name) {
         super(gp);
         this.name = name;
@@ -84,6 +86,14 @@ public class StaticObject extends GameObject {
                             gp.roomManager.currentRoom.setEnemiesInRoom();
                         }
                     }
+                    if(name.equals("lever")) {
+                        switch(gp.roomManager.currentRoom.name) {
+
+                            case "finalMap" ->
+                                    gp.roomManager.currentRoom.bossSpawned = true;
+                        }
+                    }
+                    noAnimation = images.get(images.size() - 1);
                     imageNum = -1;
                 }
             }
@@ -105,6 +115,7 @@ public class StaticObject extends GameObject {
                         collision = false;
                         gp.roomManager.currentRoom.doorsOpeningNow--;
                     }
+                    noAnimation = images.get(0);
                     imageNum = -1;
                 }
             }
@@ -124,8 +135,8 @@ public class StaticObject extends GameObject {
 
     @Override
     public void draw(Graphics2D g2d) {
-        if(imageNum == -1) g2d.drawImage(noAnimation, screenX, screenY, null);
-        else g2d.drawImage(images.get(imageNum), screenX, screenY, null);
+        if(imageNum == -1) g2d.drawImage(noAnimation, (int)screenX, (int)screenY, null);
+        else g2d.drawImage(images.get(imageNum), (int)screenX, (int)screenY, null);
     }
 
     public void setAnimation(int animationType) {
@@ -138,8 +149,8 @@ public class StaticObject extends GameObject {
     public void shadow(Graphics2D g2d) {
         for (int i = 0; i < 24; i++) {
             g2d.setColor(new Color(0, 0, 0, 10));
-            g2d.fillRect(screenX + areaOfCollision.x - i,
-                    screenY + areaOfCollision.y - i,
+            g2d.fillRect((int)screenX + areaOfCollision.x - i,
+                    (int)screenY + areaOfCollision.y - i,
                     areaOfCollision.width,
                     areaOfCollision.height);
         }

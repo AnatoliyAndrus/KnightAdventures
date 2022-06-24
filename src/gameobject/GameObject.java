@@ -15,8 +15,8 @@ public class GameObject {
     public int imageFrames = 0;
     public int imageNum = 0;
 
-    public int screenX;
-    public int screenY;
+    public double screenX;
+    public double screenY;
 
     public Rectangle areaOfCollision;
     public int defaultCollisionAreaX;
