@@ -67,10 +67,20 @@ public class Bullet {
         this.shooter = shooter;
         this.bossMortar = bossMortar;
 
-        if(bossMortar) {
-            speed = 10;
-        } else {
-            speed = 10;
+        switch (shooter) {
+            case "player" -> {
+                speed = 10;
+            }
+            case "alien" -> {
+                speed = 3;
+            }
+            case "boss" -> {
+                if(bossMortar) {
+                    speed = 10;
+                } else {
+                    speed = 10;
+                }
+            }
         }
 
         this.defaultCollisionAreaX = defaultCollisionAreaX;

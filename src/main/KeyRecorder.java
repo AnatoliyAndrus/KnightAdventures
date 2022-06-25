@@ -93,7 +93,8 @@ public class KeyRecorder implements KeyListener {
                         gp.player.interactedObjectName = "";
                     }
                     case "lever" -> {
-                        if(gp.roomManager.currentRoom.name.equals("finalMap")) {
+                        if(gp.roomManager.currentRoom.name.equals("finalMap") &&
+                                gp.roomManager.currentRoom.staticObjects.get(0).animation != StaticObject.ANIMATION_ONCE) {
                             gp.roomManager.currentRoom.staticObjects.get(0).setAnimation(StaticObject.ANIMATION_ONCE);
                         }
                     }

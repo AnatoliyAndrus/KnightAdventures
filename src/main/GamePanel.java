@@ -184,9 +184,9 @@ public class GamePanel extends JPanel implements Runnable{
 
             //BULLETS
             if(bullets.size() > 0) {
-                for (Bullet bullet : bullets) {
-                    if(!bullet.bossMortar)
-                        bullet.draw(g2d);
+                for (int i = 0; i < bullets.size(); i++) {
+                    if(!bullets.get(i).bossMortar)
+                        bullets.get(i).draw(g2d);
                 }
             }
 

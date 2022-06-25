@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class Player extends Character {
 
     //boolean variables for type of shooting
-    public boolean burstFire;
+    public boolean burstFire = true;
     public boolean shotgunFire=true;
     public boolean shooting;
     //frames for counting fire
@@ -41,7 +41,7 @@ public class Player extends Character {
 
     public boolean isReloading;
     public int reloadingFrames;
-    public int requiredReloadingFrames = 24;
+    public int requiredReloadingFrames = 48;
 
     public String interactedObjectName = "";
 
@@ -58,8 +58,8 @@ public class Player extends Character {
     }
 
     public void setDefaultParameters() {
-        screenX = gp.squareSize * (gp.maxCols - 3) / 2;
-        screenY = gp.squareSize * (gp.maxRows - 3) / 2;
+        screenX = gp.squareSize * (gp.maxCols - 3) / 2.0;
+        screenY = gp.squareSize * (gp.maxRows - 3) / 2.0;
         speed = gp.FPS/20;
 
         // COLLISION SQUARE OF THE PLAYER
@@ -103,6 +103,14 @@ public class Player extends Character {
 
         scriptsAreActive = checkForActiveScripts();
 
+        if(scriptsAreActive) {
+            direction = "down";
+            imageNum = 0;
+            if(gp.bullets.size()>0) {
+                gp.bullets = new ArrayList<>();
+            }
+        }
+
         //PLAYER MOVES
         if(keyR.up || keyR.down || keyR.left || keyR.right) {
 
@@ -135,7 +143,7 @@ public class Player extends Character {
             }
             int tmp = index;
             //INTERACTING STATIC OBJECTS
-            if (tmp >= 0) {
+            if (tmp >= 0 && !scriptsAreActive) {
                 interactObject(tmp);
             }
             // CHECK COLLISION WITH ENEMIES
@@ -146,11 +154,6 @@ public class Player extends Character {
                 collisionOnX = true;
                 collisionOnY = true;
                 direction = "down";
-                imageNum = 0;
-                lastBulletFrames = 0;
-                if(gp.bullets.size()>0) {
-                    gp.bullets = new ArrayList<>();
-                }
             } else {
                 updateImage();
 
@@ -351,13 +354,13 @@ public class Player extends Character {
                 finalBulletX, finalBulletY - 5, "player", false));
         if(shotgunFire){
             //just math
-                double a1 = finalBulletX-screenX - gp.squareSize/2;
-                double b1 = finalBulletY-screenY - gp.squareSize/2;
-                double a2 = a1*Math.cos(Math.toRadians(5))-b1*Math.sin(Math.toRadians(5));
-                double b2 = b1*Math.cos(Math.toRadians(5))+a1*Math.sin(Math.toRadians(5));
-                double a3 = a1*Math.cos(-Math.toRadians(5))-b1*Math.sin(-Math.toRadians(5));
-                double b3 = b1*Math.cos(-Math.toRadians(5))+a1*Math.sin(-Math.toRadians(5));
-            //
+            double a1 = finalBulletX-screenX - gp.squareSize/2.0;
+            double b1 = finalBulletY-screenY - gp.squareSize/2.0;
+            double a2 = a1*Math.cos(Math.toRadians(5))-b1*Math.sin(Math.toRadians(5));
+            double b2 = b1*Math.cos(Math.toRadians(5))+a1*Math.sin(Math.toRadians(5));
+            double a3 = a1*Math.cos(-Math.toRadians(5))-b1*Math.sin(-Math.toRadians(5));
+            double b3 = b1*Math.cos(-Math.toRadians(5))+a1*Math.sin(-Math.toRadians(5));
+
             gp.bullets.add(new Bullet(gp, "player_bullet",
                     2, 2,
                     6, 6,
