@@ -82,12 +82,16 @@ public class StaticObject extends GameObject {
                 imageNum++;
                 if(imageNum == images.size() - 1) {
                     setAnimation(NO_ANIMATION);
-                    if((name.equals("door_horizontal") || name.equals("door_vertical"))) {
+                    if(name.equals("door_horizontal") || name.equals("door_vertical")) {
                         collision = true;
                         gp.roomManager.currentRoom.doorsClosingNow--;
                         if(!gp.roomManager.currentRoom.enemiesSpawned) {
                             gp.roomManager.currentRoom.setEnemiesInRoom();
                         }
+                    }
+                    if (name.equals("boss_door")) {
+                        collision = false;
+                        gp.roomManager.currentRoom.doorsOpeningNow--;
                     }
                     if(name.equals("chest")) {
                         isOpened = true;
@@ -98,8 +102,12 @@ public class StaticObject extends GameObject {
                                 gp.roomManager.currentRoom.phase = "completed";
                                 gp.roomManager.currentRoom.changingPhase = true;
                             }
-                            case "finalMap" ->
-                                    gp.roomManager.currentRoom.bossSpawned = true;
+                            case "finalMap" -> {
+                                gp.roomManager.currentRoom.staticObjects.get(1).setAnimation(ANIMATION_ONCE_REVERSE);
+                                gp.playSound(14);
+                                gp.roomManager.currentRoom.doorsClosingNow++;
+                                gp.roomManager.currentRoom.bossSpawned = true;
+                            }
                         }
                     }
                     noAnimation = images.get(images.size() - 1);
@@ -120,9 +128,16 @@ public class StaticObject extends GameObject {
                 imageNum--;
                 if(imageNum == 0) {
                     setAnimation(NO_ANIMATION);
-                    if((name.equals("door_horizontal") || name.equals("door_vertical"))) {
+                    if(name.equals("door_horizontal") || name.equals("door_vertical")) {
                         collision = false;
                         gp.roomManager.currentRoom.doorsOpeningNow--;
+                    }
+                    if (name.equals("boss_door")) {
+                        collision = true;
+                        gp.roomManager.currentRoom.doorsClosingNow--;
+                        if(!gp.roomManager.currentRoom.enemiesSpawned) {
+                            gp.roomManager.currentRoom.setEnemiesInRoom();
+                        }
                     }
                     noAnimation = images.get(0);
                     imageNum = -1;

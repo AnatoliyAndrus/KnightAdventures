@@ -94,6 +94,21 @@ public class Boss extends Character {
                     gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, 17, 8));
                     gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, 12, 10));
                 }
+                for (int i = 1; i < gp.roomManager.currentRoom.enemies.size(); i++) {
+                    gp.roomManager.currentRoom.enemies.get(i).areaOfCollision.x += gp.roomManager.currentRoom.enemies.get(i).screenX;
+                    gp.roomManager.currentRoom.enemies.get(i).areaOfCollision.y += gp.roomManager.currentRoom.enemies.get(i).screenY;
+
+                    if (gp.roomManager.currentRoom.enemies.get(i)
+                            .areaOfCollision
+                            .intersects(new Rectangle((int)gp.player.screenX + gp.player.areaOfCollision.x,
+                                    (int)gp.player.screenY + gp.player.areaOfCollision.y,
+                                    gp.player.areaOfCollision.width, gp.player.areaOfCollision.height))) {
+                        gp.roomManager.currentRoom.enemies.get(i).screenY += gp.squareSize * 3;
+                    }
+                    gp.roomManager.currentRoom.enemies.get(i).areaOfCollision.x = gp.roomManager.currentRoom.enemies.get(i).defaultCollisionAreaX;
+                    gp.roomManager.currentRoom.enemies.get(i).areaOfCollision.y = gp.roomManager.currentRoom.enemies.get(i).defaultCollisionAreaY;
+
+                }
 
                 imageFrames = 0;
                 framesToChangeSprite = 10;
@@ -312,6 +327,10 @@ public class Boss extends Character {
                     obj.isGarbage = true;
                 }
             }
+            gp.bullets = new ArrayList<>();
+            gp.roomManager.currentRoom.staticObjects.get(1).setAnimation(StaticObject.ANIMATION_ONCE);
+            gp.playSound(14);
+            gp.roomManager.currentRoom.doorsOpeningNow++;
         }
     }
 

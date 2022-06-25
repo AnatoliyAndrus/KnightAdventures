@@ -107,7 +107,6 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     private void update() {
-        System.out.println(player.coinsAmount);
         //TITLE STATE
         if (currentState == titleState) {
 

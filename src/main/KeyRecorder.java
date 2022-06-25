@@ -101,11 +101,13 @@ public class KeyRecorder implements KeyListener {
                     }
                     case "chest" -> {
                         if(!gp.roomManager.currentRoom.staticObjects.get(2).isOpened &&
-                                !(gp.roomManager.currentRoom.staticObjects.get(2).animation == StaticObject.ANIMATION_ONCE)) {
+                                !(gp.roomManager.currentRoom.staticObjects.get(2).animation == StaticObject.ANIMATION_ONCE)
+                                && gp.roomManager.currentRoom.phase.equals("completed")) {
                             gp.roomManager.currentRoom.staticObjects.get(2).isOpened = true;
                             gp.roomManager.currentRoom.staticObjects.get(2).setAnimation(StaticObject.ANIMATION_ONCE);
                         } else if(!gp.roomManager.currentRoom.staticObjects.get(2).emptyChest &&
-                                !(gp.roomManager.currentRoom.staticObjects.get(2).animation == StaticObject.ANIMATION_ONCE)){
+                                !(gp.roomManager.currentRoom.staticObjects.get(2).animation == StaticObject.ANIMATION_ONCE)
+                                && gp.roomManager.currentRoom.phase.equals("completed")){
                             gp.roomManager.currentRoom.staticObjects.get(2).emptyChest = true;
                             gp.roomManager.currentRoom.staticObjects.get(2).noAnimation = gp.roomManager.currentRoom.staticObjects.get(2).images.get(2);
                             gp.player.hasBossKey = true;
@@ -117,8 +119,17 @@ public class KeyRecorder implements KeyListener {
                             gp.roomManager.currentRoom.staticObjects.get(0).setAnimation(StaticObject.ANIMATION_ONCE);
                         }
                         if(gp.roomManager.currentRoom.phase.equals("ruins unique phase") &&
-                                gp.roomManager.currentRoom.staticObjects.get(0).animation != StaticObject.ANIMATION_ONCE) {
+                                gp.roomManager.currentRoom.staticObjects.get(2).animation != StaticObject.ANIMATION_ONCE) {
                             gp.roomManager.currentRoom.staticObjects.get(2).setAnimation(StaticObject.ANIMATION_ONCE);
+                        }
+                    }
+                    case "boss_door" -> {
+                        if (!gp.roomManager.currentRoom.staticObjects.get(3).isOpened && gp.player.hasBossKey) {
+                            gp.roomManager.currentRoom.staticObjects.get(3).isOpened = true;
+                            gp.player.hasBossKey = false;
+                            gp.roomManager.currentRoom.staticObjects.get(3).setAnimation(StaticObject.ANIMATION_ONCE);
+                            gp.playSound(14);
+                            gp.roomManager.currentRoom.doorsOpeningNow++;
                         }
                     }
                 }

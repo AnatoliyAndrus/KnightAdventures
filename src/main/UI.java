@@ -361,7 +361,7 @@ public class UI {
     }
 
     public void drawShopMenu(Graphics2D g2d) {
-        //Boundaries
+        //BOUNDARIES
         int x = gp.maxScreenWidth/2 - gp.squareSize * 5;
         int y = gp.squareSize * 2;
 
@@ -377,6 +377,33 @@ public class UI {
                 gp.squareSize * 10,
                 gp.squareSize * 4,
                 25, 25);
+
+        g2d.setColor(new Color(0,0,0, 200));
+        g2d.fillRoundRect(x - 100, y - 50,
+                100,
+                50,
+                25, 25);
+
+        g2d.setColor(Color.WHITE);
+        g2d.setStroke(new BasicStroke(5));
+        g2d.drawRoundRect(x - 100, y - 50,
+                100,
+                50,
+                25, 25);
+
+        BufferedImage cross;
+        try {
+            cross = ImageIO.read(new File("resources/images/objects/shop/icon_cross.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        g2d.drawImage(cross, x - 90, y - 40, 32, 32, null);
+
+        g2d.setColor(Color.WHITE);
+        g2d.setFont(g2d.getFont().deriveFont(30f));
+        screenText = "Esc";
+        g2d.drawString(screenText, x - 53, y - 60 + gp.squareSize);
 
         //ITEMS
         BufferedImage coinImage;

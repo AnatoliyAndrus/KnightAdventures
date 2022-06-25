@@ -203,6 +203,7 @@ public class RoomManager {
         rooms.get("castle").addGameObject(new Door(gp, "castle", "opened", "door_horizontal"), gp.squareSize * 11, 0);
         rooms.get("castle").addGameObject(new Door(gp, "castle", "closed", "door_vertical"), gp.squareSize * 23, gp.squareSize * 6);
         rooms.get("castle").addGameObject(new Door(gp, "swamp", "closed", "door_vertical"), gp.squareSize, gp.squareSize * 6);
+        rooms.get("castle").addGameObject(new BossDoor(gp, "closed"), gp.squareSize * 11, gp.squareSize * 16);
 
         //SEA
         rooms.get("sea").addGameObject(new Door(gp, "sea", "opened", "door_vertical"), gp.squareSize, gp.squareSize * 6);
@@ -227,7 +228,7 @@ public class RoomManager {
 
         //FINAL MAP
         rooms.get("finalMap").addGameObject(new Lever(gp), gp.squareSize * 12, gp.squareSize * 12);
-        rooms.get("finalMap").addGameObject(new Door(gp, "finalMap", "opened", "door_horizontal"), gp.squareSize * 11, 0);
+        rooms.get("finalMap").addGameObject(new BossDoor(gp, "opened"), gp.squareSize * 11, 0);
     }
 
     public void setEnemies() {

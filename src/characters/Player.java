@@ -52,7 +52,7 @@ public class Player extends Character {
     int index;
 
     public int coinsAmount;
-    public boolean hasBossKey;
+    public boolean hasBossKey = true;
 
     public Player(GamePanel gp, KeyRecorder keyR) {
         super(gp);
@@ -68,14 +68,14 @@ public class Player extends Character {
     public void setDefaultParameters() {
         screenX = gp.squareSize * (gp.maxCols - 3) / 2.0;
         screenY = gp.squareSize * (gp.maxRows - 3) / 2.0;
-        speed = gp.FPS/20;
+        speed = gp.FPS/10;
 
         // COLLISION SQUARE OF THE PLAYER
         areaOfCollision = new Rectangle(8, 24, 32, 24);
         defaultCollisionAreaX = 8;
         defaultCollisionAreaY = 24;
 
-        maxHP = 15;
+        maxHP = 99;
         HP = maxHP;
         armor = 5;
         name = "player";
@@ -304,12 +304,26 @@ public class Player extends Character {
                 case "chest" -> {
                     interactedObjectName = "chest";
                     gp.roomManager.currentRoom.staticObjects.get(2).interactingFrames = 150;
-                    if(!gp.roomManager.currentRoom.staticObjects.get(2).isOpened) {
+                    if(!gp.roomManager.currentRoom.staticObjects.get(2).isOpened
+                            && gp.roomManager.currentRoom.phase.equals("completed")) {
                         gp.ui.makeScreenHint("Open the chest#(press F)", 150);
-                    } else if(!gp.roomManager.currentRoom.staticObjects.get(2).emptyChest){
+                    } else if(!gp.roomManager.currentRoom.staticObjects.get(2).emptyChest
+                            && gp.roomManager.currentRoom.phase.equals("completed")){
                         gp.ui.makeScreenHint("Pick up the key#(press F)", 150);
-                    } else {
+                    } else if (gp.roomManager.currentRoom.phase.equals("completed")){
                         gp.ui.makeScreenHint("This chest is empty...", 150);
+                    }
+                }
+                case "boss_door" -> {
+                    if (gp.roomManager.currentRoom.name.equals("castle")
+                            && !gp.roomManager.currentRoom.staticObjects.get(3).isOpened) {
+                        interactedObjectName = "boss_door";
+                        gp.roomManager.currentRoom.staticObjects.get(3).interactingFrames = 150;
+                        if (gp.player.hasBossKey) {
+                            gp.ui.makeScreenHint("Enter boss room...#(press F)", 150);
+                        } else {
+                            gp.ui.makeScreenHint("You are not allowed to enter this room...", 150);
+                        }
                     }
                 }
                 case "torch_left", "torch_right" -> {
@@ -328,7 +342,8 @@ public class Player extends Character {
                 case "lever" -> {
                     switch(gp.roomManager.currentRoom.name) {
                         case "ruins" -> {
-                            if(gp.roomManager.currentRoom.phase.equals("ruins unique phase")) {
+                            if(gp.roomManager.currentRoom.phase.equals("ruins unique phase")
+                                    && gp.roomManager.currentRoom.staticObjects.get(2).animation != StaticObject.ANIMATION_ONCE) {
                                 interactedObjectName = "lever";
                                 gp.roomManager.currentRoom.staticObjects.get(2).interactingFrames = 150;
                                 gp.ui.makeScreenHint("Start the journey...#(press F)", 150);
