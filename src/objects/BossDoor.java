@@ -32,6 +32,6 @@ public class BossDoor extends StaticObject{
         this.areaOfCollision = new Rectangle(defaultCollisionAreaX, defaultCollisionAreaY, gp.squareSize * 3, gp.squareSize);
 
         animation = StaticObject.NO_ANIMATION;
-        framesToChangeSprite = 20;
+        framesToChangeSprite = 26;
     }
 }

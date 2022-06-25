@@ -160,7 +160,8 @@ public class Room {
                             doorsClosingNow++;
                         }
                     }
-                    sq.gp.playSound(11);
+                    if(!name.equals("finalMap"))
+                        sq.gp.playSound(11);
 
                     changingPhase = false;
                 }

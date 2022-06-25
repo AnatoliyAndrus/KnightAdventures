@@ -68,14 +68,14 @@ public class Player extends Character {
     public void setDefaultParameters() {
         screenX = gp.squareSize * (gp.maxCols - 3) / 2.0;
         screenY = gp.squareSize * (gp.maxRows - 3) / 2.0;
-        speed = gp.FPS/10;
+        speed = gp.FPS/20;
 
         // COLLISION SQUARE OF THE PLAYER
         areaOfCollision = new Rectangle(8, 24, 32, 24);
         defaultCollisionAreaX = 8;
         defaultCollisionAreaY = 24;
 
-        maxHP = 99;
+        maxHP = 15;
         HP = maxHP;
         armor = 5;
         name = "player";
