@@ -12,10 +12,10 @@ import java.util.ArrayList;
 
 public class Player extends Character {
 
-    public final int DEFAULT = 1;
-    public final int SHOTGUN = 2;
-    public final int BURST = 3;
-    public final int BURST_SHOTGUN = 4;
+    public final static int DEFAULT = 1;
+    public final static int SHOTGUN = 2;
+    public final static int BURST = 3;
+    public final static int BURST_SHOTGUN = 4;
 
     //boolean variables for type of shooting
     public boolean burstFire;
@@ -48,10 +48,11 @@ public class Player extends Character {
     public int reloadingFrames;
     public int requiredReloadingFrames;
 
-    public String interactedObjectName = "";
+    public String interactedObjectName;
     int index;
 
     public int coinsAmount;
+    public boolean hasBossKey;
 
     public Player(GamePanel gp, KeyRecorder keyR) {
         super(gp);
@@ -78,6 +79,10 @@ public class Player extends Character {
         HP = maxHP;
         armor = 5;
         name = "player";
+
+        interactedObjectName = "";
+
+        coinsAmount = 50;
     }
 
     public void setPlayerImages(boolean torch) {
@@ -296,6 +301,17 @@ public class Player extends Character {
                         }
                     }
                 }
+                case "chest" -> {
+                    interactedObjectName = "chest";
+                    gp.roomManager.currentRoom.staticObjects.get(2).interactingFrames = 150;
+                    if(!gp.roomManager.currentRoom.staticObjects.get(2).isOpened) {
+                        gp.ui.makeScreenHint("Open the chest#(press F)", 150);
+                    } else if(!gp.roomManager.currentRoom.staticObjects.get(2).emptyChest){
+                        gp.ui.makeScreenHint("Pick up the key#(press F)", 150);
+                    } else {
+                        gp.ui.makeScreenHint("This chest is empty...", 150);
+                    }
+                }
                 case "torch_left", "torch_right" -> {
                     if(gp.roomManager.currentRoom.name.equals("dungeon")) {
                         interactedObjectName = "dungeonTorches";
@@ -303,7 +319,7 @@ public class Player extends Character {
                         gp.roomManager.currentRoom.staticObjects.get(1).interactingFrames = 120;
 
                         if(!hasTorch) {
-                            gp.ui.makeScreenHint("Light up your torch here...#(press F)", 120);
+                            gp.ui.makeScreenHint("Light up your torch here#(press F)", 120);
                         } else {
                             gp.ui.makeScreenHint("Light is locked here forever...#(press F)", 120);
                         }

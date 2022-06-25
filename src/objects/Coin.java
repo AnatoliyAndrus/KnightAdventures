@@ -3,6 +3,7 @@ package objects;
 import main.GamePanel;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Coin extends StaticObject{
 

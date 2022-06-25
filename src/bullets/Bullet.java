@@ -72,7 +72,7 @@ public class Bullet {
                 speed = 10;
             }
             case "alien" -> {
-                speed = 3;
+                speed = 10;
             }
             case "boss" -> {
                 if(bossMortar) {

@@ -222,6 +222,7 @@ public class RoomManager {
         //DUNGEON
         rooms.get("dungeon").addGameObject(new Torch(gp, "torch_left"), gp.squareSize * 11, gp.squareSize * 14);
         rooms.get("dungeon").addGameObject(new Torch(gp, "torch_right"), gp.squareSize * 13, gp.squareSize * 14);
+        rooms.get("dungeon").addGameObject(new Chest(gp), gp.squareSize * 12, gp.squareSize * 11);
         rooms.get("dungeon").addGameObject(new Door(gp, "dungeon", "opened", "door_horizontal"), gp.squareSize * 11, gp.squareSize * 14);
 
         //FINAL MAP

@@ -1,5 +1,6 @@
 package main;
 
+import characters.Player;
 import objects.StaticObject;
 
 import java.awt.event.KeyEvent;
@@ -34,7 +35,6 @@ public class KeyRecorder implements KeyListener {
                     if (gp.ui.optionNum == 0) gp.ui.optionNum = 3;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-
                     //NEW GAME
                     if (gp.ui.optionNum == 1) {
                         gp.ui.loadingScreen = true;
@@ -65,14 +65,24 @@ public class KeyRecorder implements KeyListener {
                 right = true;
             }
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                gp.currentState = gp.pauseState;
-//                gp.pauseMusic();
+                if(!gp.ui.shopIsOpened) {
+                    gp.currentState = gp.pauseState;
+//                    gp.pauseMusic();
+                } else {
+                    gp.ui.shopIsOpened = false;
+                    gp.player.shooting = false;
+                    gp.ui.optionNum = 1;
+                }
             }
             //F INTERACTIONS
             if (e.getKeyCode() == KeyEvent.VK_F) {
                 switch (gp.player.interactedObjectName) {
                     case "shop" -> {
-
+                        if(!gp.ui.shopIsOpened) {
+                            gp.ui.shopIsOpened = true;
+                            gp.ui.optionNum = 1;
+                            gp.ui.hintTimer = 0;
+                        }
                     }
                     case "dungeonTorches" -> {
                         if (!gp.player.hasTorch) {
@@ -89,6 +99,18 @@ public class KeyRecorder implements KeyListener {
 
                         gp.player.interactedObjectName = "";
                     }
+                    case "chest" -> {
+                        if(!gp.roomManager.currentRoom.staticObjects.get(2).isOpened &&
+                                !(gp.roomManager.currentRoom.staticObjects.get(2).animation == StaticObject.ANIMATION_ONCE)) {
+                            gp.roomManager.currentRoom.staticObjects.get(2).isOpened = true;
+                            gp.roomManager.currentRoom.staticObjects.get(2).setAnimation(StaticObject.ANIMATION_ONCE);
+                        } else if(!gp.roomManager.currentRoom.staticObjects.get(2).emptyChest &&
+                                !(gp.roomManager.currentRoom.staticObjects.get(2).animation == StaticObject.ANIMATION_ONCE)){
+                            gp.roomManager.currentRoom.staticObjects.get(2).emptyChest = true;
+                            gp.roomManager.currentRoom.staticObjects.get(2).noAnimation = gp.roomManager.currentRoom.staticObjects.get(2).images.get(2);
+                            gp.player.hasBossKey = true;
+                        }
+                    }
                     case "lever" -> {
                         if(gp.roomManager.currentRoom.name.equals("finalMap") &&
                                 gp.roomManager.currentRoom.staticObjects.get(0).animation != StaticObject.ANIMATION_ONCE) {
@@ -98,6 +120,39 @@ public class KeyRecorder implements KeyListener {
                                 gp.roomManager.currentRoom.staticObjects.get(0).animation != StaticObject.ANIMATION_ONCE) {
                             gp.roomManager.currentRoom.staticObjects.get(2).setAnimation(StaticObject.ANIMATION_ONCE);
                         }
+                    }
+                }
+            }
+            if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                if(gp.ui.shopIsOpened) {
+                    gp.ui.optionNum++;
+                    if (gp.ui.optionNum == 4) gp.ui.optionNum = 1;
+                }
+            }
+            if (e.getKeyCode() == KeyEvent.VK_UP) {
+                if(gp.ui.shopIsOpened) {
+                    gp.ui.optionNum--;
+                    if (gp.ui.optionNum == 0) gp.ui.optionNum = 3;
+                }
+            }
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                if(gp.ui.shopIsOpened) {
+                    if(gp.ui.optionNum == 1 && gp.player.coinsAmount >= gp.ui.armorPrice && gp.player.armor < 5) {
+                        gp.player.coinsAmount -= gp.ui.armorPrice;
+                        gp.player.armor = 5;
+                        gp.playSound(13);
+                    }
+                    if(gp.ui.optionNum == 2 && gp.player.coinsAmount >= gp.ui.shotgunPrice && !gp.player.shotgunFire) {
+                        gp.player.coinsAmount -= gp.ui.shotgunPrice;
+                        if(gp.player.burstFire) gp.player.setFireMode(Player.BURST_SHOTGUN);
+                        else gp.player.setFireMode(Player.SHOTGUN);
+                        gp.playSound(13);
+                    }
+                    if(gp.ui.optionNum == 3 && gp.player.coinsAmount >= gp.ui.burstPrice && !gp.player.burstFire) {
+                        gp.player.coinsAmount -= gp.ui.burstPrice;
+                        if(gp.player.shotgunFire) gp.player.setFireMode(Player.BURST_SHOTGUN);
+                        else gp.player.setFireMode(Player.BURST);
+                        gp.playSound(13);
                     }
                 }
             }

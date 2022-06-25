@@ -7,6 +7,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -29,6 +30,11 @@ public class UI {
     //SCREEN HINTS
     String hint;
     int hintTimer;
+
+    public boolean shopIsOpened;
+    public int armorPrice = 5;
+    public int shotgunPrice = 5;
+    public int burstPrice = 5;
 
     public UI(GamePanel gp) {
         this.gp = gp;
@@ -56,13 +62,14 @@ public class UI {
         //GAME STATE
         if (gp.currentState == gp.gameState) {
             drawDarkScreen(g2d);
-            drawPlayerHP(g2d);
+            drawPlayerStats(g2d);
             drawScreenHint(g2d);
+            if(shopIsOpened) drawShopMenu(g2d);
         }
         //PAUSE STATE
         if (gp.currentState == gp.pauseState) {
             drawDarkScreen(g2d);
-            drawPlayerHP(g2d);
+            drawPlayerStats(g2d);
             drawPauseScreen(g2d);
         }
     }
@@ -71,7 +78,7 @@ public class UI {
      * draws players HP
      * @param g2d graphics
      */
-    public void drawPlayerHP(Graphics2D g2d) {
+    public void drawPlayerStats(Graphics2D g2d) {
 
         if(!init){
             hearts = new BufferedImage[gp.player.maxHP/3];
@@ -98,6 +105,31 @@ public class UI {
 
         for(int i = 1; i <= gp.player.armor; i++) {
             g2d.drawImage(gp.player.shield, i * gp.squareSize, gp.squareSize - 5, null);
+        }
+
+        //COINS
+        BufferedImage coinImage;
+        BufferedImage keyImage;
+        try {
+            coinImage = ImageIO.read(new File("resources/images/objects/coin/coin_1.png"));
+            keyImage = ImageIO.read(new File("resources/images/objects/chest/key_1.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        g2d.drawImage(coinImage, gp.maxScreenWidth - gp.squareSize * 3 + 24, -gp.squareSize, null);
+        g2d.setColor(Color.WHITE);
+        g2d.setFont(g2d.getFont().deriveFont(40f));
+        screenText = "x" + gp.player.coinsAmount;
+        g2d.drawString(screenText, gp.maxScreenWidth - gp.squareSize * 2 + 24, gp.squareSize - 5);
+
+        //KEYS
+        if(gp.player.hasBossKey) {
+            g2d.drawImage(keyImage, gp.maxScreenWidth - gp.squareSize * 3 + 24, gp.squareSize, null);
+            g2d.setColor(Color.WHITE);
+            g2d.setFont(g2d.getFont().deriveFont(40f));
+            screenText = "x1";
+            g2d.drawString(screenText, gp.maxScreenWidth - gp.squareSize * 2 + 24, gp.squareSize * 2 - 5);
         }
     }
 
@@ -326,6 +358,95 @@ public class UI {
         Area area = new Area(outer);
         area.subtract(oval);
         return area;
+    }
+
+    public void drawShopMenu(Graphics2D g2d) {
+        //Boundaries
+        int x = gp.maxScreenWidth/2 - gp.squareSize * 5;
+        int y = gp.squareSize * 2;
+
+        g2d.setColor(new Color(0,0,0, 200));
+        g2d.fillRoundRect(x, y,
+                gp.squareSize * 10,
+                gp.squareSize * 4,
+                25, 25);
+
+        g2d.setColor(Color.WHITE);
+        g2d.setStroke(new BasicStroke(5));
+        g2d.drawRoundRect(x, y,
+                gp.squareSize * 10,
+                gp.squareSize * 4,
+                25, 25);
+
+        //ITEMS
+        BufferedImage coinImage;
+        BufferedImage tickImage;
+        BufferedImage shotgunImage;
+        BufferedImage burstImage;
+        try {
+            coinImage = ImageIO.read(new File("resources/images/objects/coin/coin_1.png"));
+            tickImage = ImageIO.read(new File("resources/images/objects/shop/shopIcon_1.png"));
+            shotgunImage = ImageIO.read(new File("resources/images/objects/shop/iconForShop_2.png"));
+            burstImage = ImageIO.read(new File("resources/images/objects/shop/iconForShop_1.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        //ARMOR
+        g2d.drawImage(gp.player.shield, x + 15, y + 15, null);
+        g2d.setColor(Color.WHITE);
+        g2d.setFont(g2d.getFont().deriveFont(40f));
+        screenText = "Armor - " + armorPrice;
+        g2d.drawString(screenText, x + 15 + gp.squareSize, y + 5 + gp.squareSize);
+        g2d.drawImage(coinImage, x + gp.squareSize * 6 - 20, y + 15 - gp.squareSize, null);
+        if(gp.player.armor == 5) {
+            g2d.drawImage(tickImage, x + gp.squareSize * 9 - 20, y + 15, null);
+        }
+        if(optionNum == 1) {
+            g2d.setColor(Color.WHITE);
+            g2d.setStroke(new BasicStroke(2));
+            g2d.drawRoundRect(x + 10, y + 10,
+                    gp.squareSize * 10 - 20,
+                    gp.squareSize + 10,
+                    25, 25);
+        }
+
+        //SHOTGUN UPGRADE
+        g2d.drawImage(shotgunImage, x + 15, y + 25 + gp.squareSize, null);
+        g2d.setColor(Color.WHITE);
+        g2d.setFont(g2d.getFont().deriveFont(40f));
+        screenText = "Shotgun - " + shotgunPrice;
+        g2d.drawString(screenText, x + 15 + gp.squareSize, y + 15 + gp.squareSize * 2);
+        g2d.drawImage(coinImage, x + gp.squareSize * 7 - 20, y + 25, null);
+        if(gp.player.shotgunFire) {
+            g2d.drawImage(tickImage, x + gp.squareSize * 9 - 20, y + 25 + gp.squareSize, null);
+        }
+        if(optionNum == 2) {
+            g2d.setColor(Color.WHITE);
+            g2d.setStroke(new BasicStroke(2));
+            g2d.drawRoundRect(x + 10, y + 20 + gp.squareSize,
+                    gp.squareSize * 10 - 20,
+                    gp.squareSize + 10,
+                    25, 25);
+        }
+
+        //BURST UPGRADE
+        g2d.drawImage(burstImage, x + 15, y + 35 + gp.squareSize * 2, null);
+        g2d.setColor(Color.WHITE);
+        g2d.setFont(g2d.getFont().deriveFont(40f));
+        screenText = "Burst - " + burstPrice;
+        g2d.drawString(screenText, x + 15 + gp.squareSize, y + 25 + gp.squareSize * 3);
+        g2d.drawImage(coinImage, x + gp.squareSize * 6 - 20, y + 35 + gp.squareSize, null);
+        if(gp.player.burstFire) {
+            g2d.drawImage(tickImage, x + gp.squareSize * 9 - 20, y + 35 + gp.squareSize * 2, null);
+        }
+        if(optionNum == 3) {
+            g2d.setColor(Color.WHITE);
+            g2d.setStroke(new BasicStroke(2));
+            g2d.drawRoundRect(x + 10, y + 30 + gp.squareSize * 2,
+                    gp.squareSize * 10 - 20,
+                    gp.squareSize + 10,
+                    25, 25);
+        }
     }
 
     public void makeScreenHint(String hint, int hintTimer){

@@ -272,7 +272,9 @@ public class EnemyWithPistol extends Character{
 
         if (HP <= 0){
             isDead = true;
-            gp.roomManager.currentRoom.addGameObject(new Coin(gp), screenX, screenY - gp.squareSize);
+            if(!gp.roomManager.currentRoom.name.equals("finalMap")) {
+                gp.roomManager.currentRoom.addGameObject(new Coin(gp), screenX, screenY - gp.squareSize);
+            }
         }
     }
 }

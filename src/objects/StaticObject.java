@@ -31,6 +31,9 @@ public class StaticObject extends GameObject {
     public String relatedRoom;
     public boolean unlocked;
 
+    public boolean isOpened;
+    public boolean emptyChest;
+
     public boolean isGarbage;
 
     public StaticObject(GamePanel gp, String name) {
@@ -85,6 +88,9 @@ public class StaticObject extends GameObject {
                         if(!gp.roomManager.currentRoom.enemiesSpawned) {
                             gp.roomManager.currentRoom.setEnemiesInRoom();
                         }
+                    }
+                    if(name.equals("chest")) {
+                        isOpened = true;
                     }
                     if(name.equals("lever")) {
                         switch(gp.roomManager.currentRoom.name) {

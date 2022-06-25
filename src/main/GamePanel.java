@@ -107,7 +107,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     private void update() {
-
+        System.out.println(player.coinsAmount);
         //TITLE STATE
         if (currentState == titleState) {
 
@@ -122,7 +122,8 @@ public class GamePanel extends JPanel implements Runnable{
             }
 
             //PLAYER
-            player.update();
+            if(!ui.shopIsOpened)
+                player.update();
 
             //ROOM
             roomManager.currentRoom.update();
