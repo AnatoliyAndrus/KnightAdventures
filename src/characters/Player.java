@@ -1,5 +1,6 @@
 package characters;
 
+import bullets.Bullet;
 import main.GamePanel;
 import main.KeyRecorder;
 import main.UI;
@@ -11,12 +12,22 @@ import java.util.ArrayList;
 
 public class Player extends Character {
 
+    //boolean variables for type of shooting
+    public boolean burstFire;
+    public boolean shotgunFire=true;
+    public boolean shooting;
+    //frames for counting fire
+    int shootingFrames;
+    //coordinates of shooting
+    public int finalBulletX;
+    public int finalBulletY;
+
     public BufferedImage heart1, heart2, heart3, heart4, shield;
 
     KeyRecorder keyR;
     UI ui;
 
-    int standFrames = 0;
+    int standFrames;
 
     public boolean scriptsAreActive;
 
@@ -26,7 +37,7 @@ public class Player extends Character {
     public boolean hasTorch;
 
     public boolean isInvincible;
-    public int invincibleFrames = 0;
+    public int invincibleFrames;
 
     public boolean isReloading;
     public int reloadingFrames;
@@ -137,6 +148,9 @@ public class Player extends Character {
                 direction = "down";
                 imageNum = 0;
                 lastBulletFrames = 0;
+                if(gp.bullets.size()>0) {
+                    gp.bullets = new ArrayList<>();
+                }
             } else {
                 updateImage();
 
@@ -217,6 +231,26 @@ public class Player extends Character {
             if(reloadingFrames == requiredReloadingFrames) {
                 isReloading = false;
                 reloadingFrames = 0;
+            }
+        }
+
+        if(shooting){
+            if(!burstFire){
+                shootBullets();
+                shooting=false;
+            }else {
+                if (shootingFrames == 0) {
+                    shootBullets();
+                }
+                shootingFrames++;
+                if (shootingFrames == 10) {
+                    shootBullets();
+                }
+                if (shootingFrames == 20) {
+                    shootBullets();
+                    shooting = false;
+                    shootingFrames = 0;
+                }
             }
         }
     }
@@ -303,6 +337,39 @@ public class Player extends Character {
         if (HP <= 0){
             System.exit(0);
         }
+    }
+
+    /**
+     * method made by Anatolii
+     * player shoots bullets using this method
+     */
+    public void shootBullets(){
+        gp.bullets.add(new Bullet(gp, "player_bullet",
+                2, 2,
+                6, 6,
+                (int) screenX + gp.squareSize / 2, (int) screenY + gp.squareSize / 2,
+                finalBulletX, finalBulletY - 5, "player", false));
+        if(shotgunFire){
+//            //just math
+//                double a1 = finalBulletX-screenX - gp.squareSize/2;
+//                double b1 = finalBulletY-screenY - gp.squareSize/2;
+//                double a2 = Math.sqrt((100+Math.sqrt(10000+4*Math.pow(a1*b1,2)))/2);
+//                double b2 = Math.sqrt(100-Math.pow(a2,2));
+//            //
+            gp.bullets.add(new Bullet(gp, "player_bullet",
+                    2, 2,
+                    6, 6,
+                    (int) screenX + gp.squareSize / 2, (int) screenY + gp.squareSize / 2,
+                    finalBulletX, finalBulletY - 5, "player", false));
+            gp.bullets.add(new Bullet(gp, "player_bullet",
+                    2, 2,
+                    6, 6,
+                    (int) screenX + gp.squareSize / 2, (int) screenY + gp.squareSize / 2,
+                    finalBulletX, finalBulletY - 5, "player", false));
+        }
+        gp.player.isReloading = true;
+        gp.playSound(7);
+        gp.playSound(1);
     }
 
     private boolean checkForActiveScripts() {
