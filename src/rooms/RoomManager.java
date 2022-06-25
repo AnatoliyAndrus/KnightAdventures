@@ -196,6 +196,7 @@ public class RoomManager {
         //RUINS
         rooms.get("ruins").addGameObject(new WoodenBox(gp), gp.squareSize * 10, gp.squareSize * 10);
         rooms.get("ruins").addGameObject(new Shop(gp), gp.squareSize * 9, (int)(gp.squareSize * 0.5));
+        rooms.get("ruins").addGameObject(new Lever(gp), gp.squareSize * 10 + 14, gp.squareSize * 14 + 12);
         rooms.get("ruins").addGameObject(new Door(gp, "ruins", "closed", "door_horizontal"), gp.squareSize * 11, gp.squareSize * 14);
 
         //CASTLE

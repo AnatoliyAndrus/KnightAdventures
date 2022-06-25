@@ -24,6 +24,7 @@ public class Music {
         soundFiles[9] = new File("resources/sound/attacks/alien_hitted.wav");
         soundFiles[10] = new File("resources/sound/attacks/player_hitted.wav");
         soundFiles[11] = new File("resources/sound/door/door_opens.wav");
+        soundFiles[12] = new File("resources/sound/coin/coin.wav");
     }
 
     public void setClip(int index) {

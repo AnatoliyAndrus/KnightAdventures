@@ -125,7 +125,7 @@ public class Room {
         }
     }
 
-    public void addGameObject(StaticObject staticObject, int screenX, int screenY) {
+    public void addGameObject(StaticObject staticObject, double screenX, double screenY) {
         staticObjects.add(staticObject);
         staticObjects.get(staticObjects.size() - 1).screenX = screenX;
         staticObjects.get(staticObjects.size() - 1).screenY = screenY;

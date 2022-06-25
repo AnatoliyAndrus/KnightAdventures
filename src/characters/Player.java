@@ -12,9 +12,14 @@ import java.util.ArrayList;
 
 public class Player extends Character {
 
+    public final int DEFAULT = 1;
+    public final int SHOTGUN = 2;
+    public final int BURST = 3;
+    public final int BURST_SHOTGUN = 4;
+
     //boolean variables for type of shooting
-    public boolean burstFire = true;
-    public boolean shotgunFire=true;
+    public boolean burstFire;
+    public boolean shotgunFire;
     public boolean shooting;
     //frames for counting fire
     int shootingFrames;
@@ -32,7 +37,7 @@ public class Player extends Character {
     public boolean scriptsAreActive;
 
     public String lastBulletDirection;
-    public int lastBulletFrames = 0;
+    public int lastBulletFrames;
 
     public boolean hasTorch;
 
@@ -41,11 +46,12 @@ public class Player extends Character {
 
     public boolean isReloading;
     public int reloadingFrames;
-    public int requiredReloadingFrames = 48;
+    public int requiredReloadingFrames;
 
     public String interactedObjectName = "";
+    int index;
 
-    int index = -1;
+    public int coinsAmount;
 
     public Player(GamePanel gp, KeyRecorder keyR) {
         super(gp);
@@ -55,6 +61,7 @@ public class Player extends Character {
 
         setDefaultParameters();
         setPlayerImages(false);
+        setFireMode(DEFAULT);
     }
 
     public void setDefaultParameters() {
@@ -141,10 +148,9 @@ public class Player extends Character {
             if (gp.keyR.up || gp.keyR.down || gp.keyR.left || gp.keyR.right) {
                 index = gp.colViewer.checkObjectCollision(this, true);
             }
-            int tmp = index;
             //INTERACTING STATIC OBJECTS
-            if (tmp >= 0 && !scriptsAreActive) {
-                interactObject(tmp);
+            if (index >= 0 && !scriptsAreActive) {
+                interactObject(index);
             }
             // CHECK COLLISION WITH ENEMIES
             gp.colViewer.checkCharacterCollision(this, true);
@@ -305,6 +311,13 @@ public class Player extends Character {
                 }
                 case "lever" -> {
                     switch(gp.roomManager.currentRoom.name) {
+                        case "ruins" -> {
+                            if(gp.roomManager.currentRoom.phase.equals("ruins unique phase")) {
+                                interactedObjectName = "lever";
+                                gp.roomManager.currentRoom.staticObjects.get(2).interactingFrames = 150;
+                                gp.ui.makeScreenHint("Start the journey...#(press F)", 150);
+                            }
+                        }
 
                         case "finalMap" -> {
                             if(gp.roomManager.currentRoom.phase.equals("initial")) {
@@ -314,6 +327,11 @@ public class Player extends Character {
                             }
                         }
                     }
+                }
+                case "coin" -> {
+                    coinsAmount++;
+                    gp.playSound(12);
+                    gp.roomManager.currentRoom.staticObjects.remove(index);
                 }
             }
         }
@@ -375,6 +393,31 @@ public class Player extends Character {
         gp.player.isReloading = true;
         gp.playSound(7);
         gp.playSound(1);
+    }
+
+    public void setFireMode(int fireMode) {
+        switch (fireMode) {
+            case DEFAULT -> {
+                shotgunFire = false;
+                burstFire = false;
+                requiredReloadingFrames = 24;
+            }
+            case SHOTGUN -> {
+                shotgunFire = true;
+                burstFire = false;
+                requiredReloadingFrames = 24;
+            }
+            case BURST -> {
+                shotgunFire = false;
+                burstFire = true;
+                requiredReloadingFrames = 48;
+            }
+            case BURST_SHOTGUN -> {
+                shotgunFire = true;
+                burstFire = true;
+                requiredReloadingFrames = 48;
+            }
+        }
     }
 
     private boolean checkForActiveScripts() {

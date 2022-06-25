@@ -212,6 +212,10 @@ public class Bullet {
         } else if(deltaX > 0 && deltaY == 0) {
             direction = "downRight";
             deltaY = 1;
+        } else if(deltaX == 0 && deltaY == 0) {
+            direction = "upRight";
+            deltaX = 1;
+            deltaY = -1;
         }
 
         if (Math.abs(deltaX) > Math.abs(deltaY)) {

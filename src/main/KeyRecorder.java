@@ -72,10 +72,7 @@ public class KeyRecorder implements KeyListener {
             if (e.getKeyCode() == KeyEvent.VK_F) {
                 switch (gp.player.interactedObjectName) {
                     case "shop" -> {
-                        if(gp.roomManager.currentRoom.phase.equals("ruins unique phase")) {
-                            gp.roomManager.currentRoom.phase = "completed";
-                            gp.roomManager.currentRoom.changingPhase = true;
-                        }
+
                     }
                     case "dungeonTorches" -> {
                         if (!gp.player.hasTorch) {
@@ -96,6 +93,10 @@ public class KeyRecorder implements KeyListener {
                         if(gp.roomManager.currentRoom.name.equals("finalMap") &&
                                 gp.roomManager.currentRoom.staticObjects.get(0).animation != StaticObject.ANIMATION_ONCE) {
                             gp.roomManager.currentRoom.staticObjects.get(0).setAnimation(StaticObject.ANIMATION_ONCE);
+                        }
+                        if(gp.roomManager.currentRoom.phase.equals("ruins unique phase") &&
+                                gp.roomManager.currentRoom.staticObjects.get(0).animation != StaticObject.ANIMATION_ONCE) {
+                            gp.roomManager.currentRoom.staticObjects.get(2).setAnimation(StaticObject.ANIMATION_ONCE);
                         }
                     }
                 }

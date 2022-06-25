@@ -88,7 +88,10 @@ public class StaticObject extends GameObject {
                     }
                     if(name.equals("lever")) {
                         switch(gp.roomManager.currentRoom.name) {
-
+                            case "ruins" -> {
+                                gp.roomManager.currentRoom.phase = "completed";
+                                gp.roomManager.currentRoom.changingPhase = true;
+                            }
                             case "finalMap" ->
                                     gp.roomManager.currentRoom.bossSpawned = true;
                         }

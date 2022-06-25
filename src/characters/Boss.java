@@ -276,23 +276,14 @@ public class Boss extends Character {
                 configured = false;
             }
         }
+
+        updateImage();
     }
 
     @Override
     public void draw(Graphics2D g2d) {
         if(imageNum == -1) g2d.drawImage(noAnimation, (int)screenX, (int)screenY, null);
-        else {
-            if(gp.currentState == gp.gameState) {
-                imageFrames++;
-                if (imageFrames == framesToChangeSprite) {
-                    imageFrames = 0;
-                    imageNum++;
-                    if (imageNum == images.size()) imageNum = 0;
-                }
-            }
-
-            g2d.drawImage(images.get(imageNum), (int)screenX, (int)screenY, null);
-        }
+        else g2d.drawImage(images.get(imageNum), (int)screenX, (int)screenY, null);
     }
 
     private void setSpeed() {
@@ -320,6 +311,18 @@ public class Boss extends Character {
                 if(obj.name.equals("target")) {
                     obj.isGarbage = true;
                 }
+            }
+        }
+    }
+
+    @Override
+    public void updateImage() {
+        if(imageNum >= 0) {
+            imageFrames++;
+            if (imageFrames == framesToChangeSprite) {
+                imageFrames = 0;
+                imageNum++;
+                if (imageNum == images.size()) imageNum = 0;
             }
         }
     }

@@ -1,6 +1,7 @@
 package characters;
 
 import main.GamePanel;
+import objects.Coin;
 
 import java.awt.*;
 
@@ -265,6 +266,7 @@ public class EnemyWithFangs extends Character{
 
         if (HP <= 0){
             isDead = true;
+            gp.roomManager.currentRoom.addGameObject(new Coin(gp), screenX, screenY - gp.squareSize);
         }
     }
 
