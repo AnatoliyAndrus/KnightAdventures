@@ -350,22 +350,24 @@ public class Player extends Character {
                 (int) screenX + gp.squareSize / 2, (int) screenY + gp.squareSize / 2,
                 finalBulletX, finalBulletY - 5, "player", false));
         if(shotgunFire){
-//            //just math
-//                double a1 = finalBulletX-screenX - gp.squareSize/2;
-//                double b1 = finalBulletY-screenY - gp.squareSize/2;
-//                double a2 = Math.sqrt((100+Math.sqrt(10000+4*Math.pow(a1*b1,2)))/2);
-//                double b2 = Math.sqrt(100-Math.pow(a2,2));
-//            //
+            //just math
+                double a1 = finalBulletX-screenX - gp.squareSize/2;
+                double b1 = finalBulletY-screenY - gp.squareSize/2;
+                double a2 = a1*Math.cos(Math.toRadians(5))-b1*Math.sin(Math.toRadians(5));
+                double b2 = b1*Math.cos(Math.toRadians(5))+a1*Math.sin(Math.toRadians(5));
+                double a3 = a1*Math.cos(-Math.toRadians(5))-b1*Math.sin(-Math.toRadians(5));
+                double b3 = b1*Math.cos(-Math.toRadians(5))+a1*Math.sin(-Math.toRadians(5));
+            //
             gp.bullets.add(new Bullet(gp, "player_bullet",
                     2, 2,
                     6, 6,
                     (int) screenX + gp.squareSize / 2, (int) screenY + gp.squareSize / 2,
-                    finalBulletX, finalBulletY - 5, "player", false));
+                    (int) screenX + gp.squareSize / 2+(int)a2, (int) screenY + gp.squareSize / 2+(int)b2 - 5, "player", false));
             gp.bullets.add(new Bullet(gp, "player_bullet",
                     2, 2,
                     6, 6,
                     (int) screenX + gp.squareSize / 2, (int) screenY + gp.squareSize / 2,
-                    finalBulletX, finalBulletY - 5, "player", false));
+                    (int) screenX + gp.squareSize / 2+(int)a3, (int) screenY + gp.squareSize / 2+(int)b3 - 5, "player", false));
         }
         gp.player.isReloading = true;
         gp.playSound(7);
