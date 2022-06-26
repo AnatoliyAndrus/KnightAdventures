@@ -1,6 +1,9 @@
 package rooms;
 
+import characters.Boss;
 import characters.Character;
+import characters.EnemyWithFangs;
+import characters.EnemyWithPistol;
 import objects.StaticObject;
 
 import javax.imageio.ImageIO;
@@ -144,11 +147,17 @@ public class Room {
                     if (playerEntered && (!name.equals("dungeon") || sq.gp.player.hasTorch)) {
                         changingPhase = true;
                         phase = "in progress";
+
+                        sq.gp.player.backupArmor = sq.gp.player.armor;
+                        sq.gp.player.backupCoinsAmount = sq.gp.player.coinsAmount;
                     }
                 } else {
                     if (playerEntered && bossSpawned) {
                         changingPhase = true;
                         phase = "in progress";
+
+                        sq.gp.player.backupArmor = sq.gp.player.armor;
+                        sq.gp.player.backupCoinsAmount = sq.gp.player.coinsAmount;
                     }
                 }
             }
@@ -243,7 +252,13 @@ public class Room {
     }
 
     public void setEnemiesInRoom() {
-        enemies.addAll(enemiesData);
+        for (Character enemy: enemiesData) {
+            switch (enemy.name) {
+                case "enemyWithFangs" -> enemies.add(new EnemyWithFangs(sq.gp, enemy.screenX, enemy.screenY));
+                case "alien" -> enemies.add(new EnemyWithPistol(sq.gp, enemy.screenX, enemy.screenY));
+                case "boss" -> enemies.add(new Boss(sq.gp));
+            }
+        }
         enemiesSpawned = true;
     }
 }

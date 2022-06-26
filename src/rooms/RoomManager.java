@@ -200,31 +200,31 @@ public class RoomManager {
         rooms.get("ruins").addGameObject(new Door(gp, "ruins", "closed", "door_horizontal"), gp.squareSize * 11, gp.squareSize * 14);
 
         //CASTLE
-        rooms.get("castle").addGameObject(new Door(gp, "castle", "opened", "door_horizontal"), gp.squareSize * 11, 0);
+        rooms.get("castle").addGameObject(new Door(gp, "ruins", "opened", "door_horizontal"), gp.squareSize * 11, 0);
         rooms.get("castle").addGameObject(new Door(gp, "castle", "closed", "door_vertical"), gp.squareSize * 23, gp.squareSize * 6);
         rooms.get("castle").addGameObject(new Door(gp, "swamp", "closed", "door_vertical"), gp.squareSize, gp.squareSize * 6);
         rooms.get("castle").addGameObject(new BossDoor(gp, "closed"), gp.squareSize * 11, gp.squareSize * 16);
 
         //SEA
-        rooms.get("sea").addGameObject(new Door(gp, "sea", "opened", "door_vertical"), gp.squareSize, gp.squareSize * 6);
+        rooms.get("sea").addGameObject(new Door(gp, "castle", "opened", "door_vertical"), gp.squareSize, gp.squareSize * 6);
         rooms.get("sea").addGameObject(new Door(gp, "sea", "closed", "door_horizontal"), gp.squareSize * 11, 0);
 
         //SWAMP
-        rooms.get("swamp").addGameObject(new Door(gp, "swamp", "opened", "door_horizontal"), gp.squareSize * 11, gp.squareSize * 14);
+        rooms.get("swamp").addGameObject(new Door(gp, "sea", "opened", "door_horizontal"), gp.squareSize * 11, gp.squareSize * 14);
 
         //CAVE
         for (int i = gp.squareSize * 4; i < gp.squareSize * 21; i+= gp.squareSize * 8) {
             rooms.get("cave").addGameObject(new Torch(gp, "torch_block"), i, gp.squareSize * 3 + 24);
             rooms.get("cave").addGameObject(new Torch(gp, "torch_block"), i, gp.squareSize * 12 + 8);
         }
-        rooms.get("cave").addGameObject(new Door(gp, "cave", "opened", "door_vertical"), gp.squareSize * 23, gp.squareSize * 6);
+        rooms.get("cave").addGameObject(new Door(gp, "swamp", "opened", "door_vertical"), gp.squareSize * 23, gp.squareSize * 6);
         rooms.get("cave").addGameObject(new Door(gp, "cave", "closed", "door_horizontal"), gp.squareSize * 11, 0);
 
         //DUNGEON
         rooms.get("dungeon").addGameObject(new Torch(gp, "torch_left"), gp.squareSize * 11, gp.squareSize * 14);
         rooms.get("dungeon").addGameObject(new Torch(gp, "torch_right"), gp.squareSize * 13, gp.squareSize * 14);
         rooms.get("dungeon").addGameObject(new Chest(gp), gp.squareSize * 12, gp.squareSize * 11);
-        rooms.get("dungeon").addGameObject(new Door(gp, "dungeon", "opened", "door_horizontal"), gp.squareSize * 11, gp.squareSize * 14);
+        rooms.get("dungeon").addGameObject(new Door(gp, "cave", "opened", "door_horizontal"), gp.squareSize * 11, gp.squareSize * 14);
 
         //FINAL MAP
         rooms.get("finalMap").addGameObject(new Lever(gp), gp.squareSize * 12, gp.squareSize * 12);
@@ -232,11 +232,12 @@ public class RoomManager {
     }
 
     public void setEnemies() {
-        rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, 18, 11));
-        rooms.get("sea").addEnemiesData(new EnemyWithPistol(gp, 4, 11));
-        rooms.get("swamp").addEnemiesData(new EnemyWithPistol(gp, 9, 11));
-        rooms.get("cave").addEnemiesData(new EnemyWithFangs(gp, 18, 6));
-        rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, 4, 6));
+        rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 18, gp.squareSize * 11));
+        rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 15, gp.squareSize * 11));
+        rooms.get("sea").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 4, gp.squareSize * 11));
+        rooms.get("swamp").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 9, gp.squareSize * 11));
+        rooms.get("cave").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 18, gp.squareSize * 6));
+        rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 4, gp.squareSize * 6));
         rooms.get("finalMap").addEnemiesData(new Boss(gp));
     }
 }

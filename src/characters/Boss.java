@@ -69,30 +69,30 @@ public class Boss extends Character {
                 isInvincible = true;
                 if(HP > 0.5 * maxHP) {
                     airExtraMissiles = 4;
-                    gp.roomManager.currentRoom.enemies.add(new EnemyWithPistol(gp, 6, 5));
-                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, 12, 7));
-                    gp.roomManager.currentRoom.enemies.add(new EnemyWithPistol(gp, 18, 5));
-                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, 9, 6));
-                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, 15, 6));
+                    gp.roomManager.currentRoom.enemies.add(new EnemyWithPistol(gp, gp.squareSize * 6, gp.squareSize * 5));
+                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, gp.squareSize * 12, gp.squareSize * 7));
+                    gp.roomManager.currentRoom.enemies.add(new EnemyWithPistol(gp, gp.squareSize * 18, gp.squareSize * 5));
+                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, gp.squareSize * 9, gp.squareSize * 6));
+                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, gp.squareSize * 15, gp.squareSize * 6));
                 } else if (HP > 0.25 * maxHP) {
                     airExtraMissiles = 9;
-                    gp.roomManager.currentRoom.enemies.add(new EnemyWithPistol(gp, 6, 5));
-                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, 12, 7));
-                    gp.roomManager.currentRoom.enemies.add(new EnemyWithPistol(gp, 18, 5));
-                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, 9, 6));
-                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, 15, 6));
-                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, 7, 8));
-                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, 17, 8));
+                    gp.roomManager.currentRoom.enemies.add(new EnemyWithPistol(gp, gp.squareSize * 6, gp.squareSize * 5));
+                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, gp.squareSize * 12, gp.squareSize * 7));
+                    gp.roomManager.currentRoom.enemies.add(new EnemyWithPistol(gp, gp.squareSize * 18, gp.squareSize * 5));
+                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, gp.squareSize * 9, gp.squareSize * 6));
+                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, gp.squareSize * 15, gp.squareSize * 6));
+                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, gp.squareSize * 7, gp.squareSize * 8));
+                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, gp.squareSize * 17, gp.squareSize * 8));
                 } else {
                     airExtraMissiles = 14;
-                    gp.roomManager.currentRoom.enemies.add(new EnemyWithPistol(gp, 6, 5));
-                    gp.roomManager.currentRoom.enemies.add(new EnemyWithPistol(gp, 12, 7));
-                    gp.roomManager.currentRoom.enemies.add(new EnemyWithPistol(gp, 18, 5));
-                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, 9, 6));
-                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, 15, 6));
-                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, 7, 8));
-                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, 17, 8));
-                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, 12, 10));
+                    gp.roomManager.currentRoom.enemies.add(new EnemyWithPistol(gp, gp.squareSize * 6, gp.squareSize * 5));
+                    gp.roomManager.currentRoom.enemies.add(new EnemyWithPistol(gp, gp.squareSize * 12, gp.squareSize * 7));
+                    gp.roomManager.currentRoom.enemies.add(new EnemyWithPistol(gp, gp.squareSize * 18, gp.squareSize * 5));
+                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, gp.squareSize * 9, gp.squareSize * 6));
+                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, gp.squareSize * 15, gp.squareSize * 6));
+                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, gp.squareSize * 7, gp.squareSize * 8));
+                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, gp.squareSize * 17, gp.squareSize * 8));
+                    gp.roomManager.currentRoom.enemies.add(new EnemyWithFangs(gp, gp.squareSize * 12, gp.squareSize * 10));
                 }
                 for (int i = 1; i < gp.roomManager.currentRoom.enemies.size(); i++) {
                     gp.roomManager.currentRoom.enemies.get(i).areaOfCollision.x += gp.roomManager.currentRoom.enemies.get(i).screenX;

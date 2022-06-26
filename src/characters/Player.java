@@ -51,6 +51,9 @@ public class Player extends Character {
     public String interactedObjectName;
     int index;
 
+    public int backupArmor;
+    public int backupCoinsAmount;
+
     public int coinsAmount;
     public boolean hasBossKey = true;
 
@@ -75,14 +78,14 @@ public class Player extends Character {
         defaultCollisionAreaX = 8;
         defaultCollisionAreaY = 24;
 
-        maxHP = 15;
+        maxHP = 3;
         HP = maxHP;
-        armor = 5;
+        armor = 0;
         name = "player";
 
         interactedObjectName = "";
 
-        coinsAmount = 50;
+        coinsAmount = gp.ui.armorPrice;
     }
 
     public void setPlayerImages(boolean torch) {
@@ -344,9 +347,14 @@ public class Player extends Character {
                         case "ruins" -> {
                             if(gp.roomManager.currentRoom.phase.equals("ruins unique phase")
                                     && gp.roomManager.currentRoom.staticObjects.get(2).animation != StaticObject.ANIMATION_ONCE) {
-                                interactedObjectName = "lever";
-                                gp.roomManager.currentRoom.staticObjects.get(2).interactingFrames = 150;
-                                gp.ui.makeScreenHint("Start the journey...#(press F)", 150);
+                                if(armor == 5) {
+                                    interactedObjectName = "lever";
+                                    gp.roomManager.currentRoom.staticObjects.get(2).interactingFrames = 150;
+                                    gp.ui.makeScreenHint("Start the journey...#(press F)", 150);
+                                } else {
+                                    gp.roomManager.currentRoom.staticObjects.get(2).interactingFrames = 150;
+                                    gp.ui.makeScreenHint("You should buy armor before you go...#Visit the shop out there", 150);
+                                }
                             }
                         }
 
@@ -387,7 +395,8 @@ public class Player extends Character {
 
         //DEATH
         if (HP <= 0){
-            System.exit(0);
+            gp.currentState = gp.gameOverState;
+            gp.ui.optionNum = 1;
         }
     }
 

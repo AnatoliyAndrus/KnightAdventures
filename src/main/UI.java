@@ -33,8 +33,8 @@ public class UI {
 
     public boolean shopIsOpened;
     public int armorPrice = 5;
-    public int shotgunPrice = 5;
-    public int burstPrice = 5;
+    public int shotgunPrice = 10;
+    public int burstPrice = 10;
 
     public UI(GamePanel gp) {
         this.gp = gp;
@@ -71,6 +71,12 @@ public class UI {
             drawDarkScreen(g2d);
             drawPlayerStats(g2d);
             drawPauseScreen(g2d);
+        }
+        //GAME OVER STATE
+        if (gp.currentState == gp.gameOverState) {
+            drawDarkScreen(g2d);
+            drawPlayerStats(g2d);
+            drawGameOverScreen(g2d);
         }
     }
 
@@ -225,8 +231,8 @@ public class UI {
 
         g2d.drawString(screenText, x, y);
 
-        //LOAD GAME
-        screenText = "Load game";
+        //EXIT
+        screenText = "Exit";
         g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
 
         y = gp.squareSize * 9;
@@ -246,25 +252,25 @@ public class UI {
         g2d.drawString(screenText, x, y);
 
 
-        //EXIT
-        screenText = "Exit";
-        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
-
-        y = gp.squareSize * 11;
-        x = getCenterX(screenText, g2d);
-
-        if (optionNum == 3) {
-            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 40));
-
-            g2d.setStroke(new BasicStroke(5));
-            g2d.drawRoundRect(x - 24,
-                    y - (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight(),
-                    (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
-                    (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
-                    25, 25);
-        }
-
-        g2d.drawString(screenText, x, y);
+//        //LOAD GAME
+//        screenText = "Load game";
+//        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+//
+//        y = gp.squareSize * 11;
+//        x = getCenterX(screenText, g2d);
+//
+//        if (optionNum == 3) {
+//            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 40));
+//
+//            g2d.setStroke(new BasicStroke(5));
+//            g2d.drawRoundRect(x - 24,
+//                    y - (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight(),
+//                    (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
+//                    (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
+//                    25, 25);
+//        }
+//
+//        g2d.drawString(screenText, x, y);
     }
 
     private void drawDarkScreen(Graphics2D g2d) {
@@ -443,7 +449,7 @@ public class UI {
         g2d.setFont(g2d.getFont().deriveFont(40f));
         screenText = "Shotgun - " + shotgunPrice;
         g2d.drawString(screenText, x + 15 + gp.squareSize, y + 15 + gp.squareSize * 2);
-        g2d.drawImage(coinImage, x + gp.squareSize * 7 - 20, y + 25, null);
+        g2d.drawImage(coinImage, x + gp.squareSize * 7, y + 25, null);
         if(gp.player.shotgunFire) {
             g2d.drawImage(tickImage, x + gp.squareSize * 9 - 20, y + 25 + gp.squareSize, null);
         }
@@ -462,7 +468,7 @@ public class UI {
         g2d.setFont(g2d.getFont().deriveFont(40f));
         screenText = "Burst - " + burstPrice;
         g2d.drawString(screenText, x + 15 + gp.squareSize, y + 25 + gp.squareSize * 3);
-        g2d.drawImage(coinImage, x + gp.squareSize * 6 - 20, y + 35 + gp.squareSize, null);
+        g2d.drawImage(coinImage, x + gp.squareSize * 6, y + 35 + gp.squareSize, null);
         if(gp.player.burstFire) {
             g2d.drawImage(tickImage, x + gp.squareSize * 9 - 20, y + 35 + gp.squareSize * 2, null);
         }
@@ -531,6 +537,63 @@ public class UI {
 
         int y = gp.maxScreenHeight/2;
         int x = getCenterX(screenText, g2d);
+
+        g2d.drawString(screenText, x, y);
+    }
+
+    private void drawGameOverScreen(Graphics2D g2d) {
+        //DARK SCREEN
+        g2d.setColor(new Color(0,0,0,200));
+        g2d.fillRect(0, 0, gp.squareSize*(gp.maxCols - 2), gp.squareSize*(gp.maxRows - 2));
+
+        //GAME OVER
+        g2d.setColor(Color.WHITE);
+        g2d.setFont(gameFont.deriveFont(Font.PLAIN, 70));
+
+        screenText = "Game Over";
+
+        int y = gp.squareSize * 5;
+        int x = getCenterX(screenText, g2d);
+
+        g2d.drawString(screenText, x, y);
+
+        //Retry
+        screenText = "Retry";
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+
+        y = gp.squareSize * 9;
+        x = getCenterX(screenText, g2d);
+
+        if (optionNum == 1) {
+            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 40));
+
+            g2d.setStroke(new BasicStroke(3));
+            g2d.drawRoundRect(x - 24,
+                    y - (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight(),
+                    (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
+                    (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
+                    25, 25);
+        }
+
+        g2d.drawString(screenText, x, y);
+
+        //Quit
+        screenText = "Quit";
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+
+        y = gp.squareSize * 11;
+        x = getCenterX(screenText, g2d);
+
+        if (optionNum == 2) {
+            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 40));
+
+            g2d.setStroke(new BasicStroke(3));
+            g2d.drawRoundRect(x - 24,
+                    y - (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight(),
+                    (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
+                    (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
+                    25, 25);
+        }
 
         g2d.drawString(screenText, x, y);
     }

@@ -51,6 +51,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int titleState = 0;
     public final int pauseState = 1;
     public final int gameState = 2;
+    public final int gameOverState = 3;
     public int currentState = titleState;
 
 
@@ -72,6 +73,55 @@ public class GamePanel extends JPanel implements Runnable{
 //        playMusic(0);
 
         visualManager.setup();
+    }
+
+    public void retry() {
+        roomManager.currentRoom.enemies = new ArrayList<>();
+        roomManager.currentRoom.phase = "initial";
+        roomManager.currentRoom.changingPhase = false;
+        roomManager.currentRoom.enemiesSpawned = false;
+        roomManager.currentRoom.bossSpawned = false;
+        for (StaticObject obj: roomManager.currentRoom.staticObjects) {
+            obj.interactingFrames = 0;
+            obj.isInteracted = false;
+            switch (obj.name) {
+                case "target" -> obj.isGarbage = true;
+                case "torch_left", "torch_right" -> obj.setAnimation(StaticObject.ANIMATION_CONTINUOUSLY);
+                case "boss_door" -> {
+                    if(roomManager.currentRoom.name.equals("finalMap")) {
+                        obj.noAnimation = obj.images.get(obj.images.size() - 1);
+                        obj.collision = false;
+                    }
+                }
+                case "door_horizontal", "door_vertical" -> {
+                    if(roomManager.rooms.get(obj.relatedRoom).phase.equals("completed")) {
+                        obj.noAnimation = obj.images.get(0);
+                        obj.collision = false;
+                    }
+                }
+                case "lever" -> obj.noAnimation = obj.images.get(0);
+                case "chest" -> {
+                    obj.isOpened = false;
+                    obj.emptyChest = false;
+                }
+            }
+        }
+
+        player.HP = player.maxHP;
+        player.coinsAmount = player.backupCoinsAmount;
+        player.armor = player.backupArmor;
+        player.hasTorch = false;
+        player.setPlayerImages(false);
+        player.interactedObjectName = "";
+        player.screenX = squareSize * (maxCols - 3) / 2.0;
+        player.screenY = squareSize * (maxRows - 3) / 2.0;
+        player.speed = FPS/20;
+        player.lastBulletFrames = 0;
+        player.direction = "down";
+
+        bullets = new ArrayList<>();
+
+        roomManager.setCurrentRoom("ruins");
     }
 
     public void startGameThread() {
@@ -107,6 +157,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     private void update() {
+        System.out.println(player.backupArmor + " " + player.backupCoinsAmount);
         //TITLE STATE
         if (currentState == titleState) {
 
@@ -144,7 +195,10 @@ public class GamePanel extends JPanel implements Runnable{
         if (currentState == pauseState) {
 
         }
+        //GAME OVER STATE
+        if (currentState == gameOverState) {
 
+        }
     }
 
     public void paintComponent(Graphics g) {

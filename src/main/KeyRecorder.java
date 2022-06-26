@@ -28,11 +28,11 @@ public class KeyRecorder implements KeyListener {
                 //TITLE
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                     gp.ui.optionNum++;
-                    if (gp.ui.optionNum == 4) gp.ui.optionNum = 1;
+                    if (gp.ui.optionNum == 3) gp.ui.optionNum = 1;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
                     gp.ui.optionNum--;
-                    if (gp.ui.optionNum == 0) gp.ui.optionNum = 3;
+                    if (gp.ui.optionNum == 0) gp.ui.optionNum = 2;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     //NEW GAME
@@ -40,11 +40,11 @@ public class KeyRecorder implements KeyListener {
                         gp.ui.loadingScreen = true;
                     }
                     //LOAD GAME
-                    else if (gp.ui.optionNum == 2) {
+                    else if (gp.ui.optionNum == 3) {
 
                     }
                     //EXIT
-                    else if (gp.ui.optionNum == 3) {
+                    else if (gp.ui.optionNum == 2) {
                         System.exit(0);
                     }
                 }
@@ -124,7 +124,8 @@ public class KeyRecorder implements KeyListener {
                         }
                     }
                     case "boss_door" -> {
-                        if (!gp.roomManager.currentRoom.staticObjects.get(3).isOpened && gp.player.hasBossKey) {
+                        if (!gp.roomManager.currentRoom.staticObjects.get(3).isOpened && gp.player.hasBossKey
+                                && gp.roomManager.currentRoom.name.equals("castle")) {
                             gp.roomManager.currentRoom.staticObjects.get(3).isOpened = true;
                             gp.player.hasBossKey = false;
                             gp.roomManager.currentRoom.staticObjects.get(3).setAnimation(StaticObject.ANIMATION_ONCE);
@@ -173,6 +174,27 @@ public class KeyRecorder implements KeyListener {
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 gp.currentState = gp.gameState;
 //                gp.playMusic(0);
+            }
+        }
+        //GAME OVER
+        else if (gp.currentState == gp.gameOverState) {
+            if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                gp.ui.optionNum++;
+                if (gp.ui.optionNum == 3) gp.ui.optionNum = 1;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_UP) {
+                gp.ui.optionNum--;
+                if (gp.ui.optionNum == 0) gp.ui.optionNum = 2;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                if(gp.ui.optionNum == 1) {
+                    gp.retry();
+                    gp.currentState = gp.gameState;
+                }
+                if(gp.ui.optionNum == 2) {
+
+                    gp.currentState = gp.titleState;
+                }
             }
         }
     }

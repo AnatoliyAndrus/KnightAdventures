@@ -28,11 +28,11 @@ public class EnemyWithFangs extends Character{
 
     public int requiredReloadingFrames = 60;
 
-    public EnemyWithFangs(GamePanel gp, int col, int row) {
+    public EnemyWithFangs(GamePanel gp, double screenX, double screenY) {
         super(gp);
 
-        screenX = gp.squareSize * col;
-        screenY = gp.squareSize * row;
+        this.screenX = screenX;
+        this.screenY = screenY;
 
         setDefaultParameters();
         setEnemyImages();
