@@ -74,43 +74,45 @@ public class CollisionViewer {
 
     public void checkMapCollision(Bullet bullet) {
 
-        //COORDINATES
-        int bulletLeftWorldX = (int) bullet.screenX + bullet.areaOfCollision.x + gp.squareSize;
-        int bulletRightWorldX = (int) bullet.screenX + bullet.areaOfCollision.x + bullet.areaOfCollision.width + gp.squareSize;
-        int bulletTopWorldY = (int) bullet.screenY + bullet.areaOfCollision.y + gp.squareSize;
-        int bulletBottomWorldY = (int) bullet.screenY + bullet.areaOfCollision.y + bullet.areaOfCollision.height + gp.squareSize;
+        if (!gp.roomManager.currentRoom.isWaterRoom) {
+            //COORDINATES
+            int bulletLeftWorldX = (int) bullet.screenX + bullet.areaOfCollision.x + gp.squareSize;
+            int bulletRightWorldX = (int) bullet.screenX + bullet.areaOfCollision.x + bullet.areaOfCollision.width + gp.squareSize;
+            int bulletTopWorldY = (int) bullet.screenY + bullet.areaOfCollision.y + gp.squareSize;
+            int bulletBottomWorldY = (int) bullet.screenY + bullet.areaOfCollision.y + bullet.areaOfCollision.height + gp.squareSize;
 
-        //SIDES
-        int bulletLeftSide = bulletLeftWorldX / gp.squareSize;
-        int bulletRightSide = bulletRightWorldX / gp.squareSize;
-        int bulletTopSide = bulletTopWorldY/ gp.squareSize;
-        int bulletBottomSide = bulletBottomWorldY/ gp.squareSize;
+            //SIDES
+            int bulletLeftSide = bulletLeftWorldX / gp.squareSize;
+            int bulletRightSide = bulletRightWorldX / gp.squareSize;
+            int bulletTopSide = bulletTopWorldY / gp.squareSize;
+            int bulletBottomSide = bulletBottomWorldY / gp.squareSize;
 
-        int square;
+            int square;
 
-        switch (bullet.direction) {
-            case "upLeft" -> {
-                square = gp.roomManager.currentMatrix[bulletLeftSide][bulletTopSide];
-                if (gp.roomManager.currentRoom.squares[square].collision) {
-                    gp.bullets.remove(bullet);
+            switch (bullet.direction) {
+                case "upLeft" -> {
+                    square = gp.roomManager.currentMatrix[bulletLeftSide][bulletTopSide];
+                    if (gp.roomManager.currentRoom.squares[square].collision) {
+                        gp.bullets.remove(bullet);
+                    }
                 }
-            }
-            case "upRight" -> {
-                square = gp.roomManager.currentMatrix[bulletRightSide][bulletTopSide];
-                if (gp.roomManager.currentRoom.squares[square].collision) {
-                    gp.bullets.remove(bullet);
+                case "upRight" -> {
+                    square = gp.roomManager.currentMatrix[bulletRightSide][bulletTopSide];
+                    if (gp.roomManager.currentRoom.squares[square].collision) {
+                        gp.bullets.remove(bullet);
+                    }
                 }
-            }
-            case "downLeft" -> {
-                square = gp.roomManager.currentMatrix[bulletLeftSide][bulletBottomSide];
-                if (gp.roomManager.currentRoom.squares[square].collision) {
-                    gp.bullets.remove(bullet);
+                case "downLeft" -> {
+                    square = gp.roomManager.currentMatrix[bulletLeftSide][bulletBottomSide];
+                    if (gp.roomManager.currentRoom.squares[square].collision) {
+                        gp.bullets.remove(bullet);
+                    }
                 }
-            }
-            case "downRight" -> {
-                square = gp.roomManager.currentMatrix[bulletRightSide][bulletBottomSide];
-                if (gp.roomManager.currentRoom.squares[square].collision) {
-                    gp.bullets.remove(bullet);
+                case "downRight" -> {
+                    square = gp.roomManager.currentMatrix[bulletRightSide][bulletBottomSide];
+                    if (gp.roomManager.currentRoom.squares[square].collision) {
+                        gp.bullets.remove(bullet);
+                    }
                 }
             }
         }
