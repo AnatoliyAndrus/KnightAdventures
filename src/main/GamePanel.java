@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int FPS = 60;
 
     //SYSTEM
-    Thread gameThread;
+    public Thread gameThread;
     public KeyRecorder keyR = new KeyRecorder(this);
     public MouseRecorder mouseR = new MouseRecorder(this);
     public RoomManager roomManager = new RoomManager(this);
@@ -124,8 +124,11 @@ public class GamePanel extends JPanel implements Runnable{
         roomManager.setCurrentRoom("ruins");
     }
 
-    public void startGameThread() {
+    public void restartGame() {
+        Main.restartGame();
+    }
 
+    public void startGameThread() {
         //STARTING THREAD
         gameThread = new Thread(this);
         gameThread.start();
@@ -157,11 +160,8 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     private void update() {
-        System.out.println(player.backupArmor + " " + player.backupCoinsAmount);
         //TITLE STATE
-        if (currentState == titleState) {
-
-        }
+        if (currentState == titleState) {}
         //GAME STATE
         if (currentState == gameState) {
 

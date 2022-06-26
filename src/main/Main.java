@@ -9,15 +9,39 @@ import static javax.swing.WindowConstants.*;
 
 public class Main {
 
+    public static JFrame gameFrame;
+    public static GamePanel gamePanel;
+
     public static void main(String[] args) {
 
         //SETTINGS
-        JFrame gameFrame = new JFrame();
+        gameFrame = new JFrame();
         gameFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         gameFrame.setResizable(false);
 
         //PANEL
-        GamePanel gamePanel = new GamePanel();
+        gamePanel = new GamePanel();
+        gameFrame.add(gamePanel);
+
+        gameFrame.pack();
+        gameFrame.setTitle("Game");
+        gameFrame.setLocationRelativeTo(null);
+        gameFrame.setVisible(true);
+
+        gamePanel.startGameThread();
+    }
+
+    public static void restartGame() {
+        gameFrame.removeAll();
+        gamePanel.gameThread.stop();
+
+        //NEW SETTINGS
+        gameFrame = new JFrame();
+        gameFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        gameFrame.setResizable(false);
+
+        //NEW PANEL
+        gamePanel = new GamePanel();
         gameFrame.add(gamePanel);
 
         gameFrame.pack();

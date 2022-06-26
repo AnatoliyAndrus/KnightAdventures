@@ -192,8 +192,7 @@ public class KeyRecorder implements KeyListener {
                     gp.currentState = gp.gameState;
                 }
                 if(gp.ui.optionNum == 2) {
-
-                    gp.currentState = gp.titleState;
+                    gp.restartGame();
                 }
             }
         }
