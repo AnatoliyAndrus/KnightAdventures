@@ -70,7 +70,7 @@ public class Player extends Character {
 
     public void setDefaultParameters() {
         screenX = gp.squareSize * (gp.maxCols - 3) / 2.0;
-        screenY = gp.squareSize * (gp.maxRows - 3) / 2.0;
+        screenY = gp.squareSize * 10;
         speed = gp.FPS/20;
 
         // COLLISION SQUARE OF THE PLAYER
@@ -277,10 +277,6 @@ public class Player extends Character {
 
             //INTERACTING DIFFERENT OBJECTS
             switch (gp.roomManager.currentRoom.staticObjects.get(index).name) {
-                case "woodenBox" -> {
-                    interactedObjectName = "woodenBox";
-                    gp.ui.makeScreenHint("This is just a box hehe", 150);
-                }
                 case "shop" -> {
                     interactedObjectName = "shop";
                     //ADD DOTA SOUND

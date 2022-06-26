@@ -114,7 +114,7 @@ public class GamePanel extends JPanel implements Runnable{
         player.setPlayerImages(false);
         player.interactedObjectName = "";
         player.screenX = squareSize * (maxCols - 3) / 2.0;
-        player.screenY = squareSize * (maxRows - 3) / 2.0;
+        player.screenY = 10;
         player.speed = FPS/20;
         player.lastBulletFrames = 0;
         player.direction = "down";
