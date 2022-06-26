@@ -212,6 +212,12 @@ public class RoomManager {
         //SEA
         rooms.get("sea").addGameObject(new Door(gp, "castle", "opened", "door_vertical"), gp.squareSize, gp.squareSize * 6);
         rooms.get("sea").addGameObject(new Door(gp, "sea", "closed", "door_horizontal"), gp.squareSize * 11, 0);
+        rooms.get("sea").addGameObject(new WoodenBox(gp), gp.squareSize * 13 + 20, gp.squareSize * 8);
+        rooms.get("sea").addGameObject(new WoodenBox(gp), gp.squareSize * 14, gp.squareSize * 8 + 38);
+        rooms.get("sea").addGameObject(new WoodenBox(gp), gp.squareSize * 17, gp.squareSize * 5);
+        rooms.get("sea").addGameObject(new WoodenBox(gp), gp.squareSize * 9 + 20, gp.squareSize * 4);
+        rooms.get("sea").addGameObject(new WoodenBox(gp), gp.squareSize * 10 + 20, gp.squareSize * 4 - 20);
+        rooms.get("sea").addGameObject(new WoodenBox(gp), gp.squareSize * 10, gp.squareSize * 4 + 38);
 
         //SWAMP
         rooms.get("swamp").addGameObject(new Door(gp, "sea", "opened", "door_horizontal"), gp.squareSize * 11, gp.squareSize * 14);
@@ -238,7 +244,7 @@ public class RoomManager {
     public void setEnemies() {
         rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 18, gp.squareSize * 11));
         rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 15, gp.squareSize * 11));
-        rooms.get("sea").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 4, gp.squareSize * 11));
+        rooms.get("sea").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 8, gp.squareSize * 9));
         rooms.get("swamp").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 9, gp.squareSize * 11));
         rooms.get("cave").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 18, gp.squareSize * 6));
         rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 4, gp.squareSize * 6));
