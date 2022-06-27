@@ -13,6 +13,10 @@ import java.awt.*;
 
 public class Fountain extends StaticObject{
 
+    /**
+     * constructor
+     * @param gp game panel
+     */
     public Fountain(GamePanel gp) {
         super(gp, "fountain");
 

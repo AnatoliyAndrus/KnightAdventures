@@ -15,6 +15,10 @@ public class Main {
     public static JFrame gameFrame;
     public static GamePanel gamePanel;
 
+    /**
+     * main method
+     * @param args arguments
+     */
     public static void main(String[] args) {
 
         //SETTINGS
@@ -34,6 +38,9 @@ public class Main {
         gamePanel.startGameThread();
     }
 
+    /**
+     * method which restarts game completely
+     */
     public static void restartGame() {
         gameFrame.removeAll();
         gamePanel.gameThread.stop();

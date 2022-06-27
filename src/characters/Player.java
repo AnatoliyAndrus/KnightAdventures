@@ -557,7 +557,7 @@ public class Player extends Character {
 
     /**
      * method which checks if scripts are active
-     * @return
+     * @return true if scripts
      */
     private boolean checkForActiveScripts() {
         return (gp.roomManager.currentRoom.doorsOpeningNow > 0) || (gp.roomManager.currentRoom.doorsClosingNow > 0) ;

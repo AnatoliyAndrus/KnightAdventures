@@ -22,7 +22,7 @@ public class UI {
 
     //GAME PANEL
     GamePanel gp;
-    //STANDART FONT
+    //STANDARD FONT
     Font gameFont;
     //SCREEN TEXT
     String screenText;
