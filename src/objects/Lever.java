@@ -15,7 +15,7 @@ public class Lever extends StaticObject{
         addImage("lever_4");
         noAnimation = setImage("objects/lever/lever_1");
         animation = StaticObject.NO_ANIMATION;
-        framesToChangeSprite = 30;
+        framesToChangeSprite = 8;
 
         this.collision = false;
         this.defaultCollisionAreaX = 0;

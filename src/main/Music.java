@@ -7,12 +7,12 @@ import java.io.File;
 
 public class Music {
     public Clip clip;
-    File[] soundFiles = new File[20];
+    File[] soundFiles = new File[30];
 
     public long currentSecond;
 
     public Music() {
-        soundFiles[0] = new File("resources/sound/musics/mainTrack.wav");
+        soundFiles[0] = new File("resources/sound/musics/ruins.wav");
         soundFiles[1] = new File("resources/sound/attacks/player_single_shot.wav");
         soundFiles[2] = new File("resources/sound/attacks/alien_single_shot.wav");
         soundFiles[3] = new File("resources/sound/shop/welcome.wav");
@@ -27,6 +27,12 @@ public class Music {
         soundFiles[12] = new File("resources/sound/coin/coin.wav");
         soundFiles[13] = new File("resources/sound/shop/purchase.wav");
         soundFiles[14] = new File("resources/sound/door/boss_door.wav");
+        soundFiles[15] = new File("resources/sound/menu/menu_switch.wav");
+        soundFiles[16] = new File("resources/sound/shop/shop_bell.wav");
+        soundFiles[17] = new File("resources/sound/lever/lever.wav");
+        soundFiles[18] = new File("resources/sound/torch/torches.wav");
+        soundFiles[19] = new File("resources/sound/chest/chest_opening.wav");
+        soundFiles[20] = new File("resources/sound/boss/alien_spawning.wav");
     }
 
     public void setClip(int index) {
@@ -48,8 +54,12 @@ public class Music {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
-    public void stop(){
+    public void pause(){
         currentSecond = clip.getMicrosecondPosition();
+        clip.stop();
+    }
+
+    public void stop(){
         clip.stop();
     }
 }

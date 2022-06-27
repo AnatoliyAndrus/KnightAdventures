@@ -109,8 +109,8 @@ public class Boss extends Character {
                     }
                     gp.roomManager.currentRoom.enemies.get(i).areaOfCollision.x = gp.roomManager.currentRoom.enemies.get(i).defaultCollisionAreaX;
                     gp.roomManager.currentRoom.enemies.get(i).areaOfCollision.y = gp.roomManager.currentRoom.enemies.get(i).defaultCollisionAreaY;
-
                 }
+                gp.playSound(20);
 
                 imageFrames = 0;
                 framesToChangeSprite = 10;
@@ -150,13 +150,11 @@ public class Boss extends Character {
                     gp.roomManager.currentRoom.addGameObject(target, randX, randY);
                 }
             }
-
             if(gp.roomManager.currentRoom.enemies.size() == 1) {
                 isInvincible = false;
                 airAttacking = false;
                 if(framesToCount >= 60 && framesToCount < 180) framesToCount = 180;
             }
-
             if(framesToCount == 180) {
 
                 for (int i = 0; i < targets.size(); i++) {

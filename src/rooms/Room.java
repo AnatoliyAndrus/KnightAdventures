@@ -32,6 +32,8 @@ public class Room {
 
     public Square[] squares;
 
+    public int songIndex;
+
     public boolean isWaterRoom;
 
     public boolean playerEntered;
@@ -43,7 +45,7 @@ public class Room {
     public int doorsOpeningNow = 0;
     public int doorsClosingNow = 0;
 
-    public Room(String name, RoomManager sq) {
+    public Room(String name, int songIndex, RoomManager sq) {
 
         this.name = name;
         squares = new Square[30];
@@ -55,6 +57,8 @@ public class Room {
         staticObjects = new ArrayList<>();
         enemies = new ArrayList<>();
         enemiesData = new ArrayList<>();
+
+        this.songIndex = songIndex;
     }
 
     public void setAllImages(String room) {

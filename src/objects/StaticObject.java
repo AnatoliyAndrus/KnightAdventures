@@ -95,6 +95,7 @@ public class StaticObject extends GameObject {
                     }
                     if(name.equals("chest")) {
                         isOpened = true;
+                        gp.player.interactedObjectName = "";
                     }
                     if(name.equals("lever")) {
                         switch(gp.roomManager.currentRoom.name) {

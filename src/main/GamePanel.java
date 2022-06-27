@@ -1,7 +1,6 @@
 package main;
 
 import bullets.Bullet;
-import characters.Character;
 import characters.Player;
 import gameobject.GameObject;
 import objects.StaticObject;
@@ -73,7 +72,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setupGame(){
         //DEFAULT SETUP
-//        playMusic(0);
+        playMusic(0);
         roomManager.setGameObjects();
         roomManager.setEnemies();
 
@@ -311,6 +310,9 @@ public class GamePanel extends JPanel implements Runnable{
         music.loop();
     }
     public void pauseMusic() {
+        music.pause();
+    }
+    public void stopMusic() {
         music.stop();
     }
     public void playSound(int index) {
@@ -318,7 +320,7 @@ public class GamePanel extends JPanel implements Runnable{
         sounds.play();
     }
     public void pauseSound() {
-        sounds.stop();
+        sounds.pause();
     }
 
     private void collectGarbage() {

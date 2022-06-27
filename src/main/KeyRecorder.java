@@ -29,10 +29,12 @@ public class KeyRecorder implements KeyListener {
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                     gp.ui.optionNum++;
                     if (gp.ui.optionNum == 3) gp.ui.optionNum = 1;
+                    gp.playSound(15);
                 }
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
                     gp.ui.optionNum--;
                     if (gp.ui.optionNum == 0) gp.ui.optionNum = 2;
+                    gp.playSound(15);
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     //NEW GAME
@@ -48,6 +50,7 @@ public class KeyRecorder implements KeyListener {
                     else if (gp.ui.optionNum == 2) {
                         System.exit(0);
                     }
+                    gp.playSound(15);
                 }
             }
             else if (!gp.ui.loadingScreen) {
@@ -55,10 +58,12 @@ public class KeyRecorder implements KeyListener {
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                     gp.ui.optionNum++;
                     if (gp.ui.optionNum == 7) gp.ui.optionNum = 1;
+                    gp.playSound(15);
                 }
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
                     gp.ui.optionNum--;
                     if (gp.ui.optionNum == 0) gp.ui.optionNum = 6;
+                    gp.playSound(15);
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if(gp.ui.optionNum < 6) {
@@ -68,6 +73,7 @@ public class KeyRecorder implements KeyListener {
                         gp.ui.difficultyChoice = false;
                     }
                     gp.ui.optionNum = 1;
+                    gp.playSound(15);
                 }
             }
         }
@@ -88,7 +94,8 @@ public class KeyRecorder implements KeyListener {
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 if(!gp.ui.shopIsOpened) {
                     gp.currentState = gp.pauseState;
-//                    gp.pauseMusic();
+                    gp.pauseMusic();
+                    gp.playSound(15);
                     if(gp.roomManager.currentRoom.phase.equals("in progress") && !gp.player.scriptsAreActive)
                         gp.ui.optionNum = 1;
                     else
@@ -97,6 +104,7 @@ public class KeyRecorder implements KeyListener {
                     gp.ui.shopIsOpened = false;
                     gp.player.shooting = false;
                     gp.ui.optionNum = 1;
+                    gp.playSound(16);
                 }
             }
             //F INTERACTIONS
@@ -110,16 +118,20 @@ public class KeyRecorder implements KeyListener {
                         }
                     }
                     case "dungeonTorches" -> {
-                        if (!gp.player.hasTorch) {
-                            gp.player.hasTorch = true;
-                            gp.player.setPlayerImages(true);
-                            gp.roomManager.currentRoom.staticObjects.get(0).setAnimation(StaticObject.NO_ANIMATION);
-                            gp.roomManager.currentRoom.staticObjects.get(1).setAnimation(StaticObject.NO_ANIMATION);
-                        } else {
-                            gp.player.hasTorch = false;
-                            gp.player.setPlayerImages(false);
-                            gp.roomManager.currentRoom.staticObjects.get(0).setAnimation(StaticObject.ANIMATION_CONTINUOUSLY);
-                            gp.roomManager.currentRoom.staticObjects.get(1).setAnimation(StaticObject.ANIMATION_CONTINUOUSLY);
+                        if(gp.player.screenY <= gp.maxScreenHeight - gp.squareSize * 3) {
+                            if (!gp.player.hasTorch) {
+                                gp.player.hasTorch = true;
+                                gp.player.setPlayerImages(true);
+                                gp.roomManager.currentRoom.staticObjects.get(0).setAnimation(StaticObject.NO_ANIMATION);
+                                gp.roomManager.currentRoom.staticObjects.get(1).setAnimation(StaticObject.NO_ANIMATION);
+                                gp.playSound(18);
+                            } else {
+                                gp.player.hasTorch = false;
+                                gp.player.setPlayerImages(false);
+                                gp.roomManager.currentRoom.staticObjects.get(0).setAnimation(StaticObject.ANIMATION_CONTINUOUSLY);
+                                gp.roomManager.currentRoom.staticObjects.get(1).setAnimation(StaticObject.ANIMATION_CONTINUOUSLY);
+                                gp.playSound(18);
+                            }
                         }
 
                         gp.player.interactedObjectName = "";
@@ -130,22 +142,26 @@ public class KeyRecorder implements KeyListener {
                                 && gp.roomManager.currentRoom.phase.equals("completed")) {
                             gp.roomManager.currentRoom.staticObjects.get(2).isOpened = true;
                             gp.roomManager.currentRoom.staticObjects.get(2).setAnimation(StaticObject.ANIMATION_ONCE);
+                            gp.playSound(19);
                         } else if(!gp.roomManager.currentRoom.staticObjects.get(2).emptyChest &&
                                 !(gp.roomManager.currentRoom.staticObjects.get(2).animation == StaticObject.ANIMATION_ONCE)
                                 && gp.roomManager.currentRoom.phase.equals("completed")){
                             gp.roomManager.currentRoom.staticObjects.get(2).emptyChest = true;
                             gp.roomManager.currentRoom.staticObjects.get(2).noAnimation = gp.roomManager.currentRoom.staticObjects.get(2).images.get(2);
                             gp.player.hasBossKey = true;
+                            gp.playSound(12);
                         }
                     }
                     case "lever" -> {
                         if(gp.roomManager.currentRoom.name.equals("finalMap") &&
                                 gp.roomManager.currentRoom.staticObjects.get(0).animation != StaticObject.ANIMATION_ONCE) {
                             gp.roomManager.currentRoom.staticObjects.get(0).setAnimation(StaticObject.ANIMATION_ONCE);
+                            gp.playSound(17);
                         }
                         if(gp.roomManager.currentRoom.phase.equals("ruins unique phase") &&
                                 gp.roomManager.currentRoom.staticObjects.get(2).animation != StaticObject.ANIMATION_ONCE) {
                             gp.roomManager.currentRoom.staticObjects.get(2).setAnimation(StaticObject.ANIMATION_ONCE);
+                            gp.playSound(17);
                         }
                     }
                     case "boss_door" -> {
@@ -164,12 +180,14 @@ public class KeyRecorder implements KeyListener {
                 if(gp.ui.shopIsOpened) {
                     gp.ui.optionNum++;
                     if (gp.ui.optionNum == 4) gp.ui.optionNum = 1;
+                    gp.playSound(15);
                 }
             }
             if (e.getKeyCode() == KeyEvent.VK_UP) {
                 if(gp.ui.shopIsOpened) {
                     gp.ui.optionNum--;
                     if (gp.ui.optionNum == 0) gp.ui.optionNum = 3;
+                    gp.playSound(15);
                 }
             }
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -198,7 +216,8 @@ public class KeyRecorder implements KeyListener {
         else if (gp.currentState == gp.pauseState) {
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 gp.currentState = gp.gameState;
-//                gp.playMusic(0);
+                gp.playSound(15);
+                gp.playMusic(gp.currentSong);
                 gp.ui.optionNum = 1;
             }
             if (e.getKeyCode() == KeyEvent.VK_DOWN) {
@@ -207,6 +226,7 @@ public class KeyRecorder implements KeyListener {
                     if (gp.ui.optionNum == 3) {
                         gp.ui.optionNum = 1;
                     }
+                    gp.playSound(15);
                 }
             }
             if (e.getKeyCode() == KeyEvent.VK_UP) {
@@ -215,6 +235,7 @@ public class KeyRecorder implements KeyListener {
                     if (gp.ui.optionNum == 0) {
                         gp.ui.optionNum = 2;
                     }
+                    gp.playSound(15);
                 }
             }
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -226,6 +247,7 @@ public class KeyRecorder implements KeyListener {
                     gp.restartGame();
                     gp.ui.optionNum = 1;
                 }
+                gp.playSound(15);
             }
         }
         //GAME OVER
@@ -233,10 +255,12 @@ public class KeyRecorder implements KeyListener {
             if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                 gp.ui.optionNum++;
                 if (gp.ui.optionNum == 3) gp.ui.optionNum = 1;
+                gp.playSound(15);
             }
             if (e.getKeyCode() == KeyEvent.VK_UP) {
                 gp.ui.optionNum--;
                 if (gp.ui.optionNum == 0) gp.ui.optionNum = 2;
+                gp.playSound(15);
             }
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 if(gp.ui.optionNum == 1) {
@@ -246,6 +270,7 @@ public class KeyRecorder implements KeyListener {
                 if(gp.ui.optionNum == 2) {
                     gp.restartGame();
                 }
+                gp.playSound(15);
             }
         }
     }

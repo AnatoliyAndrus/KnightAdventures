@@ -72,7 +72,7 @@ public class Player extends Character {
     public void setDefaultParameters() {
         screenX = gp.squareSize * (gp.maxCols - 3) / 2.0;
         screenY = gp.squareSize * 10;
-        speed = gp.FPS/20;
+        speed = gp.FPS/5;
 
         // COLLISION SQUARE OF THE PLAYER
         areaOfCollision = new Rectangle(8, 24, 32, 24);
@@ -81,7 +81,7 @@ public class Player extends Character {
 
         maxHP = 15;
         HP = maxHP;
-        armor = 0;
+        armor = 5;
         name = "player";
 
         damage = 1;
@@ -134,7 +134,7 @@ public class Player extends Character {
         if(keyR.up || keyR.down || keyR.left || keyR.right) {
 
             if (gp.roomManager.currentRoom.name.equals("dungeon")) {
-                speed = gp.FPS/60;
+                speed = gp.FPS/30;
             } else {
                 speed = gp.FPS/20;
             }
@@ -211,29 +211,50 @@ public class Player extends Character {
             }
 
             //MOVING BETWEEN ROOMS
+            int prevSongIndex = gp.roomManager.currentRoom.songIndex;
             if(screenY > gp.squareSize * (gp.maxRows - 3)) {
                 gp.bullets = new ArrayList<>();
                 resetObjectsTimers();
                 gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.downRoom.name);
                 screenY = 0;
+                //music
+                if(prevSongIndex != gp.roomManager.currentRoom.songIndex) {
+                    gp.stopMusic();
+                    gp.playMusic(gp.roomManager.currentRoom.songIndex);
+                }
             }
             else if(screenY < 0) {
                 gp.bullets = new ArrayList<>();
                 resetObjectsTimers();
                 screenY = gp.squareSize * (gp.maxRows - 3);
                 gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.upRoom.name);
+                //music
+                if(prevSongIndex != gp.roomManager.currentRoom.songIndex) {
+                    gp.stopMusic();
+                    gp.playMusic(gp.roomManager.currentRoom.songIndex);
+                }
             }
             else if(screenX < 0) {
                 gp.bullets = new ArrayList<>();
                 resetObjectsTimers();
                 screenX = gp.squareSize * (gp.maxCols - 3);
                 gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.leftRoom.name);
+                //music
+                if(prevSongIndex != gp.roomManager.currentRoom.songIndex) {
+                    gp.stopMusic();
+                    gp.playMusic(gp.roomManager.currentRoom.songIndex);
+                }
             }
             else if(screenX > gp.squareSize * (gp.maxCols - 3)) {
                 gp.bullets = new ArrayList<>();
                 resetObjectsTimers();
                 screenX = 0;
                 gp.roomManager.setCurrentRoom(gp.roomManager.currentRoom.rightRoom.name);
+                //music
+                if(prevSongIndex != gp.roomManager.currentRoom.songIndex) {
+                    gp.stopMusic();
+                    gp.playMusic(gp.roomManager.currentRoom.songIndex);
+                }
             }
 
             speed = tmpSpeed;
@@ -293,9 +314,9 @@ public class Player extends Character {
             switch (gp.roomManager.currentRoom.staticObjects.get(index).name) {
                 case "shop" -> {
                     interactedObjectName = "shop";
-                    //ADD DOTA SOUND
-                    int phrase = (int) (Math.random() * 3) + 1;
+                    gp.playSound(16);
 
+                    int phrase = (int) (Math.random() * 3) + 1;
                     switch (phrase){
                         case 1 -> {
                             gp.roomManager.currentRoom.staticObjects.get(index).interactingFrames = 150;
