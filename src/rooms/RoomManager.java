@@ -31,13 +31,13 @@ public class RoomManager {
         rooms.put("ruins", new Room("ruins", 0, 0,this));
         rooms.get("ruins").phase = "ruins unique phase";
 
-        rooms.put("castle", new Room("castle", 0, 0,this));
-        rooms.put("sea", new Room("sea", 0, 0,this));
+        rooms.put("castle", new Room("castle", 0, 25,this));
+        rooms.put("sea", new Room("sea", 0, 25,this));
         rooms.get("sea").isWaterRoom = true;
-        rooms.put("swamp", new Room("swamp", 0, 0,this));
+        rooms.put("swamp", new Room("swamp", 0, 25,this));
         rooms.get("swamp").isWaterRoom = true;
-        rooms.put("cave", new Room("cave", 0, 0,this));
-        rooms.put("dungeon", new Room("dungeon", 0, 0,this));
+        rooms.put("cave", new Room("cave", 0, 25,this));
+        rooms.put("dungeon", new Room("dungeon", 26, 26,this));
         rooms.put("finalMap", new Room("finalMap", 23, 22,this));
 
         //NEIGHBOURS
@@ -204,7 +204,7 @@ public class RoomManager {
         //CASTLE
         rooms.get("castle").addGameObject(new Door(gp, "ruins", "opened", "door_horizontal"), gp.squareSize * 11, 0);
         rooms.get("castle").addGameObject(new Door(gp, "castle", "closed", "door_vertical"), gp.squareSize * 23, gp.squareSize * 6);
-        rooms.get("castle").addGameObject(new Door(gp, "castle", "closed", "door_vertical"), gp.squareSize, gp.squareSize * 6);
+        rooms.get("castle").addGameObject(new Door(gp, "swamp", "closed", "door_vertical"), gp.squareSize, gp.squareSize * 6);
         rooms.get("castle").addGameObject(new BossDoor(gp, "closed"), gp.squareSize * 11, gp.squareSize * 16);
 
         //SEA
@@ -225,7 +225,7 @@ public class RoomManager {
             rooms.get("cave").addGameObject(new Torch(gp, "torch_block"), i, gp.squareSize * 3 + 24);
             rooms.get("cave").addGameObject(new Torch(gp, "torch_block"), i, gp.squareSize * 12 + 8);
         }
-        rooms.get("cave").addGameObject(new Door(gp, "castle", "opened", "door_vertical"), gp.squareSize * 23, gp.squareSize * 6);
+        rooms.get("cave").addGameObject(new Door(gp, "swamp", "opened", "door_vertical"), gp.squareSize * 23, gp.squareSize * 6);
         rooms.get("cave").addGameObject(new Door(gp, "cave", "closed", "door_horizontal"), gp.squareSize * 11, 0);
 
         //DUNGEON
@@ -240,45 +240,45 @@ public class RoomManager {
     }
 
     public void setEnemies() {
-//        rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 10, gp.squareSize * 13 - 10));
-//        rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 14, gp.squareSize * 13 - 10));
-//        rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 4, gp.squareSize * 14 - 10));
-//        rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 21, gp.squareSize * 14 - 10));
-//        rooms.get("castle").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 18, gp.squareSize * 9));
-//        rooms.get("castle").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 8, gp.squareSize * 9));
-//
-//        rooms.get("sea").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 8, gp.squareSize * 9));
-//        rooms.get("sea").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 8, gp.squareSize * 6));
-//        rooms.get("sea").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 15, gp.squareSize * 7));
-//        rooms.get("sea").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 8, gp.squareSize * 3));
-//        rooms.get("sea").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 11, gp.squareSize * 13));
-//        rooms.get("sea").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 21, gp.squareSize * 11));
-//        rooms.get("sea").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 16, gp.squareSize * 2));
-//
-//        rooms.get("swamp").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 3, gp.squareSize * 13));
-//        rooms.get("swamp").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 3, gp.squareSize * 5));
-//        rooms.get("swamp").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 7, gp.squareSize * 3));
-//        rooms.get("swamp").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 16, gp.squareSize * 3));
-//        rooms.get("swamp").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 21, gp.squareSize * 8));
-//        rooms.get("swamp").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 9, gp.squareSize * 6));
-//        rooms.get("swamp").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 17, gp.squareSize * 8));
-//
-//        rooms.get("cave").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 11, gp.squareSize * 8));
-//        rooms.get("cave").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 16, gp.squareSize * 11));
-//        rooms.get("cave").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 8, gp.squareSize * 11));
-//        rooms.get("cave").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 22, gp.squareSize * 14));
-//        rooms.get("cave").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 5, gp.squareSize * 4));
-//        rooms.get("cave").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 7, gp.squareSize * 6));
-//        rooms.get("cave").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 10, gp.squareSize * 9));
-//
-//        rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 4, gp.squareSize * 6));
-//        rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 12, gp.squareSize * 4));
-//        rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 10 + 24, gp.squareSize * 6));
-//        rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 14 - 24, gp.squareSize * 3));
-//        rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 5, gp.squareSize * 4));
-//        rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 18, gp.squareSize * 13));
-//        rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 19, gp.squareSize * 3));
-//        rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 2 + 24, gp.squareSize * 7));
+        rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 10, gp.squareSize * 13 - 10));
+        rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 14, gp.squareSize * 13 - 10));
+        rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 4, gp.squareSize * 14 - 10));
+        rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 21, gp.squareSize * 14 - 10));
+        rooms.get("castle").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 18, gp.squareSize * 9));
+        rooms.get("castle").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 8, gp.squareSize * 9));
+
+        rooms.get("sea").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 8, gp.squareSize * 9));
+        rooms.get("sea").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 8, gp.squareSize * 6));
+        rooms.get("sea").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 15, gp.squareSize * 7));
+        rooms.get("sea").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 8, gp.squareSize * 3));
+        rooms.get("sea").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 11, gp.squareSize * 13));
+        rooms.get("sea").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 21, gp.squareSize * 11));
+        rooms.get("sea").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 16, gp.squareSize * 2));
+
+        rooms.get("swamp").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 3, gp.squareSize * 13));
+        rooms.get("swamp").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 3, gp.squareSize * 5));
+        rooms.get("swamp").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 7, gp.squareSize * 3));
+        rooms.get("swamp").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 16, gp.squareSize * 3));
+        rooms.get("swamp").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 21, gp.squareSize * 8));
+        rooms.get("swamp").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 9, gp.squareSize * 6));
+        rooms.get("swamp").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 17, gp.squareSize * 8));
+
+        rooms.get("cave").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 11, gp.squareSize * 8));
+        rooms.get("cave").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 16, gp.squareSize * 11));
+        rooms.get("cave").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 8, gp.squareSize * 11));
+        rooms.get("cave").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 22, gp.squareSize * 14));
+        rooms.get("cave").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 5, gp.squareSize * 4));
+        rooms.get("cave").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 7, gp.squareSize * 6));
+        rooms.get("cave").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 10, gp.squareSize * 9));
+
+        rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 4, gp.squareSize * 6));
+        rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 12, gp.squareSize * 4));
+        rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 10 + 24, gp.squareSize * 6));
+        rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 14 - 24, gp.squareSize * 3));
+        rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 5, gp.squareSize * 4));
+        rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 18, gp.squareSize * 13));
+        rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 19, gp.squareSize * 3));
+        rooms.get("dungeon").addEnemiesData(new EnemyWithFangs(gp, gp.squareSize * 2 + 24, gp.squareSize * 7));
 
         rooms.get("finalMap").addEnemiesData(new Boss(gp));
     }

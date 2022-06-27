@@ -37,6 +37,8 @@ public class Music {
         soundFiles[22] = new File("resources/sound/boss/boss_fight.wav");
         soundFiles[23] = new File("resources/sound/musics/boss_room.wav");
         soundFiles[24] = new File("resources/sound/musics/ruins_water.wav");
+        soundFiles[25] = new File("resources/sound/musics/fighting.wav");
+        soundFiles[26] = new File("resources/sound/musics/dungeon.wav");
     }
 
     public void setClip(int index) {

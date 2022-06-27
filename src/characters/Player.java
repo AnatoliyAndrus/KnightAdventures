@@ -58,7 +58,7 @@ public class Player extends Character {
     public int backupCoinsAmount;
 
     public int coinsAmount;
-    public boolean hasBossKey = true;
+    public boolean hasBossKey;
 
     public Player(GamePanel gp, KeyRecorder keyR) {
         super(gp);
@@ -73,7 +73,7 @@ public class Player extends Character {
     public void setDefaultParameters() {
         screenX = gp.squareSize * (gp.maxCols - 3) / 2.0;
         screenY = gp.squareSize * 10;
-        speed = gp.FPS/5;
+        speed = gp.FPS/20;
 
         // COLLISION SQUARE OF THE PLAYER
         areaOfCollision = new Rectangle(8, 24, 32, 24);
@@ -82,7 +82,7 @@ public class Player extends Character {
 
         maxHP = 15;
         HP = maxHP;
-        armor = 5;
+        armor = 0;
         name = "player";
 
         damage = 1;
@@ -90,7 +90,7 @@ public class Player extends Character {
 
         interactedObjectName = "";
 
-        coinsAmount = gp.ui.armorPrice * 10;
+        coinsAmount = gp.ui.armorPrice;
     }
 
     public void setPlayerImages(boolean torch) {
