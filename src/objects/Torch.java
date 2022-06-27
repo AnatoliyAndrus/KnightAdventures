@@ -1,3 +1,10 @@
+/**
+ * @author Anatolii Andrusenko, Vladislav Marchenko, Andrii Sulimenko
+ *
+ * @version 1.0
+ *
+ * class of torches
+ */
 package objects;
 
 import main.GamePanel;
@@ -6,6 +13,11 @@ import java.awt.*;
 
 public class Torch extends StaticObject {
 
+    /**
+     * constructor
+     * @param gp game panel
+     * @param folderName name of folder (to define which kind of torch is it)
+     */
     public Torch(GamePanel gp, String folderName){
         super(gp, folderName);
 

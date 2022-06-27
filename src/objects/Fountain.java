@@ -1,3 +1,10 @@
+/**
+ * @author Anatolii Andrusenko, Vladislav Marchenko, Andrii Sulimenko
+ *
+ * @version 1.0
+ *
+ * class of fountain. The fountain has animation, collision
+ */
 package objects;
 
 import main.GamePanel;
@@ -35,6 +42,10 @@ public class Fountain extends StaticObject{
         this.areaOfCollision = new Rectangle(defaultCollisionAreaX, defaultCollisionAreaY, 128, 50);
     }
 
+    /**
+     * method to draw fountain
+     * @param g2d graphics 2d
+     */
     @Override
     public void draw(Graphics2D g2d) {
         if(imageNum == -1) g2d.drawImage(noAnimation, (int)screenX, (int)screenY, null);

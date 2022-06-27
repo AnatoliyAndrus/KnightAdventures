@@ -1,3 +1,10 @@
+/**
+ * @author Anatolii Andrusenko, Vladislav Marchenko, Andrii Sulimenko
+ *
+ * @version 1.0
+ *
+ * class of wooden boxes
+ */
 package objects;
 
 import main.GamePanel;
@@ -6,6 +13,10 @@ import java.awt.*;
 
 public class WoodenBox extends StaticObject {
 
+    /**
+     * constructor
+     * @param gp game panel
+     */
     public WoodenBox(GamePanel gp){
         super(gp, "woodenBox");
 

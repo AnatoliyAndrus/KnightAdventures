@@ -1,3 +1,10 @@
+/**
+ * @author Anatolii Andrusenko, Vladislav Marchenko, Andrii Sulimenko
+ *
+ * @version 1.0
+ *
+ * class of coins. Coin can be collected by player
+ */
 package objects;
 
 import main.GamePanel;
@@ -7,6 +14,10 @@ import java.awt.image.BufferedImage;
 
 public class Coin extends StaticObject{
 
+    /**
+     * constructor
+     * @param gp game panel
+     */
     public Coin(GamePanel gp) {
         super(gp, "coin");
 

@@ -1,9 +1,23 @@
+/**
+ * @author Anatolii Andrusenko, Vladislav Marchenko, Andrii Sulimenko
+ *
+ * @version 1.0
+ *
+ * class of doors. Door can be opened or closed
+ */
 package objects;
 import main.GamePanel;
 import java.awt.*;
 
 public class Door extends StaticObject {
 
+    /**
+     * constructor
+     * @param gp game panel
+     * @param relatedRoom room which this door is related to
+     * @param initialDoorState initial state of door (opened or closed)
+     * @param folderName name of folder (to choose, if the door is horisontal of vertical)
+     */
     public Door(GamePanel gp, String relatedRoom, String initialDoorState, String folderName) {
         super(gp, folderName);
 

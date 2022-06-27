@@ -1,5 +1,8 @@
 /**
  * @author Anatolii Andrusenko, Andrii Sulimenko, Vladyslav Marchenko
+ * @version 1.0
+ *
+ * class main which starts the whole program
  */
 package main;
 

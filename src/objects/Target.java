@@ -1,3 +1,10 @@
+/**
+ * @author Anatolii Andrusenko, Vladislav Marchenko, Andrii Sulimenko
+ *
+ * @version 1.0
+ *
+ * class of targets. Targets are part of attack of the boss
+ */
 package objects;
 
 import main.GamePanel;
@@ -5,6 +12,13 @@ import main.GamePanel;
 import java.awt.*;
 
 public class Target extends StaticObject{
+
+    /**
+     * target
+     * @param gp game panel
+     * @param screenX x position of target
+     * @param screenY y position of target
+     */
     public Target(GamePanel gp, int screenX, int screenY) {
         super(gp, "target");
 

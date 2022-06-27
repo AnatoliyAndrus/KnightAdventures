@@ -1,3 +1,10 @@
+/**
+ * @author Anatolii Andrusenko, Vladislav Marchenko, Andrii Sulimenko
+ *
+ * @version 1.0
+ *
+ * class which manages whole collision af all objects and entities
+ */
 package main;
 
 import bullets.Bullet;
@@ -6,12 +13,21 @@ import characters.Character;
 
 public class CollisionViewer {
 
+    //GAME PANEL
     GamePanel gp;
 
+    /**
+     * constructor
+     * @param gp game panel
+     */
     public CollisionViewer(GamePanel gp) {
         this.gp = gp;
     }
 
+    /**
+     * method which checks map collision with every character
+     * @param ch character
+     */
     public void checkMapCollision(Character ch) {
 
         //COORDINATES
@@ -72,6 +88,10 @@ public class CollisionViewer {
         }
     }
 
+    /**
+     * method which checks map collision with bullets
+     * @param bullet bullet
+     */
     public void checkMapCollision(Bullet bullet) {
 
         if (!gp.roomManager.currentRoom.isWaterRoom) {
@@ -118,6 +138,12 @@ public class CollisionViewer {
         }
     }
 
+    /**
+     * method which checks collision of character with game objects
+     * @param ch character
+     * @param player if the character is player
+     * @return
+     */
     public int checkObjectCollision(Character ch, boolean player) {
 
         int index = -1;
@@ -214,6 +240,11 @@ public class CollisionViewer {
         }
     }
 
+    /**
+     * method which checks collision of character with other characters
+     * @param ch character
+     * @param player is character player
+     */
     public void checkCharacterCollision(Character ch, boolean player) {
 
         for (int i = 0; i < gp.roomManager.currentRoom.enemies.size(); i++) {
@@ -368,6 +399,10 @@ public class CollisionViewer {
         }
     }
 
+    /**
+     * method which checks character collision with bullet
+     * @param bullet bullet
+     */
     public void checkCharacterCollision(Bullet bullet) {
 
         if(bullet.shooter.equals("player")) {
@@ -427,6 +462,10 @@ public class CollisionViewer {
         }
     }
 
+    /**
+     * method which checks player collision with boss
+     * @param boss boss
+     */
     public void checkPlayerCollision(Boss boss) {
 
         boss.areaOfCollision.x += (int)boss.screenX;

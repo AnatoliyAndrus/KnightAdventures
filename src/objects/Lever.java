@@ -1,3 +1,10 @@
+/**
+ * @author Anatolii Andrusenko, Vladislav Marchenko, Andrii Sulimenko
+ *
+ * @version 1.0
+ *
+ * class of levers. Lever has animation, it can be used to perform some action
+ */
 package objects;
 
 import main.GamePanel;
@@ -6,6 +13,10 @@ import java.awt.*;
 
 public class Lever extends StaticObject{
 
+    /**
+     * constructor
+     * @param gp game panel
+     */
     public Lever(GamePanel gp) {
         super(gp, "lever");
 

@@ -1,3 +1,10 @@
+/**
+ * @author Anatolii Andrusenko, Vladislav Marchenko, Andrii Sulimenko
+ *
+ * @version 1.0
+ *
+ * boss door class. Describes doors to boss room.
+ */
 package objects;
 
 import main.GamePanel;
@@ -5,6 +12,11 @@ import main.GamePanel;
 import java.awt.*;
 
 public class BossDoor extends StaticObject{
+    /**
+     * constructor
+     * @param gp game panel
+     * @param initialState initial state of door. Is used to make door initially locked/unlocked
+     */
     public BossDoor(GamePanel gp, String initialState) {
         super(gp, "boss_door");
 

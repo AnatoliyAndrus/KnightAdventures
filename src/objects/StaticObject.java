@@ -1,3 +1,10 @@
+/**
+ * @author Anatolii Andrusenko, Vladislav Marchenko, Andrii Sulimenko
+ *
+ * @version 1.0
+ *
+ * this is to make static objects, which can't move. They can have animation, collision, action
+ */
 package objects;
 
 import gameobject.GameObject;
@@ -12,30 +19,42 @@ import java.util.ArrayList;
 
 public class StaticObject extends GameObject {
 
+    //ANIMATION STATES
     public final static int NO_ANIMATION = 0;
     public final static int ANIMATION_CONTINUOUSLY = 1;
     public final static int ANIMATION_ONCE = 2;
     public final static int ANIMATION_ONCE_REVERSE = 3;
-
     public boolean changing;
 
+    //IMAGES AND FRAMES OF ANIMATION
     public ArrayList<BufferedImage> images;
     public BufferedImage noAnimation;
     public int animation;
     public int framesToChangeSprite;
 
+    //COLLISION OF STATIC OBJECT
     public boolean collision;
+    //IS OBJECT INTERACTED AT THE MOMENT
     public boolean isInteracted;
+    //FRAMES OF INTERACTION
     public int interactingFrames = 0;
 
+    //ROOM WHICH OBJECT IS RELATED TO
     public String relatedRoom;
+    //BOOLEAN UNLOCKED
     public boolean unlocked;
-
+    //BOOLEAN IS OPENED
     public boolean isOpened;
+    //BOOLEAN CHEST
     public boolean emptyChest;
-
+    //BOOLEAN IS GARBAGE
     public boolean isGarbage;
 
+    /**
+     * constructor
+     * @param gp game panel
+     * @param name name of object
+     */
     public StaticObject(GamePanel gp, String name) {
         super(gp);
         this.name = name;
@@ -53,6 +72,9 @@ public class StaticObject extends GameObject {
         images.add(image);
     }
 
+    /**
+     * method to update state of object
+     */
     @Override
     public void update() {
         if (animation == NO_ANIMATION){
@@ -158,12 +180,20 @@ public class StaticObject extends GameObject {
         }
     }
 
+    /**
+     * method to draw object
+     * @param g2d graphics 2d
+     */
     @Override
     public void draw(Graphics2D g2d) {
         if(imageNum == -1) g2d.drawImage(noAnimation, (int)screenX, (int)screenY, null);
         else g2d.drawImage(images.get(imageNum), (int)screenX, (int)screenY, null);
     }
 
+    /**
+     * method to set animation
+     * @param animationType type of animation
+     */
     public void setAnimation(int animationType) {
         this.animation = animationType;
         if (animationType == ANIMATION_ONCE || animationType == ANIMATION_ONCE_REVERSE) {
@@ -171,6 +201,10 @@ public class StaticObject extends GameObject {
         }
     }
 
+    /**
+     * method to set shadow
+     * @param g2d graphics 2d
+     */
     public void shadow(Graphics2D g2d) {
         for (int i = 0; i < 24; i++) {
             g2d.setColor(new Color(0, 0, 0, 10));

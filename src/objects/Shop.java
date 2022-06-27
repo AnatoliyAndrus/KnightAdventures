@@ -1,3 +1,10 @@
+/**
+ * @author Anatolii Andrusenko, Vladislav Marchenko, Andrii Sulimenko
+ *
+ * @version 1.0
+ *
+ * class for shop.
+ */
 package objects;
 
 import main.GamePanel;
@@ -6,6 +13,10 @@ import java.awt.*;
 
 public class Shop extends StaticObject {
 
+    /**
+     * constructor
+     * @param gp game panel
+     */
     public Shop(GamePanel gp) {
         super(gp, "shop");
 

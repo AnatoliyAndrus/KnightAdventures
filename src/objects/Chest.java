@@ -1,3 +1,10 @@
+/**
+ * @author Anatolii Andrusenko, Vladislav Marchenko, Andrii Sulimenko
+ *
+ * @version 1.0
+ *
+ * class of chests. Chest has key in it, it can be interacted to get key
+ */
 package objects;
 
 import main.GamePanel;
@@ -6,6 +13,10 @@ import java.awt.*;
 
 public class Chest extends StaticObject{
 
+    /**
+     * constructor
+     * @param gp game panel
+     */
     public Chest(GamePanel gp) {
         super(gp, "chest");
 
