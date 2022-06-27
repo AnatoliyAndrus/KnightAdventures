@@ -28,17 +28,17 @@ public class RoomManager {
     }
 
     public void setMaps() {
-        rooms.put("ruins", new Room("ruins", 0,this));
+        rooms.put("ruins", new Room("ruins", 0, 0,this));
         rooms.get("ruins").phase = "ruins unique phase";
 
-        rooms.put("castle", new Room("castle", 0,this));
-        rooms.put("sea", new Room("sea", 0,this));
+        rooms.put("castle", new Room("castle", 0, 0,this));
+        rooms.put("sea", new Room("sea", 0, 0,this));
         rooms.get("sea").isWaterRoom = true;
-        rooms.put("swamp", new Room("swamp", 0,this));
+        rooms.put("swamp", new Room("swamp", 0, 0,this));
         rooms.get("swamp").isWaterRoom = true;
-        rooms.put("cave", new Room("cave", 0,this));
-        rooms.put("dungeon", new Room("dungeon", 0,this));
-        rooms.put("finalMap", new Room("finalMap", 0,this));
+        rooms.put("cave", new Room("cave", 0, 0,this));
+        rooms.put("dungeon", new Room("dungeon", 0, 0,this));
+        rooms.put("finalMap", new Room("finalMap", 23, 22,this));
 
         //NEIGHBOURS
         rooms.get("ruins").upRoom = null;
@@ -204,7 +204,7 @@ public class RoomManager {
         //CASTLE
         rooms.get("castle").addGameObject(new Door(gp, "ruins", "opened", "door_horizontal"), gp.squareSize * 11, 0);
         rooms.get("castle").addGameObject(new Door(gp, "castle", "closed", "door_vertical"), gp.squareSize * 23, gp.squareSize * 6);
-        rooms.get("castle").addGameObject(new Door(gp, "swamp", "closed", "door_vertical"), gp.squareSize, gp.squareSize * 6);
+        rooms.get("castle").addGameObject(new Door(gp, "castle", "closed", "door_vertical"), gp.squareSize, gp.squareSize * 6);
         rooms.get("castle").addGameObject(new BossDoor(gp, "closed"), gp.squareSize * 11, gp.squareSize * 16);
 
         //SEA
@@ -225,7 +225,7 @@ public class RoomManager {
             rooms.get("cave").addGameObject(new Torch(gp, "torch_block"), i, gp.squareSize * 3 + 24);
             rooms.get("cave").addGameObject(new Torch(gp, "torch_block"), i, gp.squareSize * 12 + 8);
         }
-        rooms.get("cave").addGameObject(new Door(gp, "swamp", "opened", "door_vertical"), gp.squareSize * 23, gp.squareSize * 6);
+        rooms.get("cave").addGameObject(new Door(gp, "castle", "opened", "door_vertical"), gp.squareSize * 23, gp.squareSize * 6);
         rooms.get("cave").addGameObject(new Door(gp, "cave", "closed", "door_horizontal"), gp.squareSize * 11, 0);
 
         //DUNGEON

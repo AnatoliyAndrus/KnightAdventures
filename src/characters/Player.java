@@ -6,6 +6,7 @@ import main.KeyRecorder;
 import main.UI;
 import objects.StaticObject;
 
+import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -220,7 +221,13 @@ public class Player extends Character {
                 //music
                 if(prevSongIndex != gp.roomManager.currentRoom.songIndex) {
                     gp.stopMusic();
+                    gp.waterSound.stop();
                     gp.playMusic(gp.roomManager.currentRoom.songIndex);
+                }
+                gp.waterSound.stop();
+                if(gp.roomManager.currentRoom.name.equals("ruins")) {
+                    gp.waterSound.start();
+                    gp.waterSound.loop(Clip.LOOP_CONTINUOUSLY);
                 }
             }
             else if(screenY < 0) {
@@ -233,6 +240,11 @@ public class Player extends Character {
                     gp.stopMusic();
                     gp.playMusic(gp.roomManager.currentRoom.songIndex);
                 }
+                gp.waterSound.stop();
+                if(gp.roomManager.currentRoom.name.equals("ruins")) {
+                    gp.waterSound.start();
+                    gp.waterSound.loop(Clip.LOOP_CONTINUOUSLY);
+                }
             }
             else if(screenX < 0) {
                 gp.bullets = new ArrayList<>();
@@ -244,6 +256,11 @@ public class Player extends Character {
                     gp.stopMusic();
                     gp.playMusic(gp.roomManager.currentRoom.songIndex);
                 }
+                gp.waterSound.stop();
+                if(gp.roomManager.currentRoom.name.equals("ruins")) {
+                    gp.waterSound.start();
+                    gp.waterSound.loop(Clip.LOOP_CONTINUOUSLY);
+                }
             }
             else if(screenX > gp.squareSize * (gp.maxCols - 3)) {
                 gp.bullets = new ArrayList<>();
@@ -254,6 +271,11 @@ public class Player extends Character {
                 if(prevSongIndex != gp.roomManager.currentRoom.songIndex) {
                     gp.stopMusic();
                     gp.playMusic(gp.roomManager.currentRoom.songIndex);
+                }
+                gp.waterSound.stop();
+                if(gp.roomManager.currentRoom.name.equals("ruins")) {
+                    gp.waterSound.start();
+                    gp.waterSound.loop(Clip.LOOP_CONTINUOUSLY);
                 }
             }
 

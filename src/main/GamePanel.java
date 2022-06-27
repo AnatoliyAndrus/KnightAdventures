@@ -7,6 +7,9 @@ import objects.StaticObject;
 import rooms.RoomManager;
 import visualEffects.VisualManager;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -48,6 +51,7 @@ public class GamePanel extends JPanel implements Runnable{
     public Music music = new Music();
     int currentSong = -1;
     public Music sounds = new Music();
+    public Clip waterSound;
 
     //GAME STATE
     public final int titleState = 0;
@@ -72,12 +76,20 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setupGame(){
         //DEFAULT SETUP
+        try {
+            AudioInputStream aus = AudioSystem.getAudioInputStream(music.soundFiles[24]);
+            waterSound = AudioSystem.getClip();
+            waterSound.open(aus);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         playMusic(0);
+        waterSound.start();
+        waterSound.loop(Clip.LOOP_CONTINUOUSLY);
+
         roomManager.setGameObjects();
         roomManager.setEnemies();
-
         player.setDefaultParameters();
-
         visualManager.setup();
     }
 
