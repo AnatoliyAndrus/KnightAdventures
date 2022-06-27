@@ -1,3 +1,10 @@
+/**
+ * @author Anatolii Andrusenko, Vladislav Marchenko, Andrii Sulimenko
+ *
+ * @version 1.0
+ *
+ * class of enemy with pistol. Enemy with pistol tries to shoot player from long distance
+ */
 package characters;
 
 import bullets.Bullet;
@@ -9,25 +16,35 @@ import java.awt.*;
 
 public class EnemyWithPistol extends Character{
 
+    //DAMAGE
     public static int constDamage;
-
+    //STANDING FRAMES
     int standFrames = 0;
     int framesToCount = -gp.FPS;
-
+    //DISTANCE TO PLAYER
     double playerDistance;
+    //DELTAS
     double deltaX, deltaY;
-
+    //IS ENEMY MOVING
     public boolean moving;
+    //IS ENEMY AGGRESSIVE
     public boolean agressive;
-
+    //TEMP MOVING
     public boolean tempMoving;
     public int tempMovingFrames = 0;
-
+    //MOVING TIME
     int movingTime;
+    //STANDING TIME
     int standTime;
 
     public int requiredReloadingFrames = 60;
 
+    /**
+     * constructor
+     * @param gp game panel
+     * @param screenX x pos on screen
+     * @param screenY y pos on screen
+     */
     public EnemyWithPistol(GamePanel gp, double screenX, double screenY) {
         super(gp);
 
@@ -38,6 +55,9 @@ public class EnemyWithPistol extends Character{
         setEnemyImages();
     }
 
+    /**
+     * method to set default parameters of enemy
+     */
     public void setDefaultParameters() {
         speed = 1;
 
@@ -55,6 +75,9 @@ public class EnemyWithPistol extends Character{
         name = "alien";
     }
 
+    /**
+     * method to set default images of enemy
+     */
     public void setEnemyImages() {
         up1 = setImage("alien/alien_up_1");
         up2 = setImage("alien/alien_up_2");
@@ -70,6 +93,9 @@ public class EnemyWithPistol extends Character{
         right3 = setImage("alien/alien_right_3");
     }
 
+    /**
+     * method to update enemy
+     */
     @Override
     public void update() {
 
@@ -271,6 +297,10 @@ public class EnemyWithPistol extends Character{
         }
     }
 
+    /**
+     * method to receive damage by enemy
+     * @param damage amount of damage
+     */
     @Override
     public void receiveDamage(int damage) {
         if(HP > 0) {

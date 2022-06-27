@@ -1,3 +1,10 @@
+/**
+ * @author Anatolii Andrusenko, Vladislav Marchenko, Andrii Sulimenko
+ *
+ * @version 1.0
+ *
+ * class of boss
+ */
 package characters;
 
 import bullets.Bullet;
@@ -14,40 +21,52 @@ import java.util.ArrayList;
 
 public class Boss extends Character {
 
+    //STATES
     public final static int NO_ACTION = 1;
     public final static int AIR_ATTACK = 2;
     public final static int APPROACH = 3;
     public final static int STRAFING = 4;
 
+    //DAMAGE
     public static int constDamage;
-
+    //MODE
     public int mode;
     public int modeTimer;
+    //INTS FOR ANIMATION
     public int framesToChangeSprite;
     public int framesToCount;
     public int requiredReloadingFrames;
-
+    //CONFIGURED
     public boolean configured;
-
+    //AIR ATTACK
     public boolean airAttacking;
+    //APPROACHING ATTACK
     public boolean approaching;
+    //STRAFING ATTACK
     public boolean strafing;
-
     public int strafingExtraBullets;
-
+    //MISSILES FOR AIR ATACK
     public int airExtraMissiles;
+    //TARGETS FOR AIR ATATCK
     public ArrayList<StaticObject> targets;
-
+    //X POS OF TARGET
     public double targetX;
+    //Y POS OF TARGET
     public double targetY;
     public double returnX, returnY;
     public double playerDistance;
     public double deltaX, deltaY;
     public double speedX, speedY;
 
+    //IMAGES OF BOSS
     ArrayList<BufferedImage> images;
+    //IMAGE OF INITIAL STATE
     BufferedImage noAnimation;
 
+    /**
+     * constructor
+     * @param gp game panel
+     */
     public Boss(GamePanel gp) {
         super(gp);
         images = new ArrayList<>();
@@ -56,6 +75,9 @@ public class Boss extends Character {
         setImages();
     }
 
+    /**
+     * update of boss
+     */
     @Override
     public void update() {
         // NO ACTION MODE
@@ -296,6 +318,10 @@ public class Boss extends Character {
         updateImage();
     }
 
+    /**
+     * draw boss method
+     * @param g2d graphics 2d
+     */
     @Override
     public void draw(Graphics2D g2d) {
         if(imageNum == -1) g2d.drawImage(noAnimation, (int)screenX, (int)screenY, null);
@@ -316,6 +342,10 @@ public class Boss extends Character {
         speedY = speed * deltaY / playerDistance;
     }
 
+    /**
+     * receiving damage method
+     * @param damage
+     */
     @Override
     public void receiveDamage(int damage) {
         if(HP > 0) {
@@ -335,6 +365,9 @@ public class Boss extends Character {
         }
     }
 
+    /**
+     * method of updating image
+     */
     @Override
     public void updateImage() {
         if(imageNum >= 0) {
@@ -347,6 +380,9 @@ public class Boss extends Character {
         }
     }
 
+    /**
+     * this method sets default parameters of boss
+     */
     public void setDefaultParameters() {
         mode = NO_ACTION;
         framesToChangeSprite = 5;
@@ -377,6 +413,9 @@ public class Boss extends Character {
         targets = new ArrayList<>();
     }
 
+    /**
+     * method which sets images of boss
+     */
     public void setImages() {
         addImage("boss_left_1");
         addImage("boss_left_2");
@@ -387,6 +426,10 @@ public class Boss extends Character {
         noAnimation = setImage("boss/boss_standart");
     }
 
+    /**
+     * method to add images
+     * @param imageName name of image
+     */
     public void addImage(String imageName) {
 
         BufferedImage image = null;

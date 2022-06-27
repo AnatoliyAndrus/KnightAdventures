@@ -1,3 +1,10 @@
+/**
+ * @author Anatolii Andrusenko, Vladislav Marchenko, Andrii Sulimenko
+ *
+ * @version 1.0
+ *
+ * class of enemy with fangs. This type of enemy tries to get to player as close as he can
+ */
 package characters;
 
 import main.GamePanel;
@@ -8,29 +15,43 @@ import java.awt.*;
 
 public class EnemyWithFangs extends Character{
 
+    //DAMAGE
     public static int constDamage;
 
+    //STAND FRAMES
     int standFrames = 0;
     int framesToCount = -gp.FPS;
 
+    //DISTANCE TO PLAYER
     double playerDistance;
+    //DELTAS
     double deltaX, deltaY;
-
+    //IS ENEMY MOVING
     public boolean moving;
+    //IS ENEMY AGGRESSIVE
     public boolean agressive;
-
+    //TEMP MOVING
     public boolean tempMoving;
     public int tempMovingFrames = 0;
-
+    //RECOVER
     public boolean recover;
+    //DAMAGE FRAMES
     public int tempDamageFrames = 0;
-
+    //MOVING TIME
     int movingTime;
+    //STANDING TIME
     int standTime;
+    //DISTANCE OF AGRO
     int distanceAgro;
-
+    //REQUIRED RELOADING FRAMES
     public int requiredReloadingFrames = 60;
 
+    /**
+     * constructor
+     * @param gp game panel
+     * @param screenX x pos on screen
+     * @param screenY y pos on screen
+     */
     public EnemyWithFangs(GamePanel gp, double screenX, double screenY) {
         super(gp);
 
@@ -41,6 +62,9 @@ public class EnemyWithFangs extends Character{
         setEnemyImages();
     }
 
+    /**
+     * method which sets default parameters
+     */
     public void setDefaultParameters() {
         speed = 2;
 
@@ -58,6 +82,9 @@ public class EnemyWithFangs extends Character{
         name = "enemyWithFangs";
     }
 
+    /**
+     * method which sets default images of enemy
+     */
     public void setEnemyImages() {
         up1 = setImage("alien_claws/alien_claws_up_1");
         up2 = setImage("alien_claws/alien_claws_up_2");
@@ -73,6 +100,9 @@ public class EnemyWithFangs extends Character{
         right3 = setImage("alien_claws/alien_claws_right_3");
     }
 
+    /**
+     * method which updates enemy
+     */
     @Override
     public void update() {
 
@@ -266,6 +296,10 @@ public class EnemyWithFangs extends Character{
         }
     }
 
+    /**
+     * method for enemy to receive damage
+     * @param damage count of damage
+     */
     @Override
     public void receiveDamage(int damage) {
 

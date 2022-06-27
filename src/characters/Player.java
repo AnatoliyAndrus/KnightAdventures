@@ -1,3 +1,10 @@
+/**
+ * @author Anatolii Andrusenko, Vladislav Marchenko, Andrii Sulimenko
+ *
+ * @version 1.0
+ *
+ * class of player
+ */
 package characters;
 
 import bullets.Bullet;
@@ -13,11 +20,12 @@ import java.util.ArrayList;
 
 public class Player extends Character {
 
+    //STATES
     public final static int DEFAULT = 1;
     public final static int SHOTGUN = 2;
     public final static int BURST = 3;
     public final static int BURST_SHOTGUN = 4;
-
+    //DAMAGE
     public static int constDamage;
 
     //boolean variables for type of shooting
@@ -30,36 +38,43 @@ public class Player extends Character {
     public int finalBulletX;
     public int finalBulletY;
 
+    //IMAGES OF PLAYER
     public BufferedImage heart1, heart2, heart3, heart4, shield;
 
     KeyRecorder keyR;
     UI ui;
 
     int standFrames;
-
+    //IF SCRIPTS ARE ACTIVE
     public boolean scriptsAreActive;
-
+    //BULLET VARIABLES
     public String lastBulletDirection;
     public int lastBulletFrames;
-
+    //IF PLAYER HAS TORCH
     public boolean hasTorch;
-
+    //VARIABLES OF INVINCIBILITY
     public boolean isInvincible;
     public int invincibleFrames;
-
+    //VARIABLES FOR RELOADING
     public boolean isReloading;
     public int reloadingFrames;
     public int requiredReloadingFrames;
-
+    //NAME OF INTERACTED OBJECT
     public String interactedObjectName;
     int index;
 
     public int backupArmor;
     public int backupCoinsAmount;
-
+    //AMOUNT OF COINS
     public int coinsAmount;
+    //IF PLAYER HAS BOSS KEY
     public boolean hasBossKey;
 
+    /**
+     * constructor
+     * @param gp game panel
+     * @param keyR key recorder
+     */
     public Player(GamePanel gp, KeyRecorder keyR) {
         super(gp);
 
@@ -70,6 +85,9 @@ public class Player extends Character {
         setFireMode(DEFAULT);
     }
 
+    /**
+     * method to set default parameters of player
+     */
     public void setDefaultParameters() {
         screenX = gp.squareSize * (gp.maxCols - 3) / 2.0;
         screenY = gp.squareSize * 10;
@@ -93,6 +111,10 @@ public class Player extends Character {
         coinsAmount = gp.ui.armorPrice;
     }
 
+    /**
+     * method to set images of player
+     * @param torch if player has torch
+     */
     public void setPlayerImages(boolean torch) {
 
         String path;
@@ -118,6 +140,9 @@ public class Player extends Character {
         shield = setImage("objects/shield");
     }
 
+    /**
+     * method to update player
+     */
     @Override
     public void update() {
 
@@ -329,6 +354,10 @@ public class Player extends Character {
         }
     }
 
+    /**
+     * method to interact object
+     * @param index index of object
+     */
     private void interactObject(int index) {
         if (index != -1) {
 
@@ -429,6 +458,9 @@ public class Player extends Character {
         }
     }
 
+    /**
+     * method to reset object timers
+     */
     public void resetObjectsTimers() {
         for (StaticObject obj: gp.roomManager.currentRoom.staticObjects) {
             obj.interactingFrames = 0;
@@ -437,6 +469,10 @@ public class Player extends Character {
         }
     }
 
+    /**
+     * method to receive damage by player
+     * @param damage amount of damage
+     */
     @Override
     public void receiveDamage(int damage) {
         for(int i = 0; i < damage; i++) {
@@ -490,6 +526,10 @@ public class Player extends Character {
         gp.playSound(1);
     }
 
+    /**
+     * method to set fire mode (shotgun, burst ect.)
+     * @param fireMode fire mode
+     */
     public void setFireMode(int fireMode) {
         switch (fireMode) {
             case DEFAULT -> {
@@ -515,6 +555,10 @@ public class Player extends Character {
         }
     }
 
+    /**
+     * method which checks if scripts are active
+     * @return
+     */
     private boolean checkForActiveScripts() {
         return (gp.roomManager.currentRoom.doorsOpeningNow > 0) || (gp.roomManager.currentRoom.doorsClosingNow > 0) ;
     }

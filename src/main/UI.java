@@ -1,3 +1,10 @@
+/**
+ * @author Anatolii Andrusenko, Vladislav Marchenko, Andrii Sulimenko
+ *
+ * @version 1.0
+ *
+ * class UI to manage user interface
+ */
 package main;
 
 import javax.imageio.ImageIO;
@@ -13,30 +20,42 @@ import java.util.Arrays;
 
 public class UI {
 
+    //GAME PANEL
     GamePanel gp;
+    //STANDART FONT
     Font gameFont;
+    //SCREEN TEXT
     String screenText;
+    //IMAGES
     BufferedImage start, loading;
     BufferedImage[] hearts;
 
+    //INITIALISE
     boolean init;
-
+    //NUMBER OF OPTION (FOR MENU)
     public int optionNum = 1;
+    //STATE OF MENU
     public boolean loadingScreen;
     public boolean difficultyChoice;
     public int loadingFrames = 0;
 
+    //SHAPE FOR DARK ROOMS
     Shape ring;
 
     //SCREEN HINTS
     String hint;
     int hintTimer;
 
+    //VARIABLES FOR SHOP
     public boolean shopIsOpened;
     public int armorPrice = 5;
     public int shotgunPrice = 12;
     public int burstPrice = 12;
 
+    /**
+     * constructor
+     * @param gp game panel
+     */
     public UI(GamePanel gp) {
         this.gp = gp;
 
@@ -49,6 +68,10 @@ public class UI {
         }
     }
 
+    /**
+     * method to draw UI
+     * @param g2d graphics 2d
+     */
     public void draw(Graphics2D g2d) {
         g2d.setFont(gameFont);
 
@@ -150,6 +173,10 @@ public class UI {
         }
     }
 
+    /**
+     * method to draw health bar
+     * @param g2d graphics 2d
+     */
     private void drawBossHealthBar(Graphics2D g2d) {
 
         if(gp.roomManager.currentRoom.enemies.size() > 0) {
@@ -173,6 +200,10 @@ public class UI {
         }
     }
 
+    /**
+     * method to draw loading screen
+     * @param g2d graphics 2d
+     */
     private void drawLoadingScreen(Graphics2D g2d) {
 
         loadingFrames++;
@@ -228,6 +259,10 @@ public class UI {
         }
     }
 
+    /**
+     * method to draw start screen
+     * @param g2d graphics 2d
+     */
     private void drawStartScreen(Graphics2D g2d) {
 
         //TITLE
@@ -307,6 +342,10 @@ public class UI {
 //        g2d.drawString(screenText, x, y);
     }
 
+    /**
+     * method to draw difficulty choises screen
+     * @param g2d graphics 2d
+     */
     private void drawDifficultyChoiceScreen(Graphics2D g2d) {
         //TITLE
         screenText = "Select difficulty:";
@@ -444,6 +483,10 @@ public class UI {
         g2d.drawString(screenText, x, y);
     }
 
+    /**
+     * method to draw shadow in dark rooms
+     * @param g2d graphics 2d
+     */
     private void drawDarkScreen(Graphics2D g2d) {
 
         //UP
@@ -475,6 +518,10 @@ public class UI {
         if (gp.roomManager.currentRoom.name.equals("dungeon") && gp.player.hasTorch) drawLight(g2d);
     }
 
+    /**
+     * method to draw light in dark rooms
+     * @param g2d graphics 2d
+     */
     public void drawLight(Graphics2D g2d) {
 
         double centerX;
@@ -519,6 +566,14 @@ public class UI {
         }
     }
 
+    /**
+     * method to create ring
+     * @param centerX center x pos
+     * @param centerY center y pos
+     * @param outerRadius outer radius
+     * @param innerRadius inner radius
+     * @return ring shape
+     */
     public Shape createRingShape(double centerX, double centerY, double outerRadius, double innerRadius) {
         Ellipse2D outer = new Ellipse2D.Double(
                 centerX - outerRadius,
@@ -537,6 +592,10 @@ public class UI {
         return area;
     }
 
+    /**
+     * method to draw shop menu
+     * @param g2d graphics 2d
+     */
     public void drawShopMenu(Graphics2D g2d) {
         //BOUNDARIES
         int x = gp.maxScreenWidth/2 - gp.squareSize * 5;
@@ -659,11 +718,20 @@ public class UI {
         g2d.drawString(screenText, x + 15 + gp.squareSize, y + 25 + gp.squareSize * 3);
     }
 
+    /**
+     * method to make screen hint
+     * @param hint text of hint
+     * @param hintTimer timer of hint
+     */
     public void makeScreenHint(String hint, int hintTimer){
         this.hint = hint;
         this.hintTimer = hintTimer;
     }
 
+    /**
+     * method to draw screen hint
+     * @param g2d
+     */
     private void drawScreenHint(Graphics2D g2d){
         if(hintTimer > 0){
             hintTimer--;
@@ -702,6 +770,10 @@ public class UI {
         }
     }
 
+    /**
+     * method to draw pause screen
+     * @param g2d graphics 2d
+     */
     private void drawPauseScreen(Graphics2D g2d){
 
         //DARK SCREEN
@@ -762,6 +834,10 @@ public class UI {
         g2d.drawString(screenText, x, y);
     }
 
+    /**
+     * method to draw game over screen
+     * @param g2d graphics 2d
+     */
     private void drawGameOverScreen(Graphics2D g2d) {
         //DARK SCREEN
         g2d.setColor(new Color(0,0,0,200));
@@ -819,6 +895,12 @@ public class UI {
         g2d.drawString(screenText, x, y);
     }
 
+    /**
+     * method to get center x
+     * @param str
+     * @param g2d
+     * @return
+     */
     private int getCenterX (String str, Graphics2D g2d) {
         int length = (int) g2d.getFontMetrics().getStringBounds(str, g2d).getWidth();
         return gp.maxScreenWidth/2 - length/2;
