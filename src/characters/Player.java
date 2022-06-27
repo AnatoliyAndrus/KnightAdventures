@@ -80,7 +80,7 @@ public class Player extends Character {
 
         maxHP = 3;
         HP = maxHP;
-        armor = 0;
+        armor = 5;
         name = "player";
 
         interactedObjectName = "";
@@ -129,9 +129,19 @@ public class Player extends Character {
         //PLAYER MOVES
         if(keyR.up || keyR.down || keyR.left || keyR.right) {
 
+            if (gp.roomManager.currentRoom.name.equals("dungeon")) {
+                speed = gp.FPS/30;
+            } else {
+                speed = gp.FPS/20;
+            }
+
             int tmpSpeed = speed;
             if (keyR.up && keyR.left || keyR.up && keyR.right || keyR.down && keyR.left || keyR.down && keyR.right) {
-                speed = gp.FPS/30;
+                if (gp.roomManager.currentRoom.name.equals("dungeon")) {
+                    speed = gp.FPS/60;
+                } else {
+                    speed = gp.FPS/30;
+                }
             }
 
             if (keyR.up) {

@@ -25,6 +25,7 @@ public class EnemyWithFangs extends Character{
 
     int movingTime;
     int standTime;
+    int distanceAgro;
 
     public int requiredReloadingFrames = 60;
 
@@ -72,7 +73,11 @@ public class EnemyWithFangs extends Character{
         playerDistance = Math.sqrt(Math.pow(gp.player.screenX - screenX, 2)
                 + Math.pow(gp.player.screenY - gp.player.areaOfCollision.height/2.0 - (screenY - areaOfCollision.height/2.0), 2));
 
-        if(playerDistance < gp.squareSize * 10) {
+        if (gp.roomManager.currentRoom.name.equals("dungeon")) {
+            distanceAgro = 4;
+        } else distanceAgro = 10;
+
+        if(playerDistance < gp.squareSize * distanceAgro) {
             if(!agressive) framesToCount = 0;
             agressive = true;
             moving = true;
