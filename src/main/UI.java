@@ -97,9 +97,6 @@ public class UI {
         int currentHeart = (gp.player.HP+2)/3;
         if(gp.player.HP%3==0&&gp.player.HP!=0){
             hearts[currentHeart-1]=gp.player.heart1;
-            if(currentHeart!=gp.player.maxHP/3) {
-                hearts[currentHeart] = gp.player.heart4;
-            }
         }
         if(gp.player.HP%3==2){
             hearts[currentHeart-1]=gp.player.heart2;
@@ -107,6 +104,16 @@ public class UI {
         if(gp.player.HP%3==1){
             hearts[currentHeart-1]=gp.player.heart3;
         }
+
+        for(int i = 1; i <= gp.player.maxHP/3;i++){
+            if(i<currentHeart){
+                hearts[i-1]=gp.player.heart1;
+            }
+            if(i>currentHeart) {
+                hearts[i - 1] = gp.player.heart4;
+            }
+        }
+
         for(int i = 1; i <=gp.player.maxHP/3; i++) {
 
             g2d.drawImage(hearts[i-1], i* gp.squareSize, 0, null);
