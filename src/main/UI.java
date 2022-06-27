@@ -34,8 +34,8 @@ public class UI {
 
     public boolean shopIsOpened;
     public int armorPrice = 5;
-    public int shotgunPrice = 10;
-    public int burstPrice = 10;
+    public int shotgunPrice = 12;
+    public int burstPrice = 12;
 
     public UI(GamePanel gp) {
         this.gp = gp;
@@ -68,6 +68,7 @@ public class UI {
             drawPlayerStats(g2d);
             drawScreenHint(g2d);
             if(shopIsOpened) drawShopMenu(g2d);
+            if(gp.roomManager.currentRoom.name.equals("finalMap")) drawBossHealthBar(g2d);
         }
         //PAUSE STATE
         if (gp.currentState == gp.pauseState) {
@@ -146,6 +147,29 @@ public class UI {
             g2d.setFont(g2d.getFont().deriveFont(40f));
             screenText = "x1";
             g2d.drawString(screenText, gp.maxScreenWidth - gp.squareSize * 2 + 24, gp.squareSize * 2 - 5);
+        }
+    }
+
+    private void drawBossHealthBar(Graphics2D g2d) {
+
+        if(gp.roomManager.currentRoom.enemies.size() > 0) {
+            BufferedImage bossBarImage;
+            try {
+                bossBarImage = ImageIO.read(new File("resources/images/boss/boss_bar.png"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            int x = gp.squareSize * 9;
+            int y = gp.maxScreenHeight - 72;
+
+            g2d.setColor(Color.RED);
+
+            int healthBarWidth = (int)(((double)gp.roomManager.currentRoom.enemies.get(0).HP / gp.roomManager.currentRoom.enemies.get(0).maxHP) * 288);
+
+            g2d.fillRect(x + 24, y + 14, healthBarWidth, 20);
+
+            g2d.drawImage(bossBarImage, x, y, null);
         }
     }
 
@@ -574,14 +598,15 @@ public class UI {
         //ARMOR
         g2d.drawImage(gp.player.shield, x + 15, y + 15, null);
         g2d.setColor(Color.WHITE);
-        g2d.setFont(g2d.getFont().deriveFont(40f));
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
         screenText = "Armor - " + armorPrice;
-        g2d.drawString(screenText, x + 15 + gp.squareSize, y + 5 + gp.squareSize);
-        g2d.drawImage(coinImage, x + gp.squareSize * 6 - 20, y + 15 - gp.squareSize, null);
+        g2d.drawImage(coinImage, x + gp.squareSize * 6 - 15, y + 12 - gp.squareSize, null);
         if(gp.player.armor == 5) {
             g2d.drawImage(tickImage, x + gp.squareSize * 9 - 20, y + 15, null);
         }
         if(optionNum == 1) {
+            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 40));
+
             g2d.setColor(Color.WHITE);
             g2d.setStroke(new BasicStroke(2));
             g2d.drawRoundRect(x + 10, y + 10,
@@ -589,18 +614,20 @@ public class UI {
                     gp.squareSize + 10,
                     25, 25);
         }
+        g2d.drawString(screenText, x + 15 + gp.squareSize, y + 5 + gp.squareSize);
 
         //SHOTGUN UPGRADE
         g2d.drawImage(shotgunImage, x + 15, y + 25 + gp.squareSize, null);
         g2d.setColor(Color.WHITE);
-        g2d.setFont(g2d.getFont().deriveFont(40f));
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
         screenText = "Shotgun - " + shotgunPrice;
-        g2d.drawString(screenText, x + 15 + gp.squareSize, y + 15 + gp.squareSize * 2);
-        g2d.drawImage(coinImage, x + gp.squareSize * 7, y + 25, null);
+        g2d.drawImage(coinImage, x + gp.squareSize * 7 + 10, y + 22, null);
         if(gp.player.shotgunFire) {
             g2d.drawImage(tickImage, x + gp.squareSize * 9 - 20, y + 25 + gp.squareSize, null);
         }
         if(optionNum == 2) {
+            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 40));
+
             g2d.setColor(Color.WHITE);
             g2d.setStroke(new BasicStroke(2));
             g2d.drawRoundRect(x + 10, y + 20 + gp.squareSize,
@@ -608,18 +635,20 @@ public class UI {
                     gp.squareSize + 10,
                     25, 25);
         }
+        g2d.drawString(screenText, x + 15 + gp.squareSize, y + 15 + gp.squareSize * 2);
 
         //BURST UPGRADE
         g2d.drawImage(burstImage, x + 15, y + 35 + gp.squareSize * 2, null);
         g2d.setColor(Color.WHITE);
-        g2d.setFont(g2d.getFont().deriveFont(40f));
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
         screenText = "Burst - " + burstPrice;
-        g2d.drawString(screenText, x + 15 + gp.squareSize, y + 25 + gp.squareSize * 3);
-        g2d.drawImage(coinImage, x + gp.squareSize * 6, y + 35 + gp.squareSize, null);
+        g2d.drawImage(coinImage, x + gp.squareSize * 6 + 10, y + 32 + gp.squareSize, null);
         if(gp.player.burstFire) {
             g2d.drawImage(tickImage, x + gp.squareSize * 9 - 20, y + 35 + gp.squareSize * 2, null);
         }
         if(optionNum == 3) {
+            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 40));
+
             g2d.setColor(Color.WHITE);
             g2d.setStroke(new BasicStroke(2));
             g2d.drawRoundRect(x + 10, y + 30 + gp.squareSize * 2,
@@ -627,6 +656,7 @@ public class UI {
                     gp.squareSize + 10,
                     25, 25);
         }
+        g2d.drawString(screenText, x + 15 + gp.squareSize, y + 25 + gp.squareSize * 3);
     }
 
     public void makeScreenHint(String hint, int hintTimer){
@@ -674,16 +704,60 @@ public class UI {
 
     private void drawPauseScreen(Graphics2D g2d){
 
+        //DARK SCREEN
         g2d.setColor(new Color(0,0,0,100));
-        g2d.fillRect(0, 0, gp.squareSize*(gp.maxCols - 2), gp.squareSize*(gp.maxRows - 2));
+        g2d.fillRect(0, 0, gp.maxScreenWidth, gp.maxScreenHeight);
 
+        //GAME OVER
         g2d.setColor(Color.WHITE);
         g2d.setFont(gameFont.deriveFont(Font.PLAIN, 70));
 
         screenText = "Paused";
 
-        int y = gp.maxScreenHeight/2;
+        int y = gp.squareSize * 5;
         int x = getCenterX(screenText, g2d);
+
+        g2d.drawString(screenText, x, y);
+
+        //Retry
+        if(gp.roomManager.currentRoom.phase.equals("in progress") && !gp.player.scriptsAreActive) {
+            screenText = "Retry";
+            g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+
+            y = gp.squareSize * 9;
+            x = getCenterX(screenText, g2d);
+
+            if (optionNum == 1) {
+                g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 40));
+
+                g2d.setStroke(new BasicStroke(3));
+                g2d.drawRoundRect(x - 24,
+                        y - (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight(),
+                        (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
+                        (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
+                        25, 25);
+            }
+
+            g2d.drawString(screenText, x, y);
+        }
+
+        //Quit
+        screenText = "Quit";
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+
+        y = gp.squareSize * 11;
+        x = getCenterX(screenText, g2d);
+
+        if (optionNum == 2) {
+            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 40));
+
+            g2d.setStroke(new BasicStroke(3));
+            g2d.drawRoundRect(x - 24,
+                    y - (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight(),
+                    (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
+                    (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
+                    25, 25);
+        }
 
         g2d.drawString(screenText, x, y);
     }

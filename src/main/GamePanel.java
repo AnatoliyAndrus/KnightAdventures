@@ -92,7 +92,7 @@ public class GamePanel extends JPanel implements Runnable{
             obj.interactingFrames = 0;
             obj.isInteracted = false;
             switch (obj.name) {
-                case "target" -> obj.isGarbage = true;
+                case "target", "coin" -> obj.isGarbage = true;
                 case "torch_left", "torch_right" -> obj.setAnimation(StaticObject.ANIMATION_CONTINUOUSLY);
                 case "boss_door" -> {
                     if(roomManager.currentRoom.name.equals("finalMap")) {
@@ -186,8 +186,8 @@ public class GamePanel extends JPanel implements Runnable{
             roomManager.currentRoom.update();
 
             //OBJECTS
-            for (StaticObject obj : roomManager.currentRoom.staticObjects) {
-                obj.update();
+            for (int i = 0; i < roomManager.currentRoom.staticObjects.size(); i++) {
+                roomManager.currentRoom.staticObjects.get(i).update();
             }
 
             //BULLETS
@@ -222,16 +222,22 @@ public class GamePanel extends JPanel implements Runnable{
             roomManager.drawFirstPart(g2d);
 
             //STATIC OBJECTS WITH NO COLLISION (w/o opened doors)
-            for (StaticObject obj : roomManager.currentRoom.staticObjects) {
-                if (obj != null && !obj.collision && !((obj.name.equals("door_horizontal") || obj.name.equals("door_vertical")) &&
-                        obj.animation == StaticObject.ANIMATION_ONCE)) {
-                    obj.draw(g2d);
+            for (int i = 0; i < roomManager.currentRoom.staticObjects.size(); i++) {
+                if (roomManager.currentRoom.staticObjects.get(i) != null
+                        && !roomManager.currentRoom.staticObjects.get(i).collision
+                        && !((roomManager.currentRoom.staticObjects.get(i).name.equals("door_horizontal")
+                        || roomManager.currentRoom.staticObjects.get(i).name.equals("door_vertical")) &&
+                        roomManager.currentRoom.staticObjects.get(i).animation == StaticObject.ANIMATION_ONCE)) {
+                    roomManager.currentRoom.staticObjects.get(i).draw(g2d);
                 }
             }
 
             //STATIC OBJECTS SHADOWS
-            for (StaticObject obj : roomManager.currentRoom.staticObjects) {
-                if (obj != null && obj.collision) obj.shadow(g2d);
+            for (int i = 0; i < roomManager.currentRoom.staticObjects.size(); i++) {
+                if (roomManager.currentRoom.staticObjects.get(i) != null
+                        && roomManager.currentRoom.staticObjects.get(i).collision) {
+                    roomManager.currentRoom.staticObjects.get(i).shadow(g2d);
+                }
             }
 
             //ROOM SHADOWS AND TOP LAYER
@@ -254,26 +260,22 @@ public class GamePanel extends JPanel implements Runnable{
             //FILLING GAME OBJECTS LIST
             gameObjectsList.add(player);
 
-            for (StaticObject obj : roomManager.currentRoom.staticObjects) {
-                if (obj != null && (obj.collision ||
-                        ((obj.name.equals("door_horizontal") || obj.name.equals("door_vertical")) &&
-                                obj.animation == StaticObject.ANIMATION_ONCE))) {
-                    gameObjectsList.add(obj);
+            for (int i = 0; i < roomManager.currentRoom.staticObjects.size(); i++) {
+                if (roomManager.currentRoom.staticObjects.get(i) != null
+                        && (roomManager.currentRoom.staticObjects.get(i).collision
+                        || ((roomManager.currentRoom.staticObjects.get(i).name.equals("door_horizontal")
+                        || roomManager.currentRoom.staticObjects.get(i).name.equals("door_vertical"))
+                        && roomManager.currentRoom.staticObjects.get(i).animation == StaticObject.ANIMATION_ONCE))) {
+                    gameObjectsList.add(roomManager.currentRoom.staticObjects.get(i));
                 }
             }
-            for (Character enemy : roomManager.currentRoom.enemies) {
-                if(enemy != null && !enemy.isDead) {
-                    gameObjectsList.add(enemy);
+            for (int i = 0; i < roomManager.currentRoom.enemies.size(); i++) {
+                if(roomManager.currentRoom.enemies.get(i) != null && !roomManager.currentRoom.enemies.get(i).isDead) {
+                    gameObjectsList.add(roomManager.currentRoom.enemies.get(i));
                 }
             }
             //SORTING GAME OBJECTS LIST
-            gameObjectsList.sort(new Comparator<GameObject>() {
-                @Override
-                public int compare(GameObject obj1, GameObject obj2) {
-
-                    return Integer.compare((int)obj1.screenY, (int)obj2.screenY);
-                }
-            });
+            gameObjectsList.sort(Comparator.comparingInt(obj -> (int) obj.screenY));
 
             //DRAWING ALL GAME OBJECTS (PLAYER; ENEMIES; STATIC OBJECTS)
             for (int i = 0; i < gameObjectsList.size(); i++) {
@@ -290,7 +292,7 @@ public class GamePanel extends JPanel implements Runnable{
             }
 
             //VISUAL EFFECTS
-//            visualManager.draw(g2d);
+            visualManager.draw(g2d);
 
             //UI
             ui.draw(g2d);

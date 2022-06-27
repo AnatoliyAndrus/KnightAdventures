@@ -41,7 +41,8 @@ public class KeyRecorder implements KeyListener {
                     }
                     //LOAD GAME
                     else if (gp.ui.optionNum == 3) {
-
+                        //LOAD GAME LATER...
+                        gp.ui.optionNum = 1;
                     }
                     //EXIT
                     else if (gp.ui.optionNum == 2) {
@@ -88,6 +89,10 @@ public class KeyRecorder implements KeyListener {
                 if(!gp.ui.shopIsOpened) {
                     gp.currentState = gp.pauseState;
 //                    gp.pauseMusic();
+                    if(gp.roomManager.currentRoom.phase.equals("in progress") && !gp.player.scriptsAreActive)
+                        gp.ui.optionNum = 1;
+                    else
+                        gp.ui.optionNum = 2;
                 } else {
                     gp.ui.shopIsOpened = false;
                     gp.player.shooting = false;
@@ -194,6 +199,33 @@ public class KeyRecorder implements KeyListener {
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 gp.currentState = gp.gameState;
 //                gp.playMusic(0);
+                gp.ui.optionNum = 1;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                if(gp.roomManager.currentRoom.phase.equals("in progress") && !gp.player.scriptsAreActive) {
+                    gp.ui.optionNum++;
+                    if (gp.ui.optionNum == 3) {
+                        gp.ui.optionNum = 1;
+                    }
+                }
+            }
+            if (e.getKeyCode() == KeyEvent.VK_UP) {
+                if(gp.roomManager.currentRoom.phase.equals("in progress") && !gp.player.scriptsAreActive) {
+                    gp.ui.optionNum--;
+                    if (gp.ui.optionNum == 0) {
+                        gp.ui.optionNum = 2;
+                    }
+                }
+            }
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                if(gp.ui.optionNum == 1) {
+                    gp.retry();
+                    gp.currentState = gp.gameState;
+                }
+                if(gp.ui.optionNum == 2) {
+                    gp.restartGame();
+                    gp.ui.optionNum = 1;
+                }
             }
         }
         //GAME OVER

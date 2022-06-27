@@ -81,7 +81,7 @@ public class Player extends Character {
 
         maxHP = 15;
         HP = maxHP;
-        armor = 5;
+        armor = 0;
         name = "player";
 
         damage = 1;
@@ -89,7 +89,7 @@ public class Player extends Character {
 
         interactedObjectName = "";
 
-        coinsAmount = gp.ui.armorPrice;
+        coinsAmount = gp.ui.armorPrice * 10;
     }
 
     public void setPlayerImages(boolean torch) {
