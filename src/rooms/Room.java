@@ -1,3 +1,9 @@
+/**
+ * @author Anatolii Andrusenko, Andrii Sulimenko, Vladyslav Marchenko
+ * @version 1.0
+ *
+ * class Room which represents game rooms as data type
+ */
 package rooms;
 
 import characters.Boss;
@@ -19,6 +25,7 @@ public class Room {
 
     RoomManager sq;
 
+    //OBJECTS IN ROOM
     public ArrayList<StaticObject> staticObjects;
     public ArrayList<Character> enemies;
     public ArrayList<Character> enemiesData;
@@ -32,9 +39,11 @@ public class Room {
 
     public Square[] squares;
 
+    //SONGS
     public int songIndex;
     public int fightingSongIndex;
 
+    //INDICATORS
     public boolean isWaterRoom;
 
     public boolean playerEntered;
@@ -46,14 +55,21 @@ public class Room {
     public int doorsOpeningNow = 0;
     public int doorsClosingNow = 0;
 
-    public Room(String name, int songIndex, int fightingSongIndex, RoomManager sq) {
+    /**
+     * constructor
+     * @param name name
+     * @param songIndex song
+     * @param fightingSongIndex song for fighting
+     * @param roomManager room manager
+     */
+    public Room(String name, int songIndex, int fightingSongIndex, RoomManager roomManager) {
 
         this.name = name;
         squares = new Square[30];
 
-        this.sq = sq;
+        this.sq = roomManager;
 
-        roomMatrix = new int[sq.gp.maxCols][sq.gp.maxRows];
+        roomMatrix = new int[roomManager.gp.maxCols][roomManager.gp.maxRows];
 
         staticObjects = new ArrayList<>();
         enemies = new ArrayList<>();
@@ -63,6 +79,10 @@ public class Room {
         this.fightingSongIndex = fightingSongIndex;
     }
 
+    /**
+     * sets images data
+     * @param room room name
+     */
     public void setAllImages(String room) {
         //EMPTY
         setup(room, 0, "tile_1", false);
@@ -100,6 +120,13 @@ public class Room {
         }
     }
 
+    /**
+     * setup 1 image
+     * @param room room name
+     * @param index image index
+     * @param name image name
+     * @param collision square collision
+     */
     private void setup(String room, int index, String name, boolean collision) {
         try {
             squares[index] = new Square();
@@ -110,6 +137,10 @@ public class Room {
         }
     }
 
+    /**
+     * set matrix data for room
+     * @param roomName room name
+     */
     public void setMatrix(String roomName) {
 
         //READING MATRIX FROM FILE
@@ -134,16 +165,29 @@ public class Room {
         }
     }
 
+    /**
+     * add 1 game object to room
+     * @param staticObject object
+     * @param screenX x coordinate
+     * @param screenY y coordinate
+     */
     public void addGameObject(StaticObject staticObject, double screenX, double screenY) {
         staticObjects.add(staticObject);
         staticObjects.get(staticObjects.size() - 1).screenX = screenX;
         staticObjects.get(staticObjects.size() - 1).screenY = screenY;
     }
 
+    /**
+     * register 1 enemy in data list
+     * @param ch enemy
+     */
     public void addEnemiesData(Character ch) {
         enemiesData.add(ch);
     }
 
+    /**
+     * update method for room
+     */
     public void update() {
         playerEntered = checkEntrance();
 
@@ -259,11 +303,18 @@ public class Room {
 
     }
 
+    /**
+     * checks if player entered the room
+     * @return true if yes / false if not
+     */
     public boolean checkEntrance() {
         return (sq.gp.player.screenX >= sq.gp.squareSize * 2 - 8 && sq.gp.player.screenX <= sq.gp.maxScreenWidth - sq.gp.squareSize * 3 + 8
                 && sq.gp.player.screenY >= sq.gp.squareSize * 2 - 24 && sq.gp.player.screenY <= sq.gp.maxScreenHeight - sq.gp.squareSize * 3);
     }
 
+    /**
+     * set registered enemy data to a real list and spawns them
+     */
     public void setEnemiesInRoom() {
         for (Character enemy: enemiesData) {
             switch (enemy.name) {

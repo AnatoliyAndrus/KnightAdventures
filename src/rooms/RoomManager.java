@@ -1,3 +1,9 @@
+/**
+ * @author Anatolii Andrusenko, Andrii Sulimenko, Vladyslav Marchenko
+ * @version 1.0
+ *
+ * class RoomManager which manages all controls on Room objects
+ */
 package rooms;
 
 import characters.Boss;
@@ -11,12 +17,18 @@ import java.util.HashMap;
 
 public class RoomManager {
 
+    //Rooms hashmap
     public HashMap<String, Room> rooms;
     GamePanel gp;
 
+    //current room data
     public int [][] currentMatrix;
     public Room currentRoom;
 
+    /**
+     * constructor
+     * @param gp game panel
+     */
     public RoomManager(GamePanel gp) {
         this.gp = gp;
 
@@ -27,6 +39,9 @@ public class RoomManager {
         setCurrentRoom("ruins");
     }
 
+    /**
+     * Sets all rooms data in hashmap
+     */
     public void setMaps() {
         rooms.put("ruins", new Room("ruins", 0, 0,this));
         rooms.get("ruins").phase = "ruins unique phase";
@@ -82,6 +97,10 @@ public class RoomManager {
         }
     }
 
+    /**
+     * method to draw current room's first part
+     * @param g2d Graphics2D
+     */
     public void drawFirstPart(Graphics2D g2d) {
         if(!currentRoom.isWaterRoom) {
             for (int row = 0; row < gp.maxRows; row++) {
@@ -134,6 +153,10 @@ public class RoomManager {
             }
         }
     }
+    /**
+     * method to draw current room's shadows part
+     * @param g2d Graphics2D
+     */
     public void drawShadows(Graphics2D g2d) {
         //THIS PART ONLY FOR INNER ROOMS
         if(!currentRoom.isWaterRoom) {
@@ -152,6 +175,10 @@ public class RoomManager {
             }
         }
     }
+    /**
+     * method to draw current room's first layer part
+     * @param g2d Graphics2D
+     */
     public void drawFirstLayer(Graphics2D g2d) {
         //THIS PART ONLY FOR INNER ROOMS
         if(!currentRoom.isWaterRoom) {
@@ -168,6 +195,10 @@ public class RoomManager {
             }
         }
     }
+    /**
+     * method to draw current room's second(final) layer part
+     * @param g2d Graphics2D
+     */
     public void drawFinalLayer(Graphics2D g2d) {
         //THIS PART ONLY FOR INNER ROOMS
         if(!currentRoom.isWaterRoom) {
@@ -185,11 +216,18 @@ public class RoomManager {
         }
     }
 
+    /**
+     * changes current room
+     * @param roomName name of future room
+     */
     public void setCurrentRoom(String roomName) {
         currentRoom = rooms.get(roomName);
         currentMatrix = currentRoom.roomMatrix;
     }
 
+    /**
+     * sets all rooms game objects data
+     */
     public void setGameObjects() {
         //RUINS
         rooms.get("ruins").addGameObject(new WoodenBox(gp), gp.squareSize * 8 + 20, gp.squareSize * 5 - 10);
@@ -239,6 +277,9 @@ public class RoomManager {
         rooms.get("finalMap").addGameObject(new BossDoor(gp, "opened"), gp.squareSize * 11, 0);
     }
 
+    /**
+     * sets all rooms enemies data
+     */
     public void setEnemies() {
         rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 10, gp.squareSize * 13 - 10));
         rooms.get("castle").addEnemiesData(new EnemyWithPistol(gp, gp.squareSize * 14, gp.squareSize * 13 - 10));
