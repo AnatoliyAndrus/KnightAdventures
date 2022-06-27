@@ -23,6 +23,7 @@ public class UI {
 
     public int optionNum = 1;
     public boolean loadingScreen;
+    public boolean difficultyChoice;
     public int loadingFrames = 0;
 
     Shape ring;
@@ -55,6 +56,8 @@ public class UI {
         if (gp.currentState == gp.titleState) {
             if (loadingScreen) {
                 drawLoadingScreen(g2d);
+            } else if(difficultyChoice) {
+                drawDifficultyChoiceScreen(g2d);
             } else {
                 drawStartScreen(g2d);
             }
@@ -271,6 +274,143 @@ public class UI {
 //        }
 //
 //        g2d.drawString(screenText, x, y);
+    }
+
+    private void drawDifficultyChoiceScreen(Graphics2D g2d) {
+        //TITLE
+        screenText = "Select difficulty:";
+        g2d.drawImage(start, 0, 0, gp.maxScreenWidth, gp.maxScreenHeight, null);
+
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 100));
+
+        int y = gp.squareSize * 3;
+        int x = getCenterX(screenText, g2d);
+
+        g2d.setColor(Color.BLACK);
+        g2d.drawString(screenText, x + 5, y + 5);
+
+        g2d.setColor(Color.WHITE);
+        g2d.drawString(screenText, x, y);
+
+        //Peaceful
+        screenText = "Peaceful";
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+
+        y = gp.squareSize * 5;
+        x = getCenterX(screenText, g2d);
+
+        if (optionNum == 1) {
+            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 40));
+
+            g2d.setStroke(new BasicStroke(5));
+            g2d.drawRoundRect(x - 24,
+                    y - (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight(),
+                    (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
+                    (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
+                    25, 25);
+        }
+
+        g2d.drawString(screenText, x, y);
+
+        //Easy
+        screenText = "Easy";
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+
+        y = gp.squareSize * 7;
+        x = getCenterX(screenText, g2d);
+
+        if (optionNum == 2) {
+            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 40));
+
+            g2d.setStroke(new BasicStroke(5));
+            g2d.drawRoundRect(x - 24,
+                    y - (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight(),
+                    (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
+                    (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
+                    25, 25);
+        }
+
+        g2d.drawString(screenText, x, y);
+
+        //Medium
+        screenText = "Medium";
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+
+        y = gp.squareSize * 9;
+        x = getCenterX(screenText, g2d);
+
+        if (optionNum == 3) {
+            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 40));
+
+            g2d.setStroke(new BasicStroke(5));
+            g2d.drawRoundRect(x - 24,
+                    y - (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight(),
+                    (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
+                    (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
+                    25, 25);
+        }
+
+        g2d.drawString(screenText, x, y);
+
+        //Hard
+        screenText = "Hard";
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+
+        y = gp.squareSize * 11;
+        x = getCenterX(screenText, g2d);
+
+        if (optionNum == 4) {
+            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 40));
+
+            g2d.setStroke(new BasicStroke(5));
+            g2d.drawRoundRect(x - 24,
+                    y - (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight(),
+                    (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
+                    (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
+                    25, 25);
+        }
+
+        g2d.drawString(screenText, x, y);
+
+        //No mercy
+        screenText = "No mercy";
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+
+        y = gp.squareSize * 13;
+        x = getCenterX(screenText, g2d);
+
+        if (optionNum == 5) {
+            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 40));
+
+            g2d.setStroke(new BasicStroke(5));
+            g2d.drawRoundRect(x - 24,
+                    y - (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight(),
+                    (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
+                    (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
+                    25, 25);
+        }
+
+        g2d.drawString(screenText, x, y);
+
+        //Back
+        screenText = "Back";
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+
+        y = gp.squareSize * 16;
+        x = getCenterX(screenText, g2d);
+
+        if (optionNum == 6) {
+            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 40));
+
+            g2d.setStroke(new BasicStroke(5));
+            g2d.drawRoundRect(x - 24,
+                    y - (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight(),
+                    (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
+                    (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
+                    25, 25);
+        }
+
+        g2d.drawString(screenText, x, y);
     }
 
     private void drawDarkScreen(Graphics2D g2d) {

@@ -9,6 +9,8 @@ import java.awt.*;
 
 public class EnemyWithPistol extends Character{
 
+    public static int constDamage;
+
     int standFrames = 0;
     int framesToCount = -gp.FPS;
 
@@ -44,8 +46,12 @@ public class EnemyWithPistol extends Character{
         defaultCollisionAreaX = 8;
         defaultCollisionAreaY = 15;
 
-        maxHP = 1;
+        maxHP = 2 * gp.difficulty;
         HP = maxHP;
+
+        damage = gp.difficulty;
+        constDamage = damage;
+
         name = "alien";
     }
 
@@ -109,6 +115,7 @@ public class EnemyWithPistol extends Character{
 
                 if(framesToCount == gp.FPS * movingTime) {
                     moving = false;
+                    imageNum = 0;
                 }
                 if(framesToCount == gp.FPS * standTime) {
                     framesToCount = 0;
@@ -265,9 +272,9 @@ public class EnemyWithPistol extends Character{
     }
 
     @Override
-    public void receiveDamage() {
+    public void receiveDamage(int damage) {
         if(HP > 0) {
-            HP--;
+            HP -= damage;
         }
 
         if (HP <= 0){

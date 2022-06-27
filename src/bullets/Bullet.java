@@ -1,5 +1,7 @@
 package bullets;
 
+import characters.Boss;
+import characters.EnemyWithPistol;
 import main.GamePanel;
 
 import javax.imageio.ImageIO;
@@ -39,6 +41,8 @@ public class Bullet {
 
     public String direction;
 
+    public int damage;
+
     public String shooter;
     public boolean changedPlayerDir;
 
@@ -69,16 +73,20 @@ public class Bullet {
 
         switch (shooter) {
             case "player" -> {
-                speed = 10;
+                speed = 15;
+                damage = 1;
             }
             case "alien" -> {
-                speed = 10;
+                speed = 5;
+                damage = EnemyWithPistol.constDamage;
             }
             case "boss" -> {
                 if(bossMortar) {
                     speed = 10;
+                    damage = Boss.constDamage * 2;
                 } else {
                     speed = 10;
+                    damage = Boss.constDamage;
                 }
             }
         }
@@ -172,7 +180,7 @@ public class Bullet {
                 }
                 if(new Rectangle((int)gp.player.screenX, (int)gp.player.screenY, 48, 48).intersects(new Rectangle(finalX, finalY, 48, 48)) &&
                         !gp.player.isInvincible) {
-                    gp.player.receiveDamage();
+                    gp.player.receiveDamage(damage);
                     gp.player.isInvincible = true;
                 }
                 gp.bullets.remove(this);

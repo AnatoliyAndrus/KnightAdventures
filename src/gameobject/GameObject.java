@@ -24,6 +24,8 @@ public class GameObject {
 
     public String name;
 
+    public int damage;
+
     public GameObject(GamePanel gp) {
         this.gp = gp;
     }

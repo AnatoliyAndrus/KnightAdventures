@@ -244,7 +244,7 @@ public class CollisionViewer {
 
                         if (player) {
                             if (!gp.player.isInvincible) {
-                                gp.player.receiveDamage();
+                                gp.player.receiveDamage(gp.roomManager.currentRoom.enemies.get(i).damage);
                                 gp.player.isInvincible = true;
                             }
                         }
@@ -255,7 +255,7 @@ public class CollisionViewer {
                             ch.collisionOnY = true;
 
                             if (!gp.player.isInvincible) {
-                                gp.player.receiveDamage();
+                                gp.player.receiveDamage(ch.damage);
                                 gp.playSound(6);
                                 gp.player.isInvincible = true;
                             }
@@ -275,7 +275,7 @@ public class CollisionViewer {
 
                         if (player) {
                             if (!gp.player.isInvincible) {
-                                gp.player.receiveDamage();
+                                gp.player.receiveDamage(gp.roomManager.currentRoom.enemies.get(i).damage);
                                 gp.player.isInvincible = true;
                             }
                         }
@@ -285,7 +285,7 @@ public class CollisionViewer {
                         if (ch.areaOfCollision.intersects(gp.player.areaOfCollision)) {
                             ch.collisionOnY = true;
                             if (!gp.player.isInvincible) {
-                                gp.player.receiveDamage();
+                                gp.player.receiveDamage(ch.damage);
                                 gp.playSound(6);
                                 gp.player.isInvincible = true;
                             }
@@ -305,7 +305,7 @@ public class CollisionViewer {
 
                         if (player) {
                             if (!gp.player.isInvincible) {
-                                gp.player.receiveDamage();
+                                gp.player.receiveDamage(gp.roomManager.currentRoom.enemies.get(i).damage);
                                 gp.player.isInvincible = true;
                             }
                         }
@@ -315,7 +315,7 @@ public class CollisionViewer {
                         if (ch.areaOfCollision.intersects(gp.player.areaOfCollision)) {
                             ch.collisionOnX = true;
                             if (!gp.player.isInvincible) {
-                                gp.player.receiveDamage();
+                                gp.player.receiveDamage(ch.damage);
                                 gp.playSound(6);
                                 gp.player.isInvincible = true;
                             }
@@ -333,7 +333,7 @@ public class CollisionViewer {
 
                         if (player) {
                             if (!gp.player.isInvincible) {
-                                gp.player.receiveDamage();
+                                gp.player.receiveDamage(gp.roomManager.currentRoom.enemies.get(i).damage);
                                 gp.player.isInvincible = true;
                             }
                         }
@@ -343,7 +343,7 @@ public class CollisionViewer {
                         if (ch.areaOfCollision.intersects(gp.player.areaOfCollision)) {
                             ch.collisionOnX = true;
                             if (!gp.player.isInvincible) {
-                                gp.player.receiveDamage();
+                                gp.player.receiveDamage(ch.damage);
                                 gp.playSound(6);
                                 gp.player.isInvincible = true;
                             }
@@ -384,7 +384,7 @@ public class CollisionViewer {
                     if (bullet.areaOfCollision.intersects(gp.roomManager.currentRoom.enemies.get(i).areaOfCollision) &&
                             !gp.roomManager.currentRoom.enemies.get(i).isInvincible) {
 
-                        gp.roomManager.currentRoom.enemies.get(i).receiveDamage();
+                        gp.roomManager.currentRoom.enemies.get(i).receiveDamage(bullet.damage);
                         if (gp.roomManager.currentRoom.enemies.get(i).name.equals("alien")) {
                             gp.playSound(9);
                         } else {
@@ -413,7 +413,7 @@ public class CollisionViewer {
             if (bullet.areaOfCollision.intersects(gp.player.areaOfCollision)&&!gp.player.isInvincible) {
 
                 gp.playSound(10);
-                gp.player.receiveDamage();
+                gp.player.receiveDamage(bullet.damage);
                 gp.player.isInvincible=true;
                 gp.bullets.remove(bullet);
             }
@@ -438,7 +438,7 @@ public class CollisionViewer {
         if(boss.areaOfCollision.intersects(gp.player.areaOfCollision)) {
             if (!gp.player.isInvincible) {
                 //sound
-                gp.player.receiveDamage();
+                gp.player.receiveDamage(boss.damage * 2);
                 gp.player.isInvincible = true;
             }
         }

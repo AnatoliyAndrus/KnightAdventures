@@ -8,6 +8,8 @@ import java.awt.*;
 
 public class EnemyWithFangs extends Character{
 
+    public static int constDamage;
+
     int standFrames = 0;
     int framesToCount = -gp.FPS;
 
@@ -47,8 +49,12 @@ public class EnemyWithFangs extends Character{
         defaultCollisionAreaX = 8;
         defaultCollisionAreaY = 15;
 
-        maxHP = 1;
+        maxHP = 2 * gp.difficulty;
         HP = maxHP;
+
+        damage = gp.difficulty;
+        constDamage = damage;
+
         name = "enemyWithFangs";
     }
 
@@ -115,6 +121,7 @@ public class EnemyWithFangs extends Character{
 
                 if(framesToCount == gp.FPS * movingTime) {
                     moving = false;
+                    imageNum = 0;
                 }
                 if(framesToCount == gp.FPS * standTime) {
                     framesToCount = 0;
@@ -260,13 +267,13 @@ public class EnemyWithFangs extends Character{
     }
 
     @Override
-    public void receiveDamage() {
+    public void receiveDamage(int damage) {
 
         recover = true;
         speed = 1;
 
         if(HP > 0) {
-            HP --;
+            HP -= damage;
         }
 
         if (HP <= 0){

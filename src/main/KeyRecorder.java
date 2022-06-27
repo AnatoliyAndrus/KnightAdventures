@@ -24,7 +24,7 @@ public class KeyRecorder implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
         if (gp.currentState == gp.titleState) {
-            if (!gp.ui.loadingScreen) {
+            if (!gp.ui.loadingScreen && !gp.ui.difficultyChoice) {
                 //TITLE
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                     gp.ui.optionNum++;
@@ -37,7 +37,7 @@ public class KeyRecorder implements KeyListener {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     //NEW GAME
                     if (gp.ui.optionNum == 1) {
-                        gp.ui.loadingScreen = true;
+                        gp.ui.difficultyChoice = true;
                     }
                     //LOAD GAME
                     else if (gp.ui.optionNum == 3) {
@@ -47,6 +47,26 @@ public class KeyRecorder implements KeyListener {
                     else if (gp.ui.optionNum == 2) {
                         System.exit(0);
                     }
+                }
+            }
+            else if (!gp.ui.loadingScreen) {
+                //TITLE
+                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    gp.ui.optionNum++;
+                    if (gp.ui.optionNum == 7) gp.ui.optionNum = 1;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    gp.ui.optionNum--;
+                    if (gp.ui.optionNum == 0) gp.ui.optionNum = 6;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if(gp.ui.optionNum < 6) {
+                        gp.difficulty = gp.ui.optionNum;
+                        gp.ui.loadingScreen = true;
+                    } else if(gp.ui.optionNum == 6) {
+                        gp.ui.difficultyChoice = false;
+                    }
+                    gp.ui.optionNum = 1;
                 }
             }
         }

@@ -19,6 +19,8 @@ public class Boss extends Character {
     public final static int APPROACH = 3;
     public final static int STRAFING = 4;
 
+    public static int constDamage;
+
     public int mode;
     public int modeTimer;
     public int framesToChangeSprite;
@@ -316,9 +318,9 @@ public class Boss extends Character {
     }
 
     @Override
-    public void receiveDamage() {
+    public void receiveDamage(int damage) {
         if(HP > 0) {
-            HP--;
+            HP -= damage;
         }
         if (HP <= 0){
             isDead = true;
@@ -359,9 +361,19 @@ public class Boss extends Character {
         defaultCollisionAreaX = 48;
         defaultCollisionAreaY = 24;
 
-        maxHP = 10;
+        maxHP = switch (gp.difficulty) {
+            case 1 -> 20;
+            case 2 -> 30;
+            case 3 -> 50;
+            case 4 -> 75;
+            case 5 -> 100;
+            default -> 10;
+        };
         HP = maxHP;
         name = "boss";
+
+        damage = gp.difficulty;
+        constDamage = damage;
 
         targets = new ArrayList<>();
     }

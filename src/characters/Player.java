@@ -17,6 +17,8 @@ public class Player extends Character {
     public final static int BURST = 3;
     public final static int BURST_SHOTGUN = 4;
 
+    public static int constDamage;
+
     //boolean variables for type of shooting
     public boolean burstFire;
     public boolean shotgunFire;
@@ -63,7 +65,6 @@ public class Player extends Character {
         this.keyR = keyR;
         this.ui = gp.ui;
 
-        setDefaultParameters();
         setPlayerImages(false);
         setFireMode(DEFAULT);
     }
@@ -78,10 +79,13 @@ public class Player extends Character {
         defaultCollisionAreaX = 8;
         defaultCollisionAreaY = 24;
 
-        maxHP = 3;
+        maxHP = 15;
         HP = maxHP;
         armor = 5;
         name = "player";
+
+        damage = 1;
+        constDamage = damage;
 
         interactedObjectName = "";
 
@@ -130,7 +134,7 @@ public class Player extends Character {
         if(keyR.up || keyR.down || keyR.left || keyR.right) {
 
             if (gp.roomManager.currentRoom.name.equals("dungeon")) {
-                speed = gp.FPS/30;
+                speed = gp.FPS/60;
             } else {
                 speed = gp.FPS/20;
             }
@@ -391,18 +395,20 @@ public class Player extends Character {
     }
 
     @Override
-    public void receiveDamage() {
-        if(armor > 0){
-            armor--;
-        }
-        else if (HP > 0){
-            HP--;
-        }
+    public void receiveDamage(int damage) {
+        for(int i = 0; i < damage; i++) {
+            if (armor > 0) {
+                armor--;
+            } else if (HP > 0) {
+                HP--;
+            }
 
-        //DEATH
-        if (HP <= 0){
-            gp.currentState = gp.gameOverState;
-            gp.ui.optionNum = 1;
+            //DEATH
+            if (HP <= 0){
+                gp.currentState = gp.gameOverState;
+                gp.ui.optionNum = 1;
+                break;
+            }
         }
     }
 

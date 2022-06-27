@@ -177,6 +177,8 @@ public class Room {
                 if (enemies.size() == 0 && enemiesSpawned) {
                     changingPhase = true;
                     phase = "completed";
+
+                    sq.gp.player.HP = sq.gp.player.maxHP;
                 }
             }
             case "completed" -> {

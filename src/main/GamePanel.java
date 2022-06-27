@@ -26,6 +26,9 @@ public class GamePanel extends JPanel implements Runnable{
     //GAME FPS
     public final int FPS = 60;
 
+    //DIFFICULTY
+    public int difficulty;
+
     //SYSTEM
     public Thread gameThread;
     public KeyRecorder keyR = new KeyRecorder(this);
@@ -71,6 +74,10 @@ public class GamePanel extends JPanel implements Runnable{
     public void setupGame(){
         //DEFAULT SETUP
 //        playMusic(0);
+        roomManager.setGameObjects();
+        roomManager.setEnemies();
+
+        player.setDefaultParameters();
 
         visualManager.setup();
     }

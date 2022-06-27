@@ -55,7 +55,7 @@ public class Character extends GameObject {
         }
     }
 
-    public void receiveDamage() {
+    public void receiveDamage(int damage) {
 
     }
 }
