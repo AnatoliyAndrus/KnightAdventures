@@ -497,7 +497,7 @@ public class UI {
                 innerRadius * 2);
         Area oval = new Area(inner);
         rect.subtract(oval);
-        g2d.setColor(new Color(0, 0, 0, 0.97f));
+        g2d.setColor(new Color(0, 0, 0, 1f));
         g2d.fill(rect);
 
 //        //WITH BLUR

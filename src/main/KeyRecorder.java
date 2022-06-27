@@ -3,6 +3,7 @@ package main;
 import characters.Player;
 import objects.StaticObject;
 
+import javax.sound.sampled.Clip;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -95,6 +96,7 @@ public class KeyRecorder implements KeyListener {
                 if(!gp.ui.shopIsOpened) {
                     gp.currentState = gp.pauseState;
                     gp.pauseMusic();
+                    gp.waterSound.stop();
                     gp.playSound(15);
                     if(gp.roomManager.currentRoom.phase.equals("in progress") && !gp.player.scriptsAreActive)
                         gp.ui.optionNum = 1;
@@ -218,6 +220,10 @@ public class KeyRecorder implements KeyListener {
                 gp.currentState = gp.gameState;
                 gp.playSound(15);
                 gp.playMusic(gp.currentSong);
+                if(gp.roomManager.currentRoom.name.equals("ruins")){
+                    gp.waterSound.start();
+                    gp.waterSound.loop(Clip.LOOP_CONTINUOUSLY);
+                }
                 gp.ui.optionNum = 1;
             }
             if (e.getKeyCode() == KeyEvent.VK_DOWN) {

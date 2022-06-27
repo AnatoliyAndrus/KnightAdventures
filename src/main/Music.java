@@ -7,12 +7,12 @@ import java.io.File;
 
 public class Music {
     public Clip clip;
-    File[] soundFiles = new File[30];
+    public File[] soundFiles = new File[30];
 
     public long currentSecond;
 
     public Music() {
-        soundFiles[0] = new File("resources/sound/musics/ruins.wav");
+        soundFiles[0] = new File("resources/sound/musics/main_music.wav");
         soundFiles[1] = new File("resources/sound/attacks/player_single_shot.wav");
         soundFiles[2] = new File("resources/sound/attacks/alien_single_shot.wav");
         soundFiles[3] = new File("resources/sound/shop/welcome.wav");
@@ -33,6 +33,10 @@ public class Music {
         soundFiles[18] = new File("resources/sound/torch/torches.wav");
         soundFiles[19] = new File("resources/sound/chest/chest_opening.wav");
         soundFiles[20] = new File("resources/sound/boss/alien_spawning.wav");
+        soundFiles[21] = new File("resources/sound/boss/rockets.wav");
+        soundFiles[22] = new File("resources/sound/boss/boss_fight.wav");
+        soundFiles[23] = new File("resources/sound/musics/boss_room.wav");
+        soundFiles[24] = new File("resources/sound/musics/ruins_water.wav");
     }
 
     public void setClip(int index) {

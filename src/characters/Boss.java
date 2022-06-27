@@ -137,6 +137,7 @@ public class Boss extends Character {
                         40, 48,
                         (int)screenX + areaOfCollision.width / 2 + gp.squareSize - 5, (int)screenY,
                         (int)screenX + areaOfCollision.width / 2 + gp.squareSize - 5, (int)screenY - 10, "boss", true));
+                gp.playSound(21);
 
                 Target playerTarget = new Target(gp, (int)gp.player.screenX, (int)gp.player.screenY);
                 targets.add(playerTarget);
@@ -397,7 +398,4 @@ public class Boss extends Character {
         images.add(image);
     }
 
-    public void setMode(int mode) {
-        this.mode = mode;
-    }
 }

@@ -33,6 +33,7 @@ public class Room {
     public Square[] squares;
 
     public int songIndex;
+    public int fightingSongIndex;
 
     public boolean isWaterRoom;
 
@@ -45,7 +46,7 @@ public class Room {
     public int doorsOpeningNow = 0;
     public int doorsClosingNow = 0;
 
-    public Room(String name, int songIndex, RoomManager sq) {
+    public Room(String name, int songIndex, int fightingSongIndex, RoomManager sq) {
 
         this.name = name;
         squares = new Square[30];
@@ -59,6 +60,7 @@ public class Room {
         enemiesData = new ArrayList<>();
 
         this.songIndex = songIndex;
+        this.fightingSongIndex = fightingSongIndex;
     }
 
     public void setAllImages(String room) {
@@ -183,6 +185,11 @@ public class Room {
                     phase = "completed";
 
                     sq.gp.player.HP = sq.gp.player.maxHP;
+
+                    if(songIndex != fightingSongIndex) {
+                        sq.gp.stopMusic();
+                        sq.gp.playMusic(songIndex);
+                    }
                 }
             }
             case "completed" -> {
@@ -266,5 +273,10 @@ public class Room {
             }
         }
         enemiesSpawned = true;
+
+        if (songIndex != fightingSongIndex) {
+            sq.gp.stopMusic();
+            sq.gp.playMusic(fightingSongIndex);
+        }
     }
 }
