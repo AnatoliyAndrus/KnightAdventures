@@ -1,3 +1,9 @@
+/**
+ * @author Anatolii Andrusenko, Andrii Sulimenko, Vladyslav Marchenko
+ * @version 1.0
+ *
+ * class KeyRecorder which is a key listener in the game
+ */
 package main;
 
 import characters.Player;
@@ -10,21 +16,36 @@ import java.awt.event.KeyListener;
 public class KeyRecorder implements KeyListener {
 
     GamePanel gp;
+    //Keys pressed at the moment
     public boolean up, down, left, right;
 
+    /**
+     * constructor
+     * @param gp game panel
+     */
     public KeyRecorder(GamePanel gp) {
         this.gp = gp;
     }
 
+    /**
+     * keyTyped method (not used)
+     * @param e the event to be processed
+     */
     @Override
     public void keyTyped(KeyEvent e) {
 
     }
 
+    /**
+     * keyPressed method
+     * @param e the event to be processed
+     */
     @Override
     public void keyPressed(KeyEvent e) {
 
+        //TITLE STATE BINDS
         if (gp.currentState == gp.titleState) {
+            //Difficulty choice screen
             if (!gp.ui.loadingScreen && !gp.ui.difficultyChoice) {
                 //TITLE
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
@@ -54,8 +75,8 @@ public class KeyRecorder implements KeyListener {
                     gp.playSound(15);
                 }
             }
+            //Loading
             else if (!gp.ui.loadingScreen) {
-                //TITLE
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                     gp.ui.optionNum++;
                     if (gp.ui.optionNum == 7) gp.ui.optionNum = 1;
@@ -78,6 +99,7 @@ public class KeyRecorder implements KeyListener {
                 }
             }
         }
+        //GAME STATE BINDS
         else if (gp.currentState == gp.gameState) {
             //MOVEMENT
             if (e.getKeyCode() == KeyEvent.VK_W) {
@@ -214,7 +236,7 @@ public class KeyRecorder implements KeyListener {
                 }
             }
         }
-        //PAUSE
+        //PAUSE STATE BINDS
         else if (gp.currentState == gp.pauseState) {
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 gp.currentState = gp.gameState;
@@ -256,7 +278,7 @@ public class KeyRecorder implements KeyListener {
                 gp.playSound(15);
             }
         }
-        //GAME OVER
+        //GAME OVER STATE BINDS
         else if (gp.currentState == gp.gameOverState) {
             if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                 gp.ui.optionNum++;
@@ -281,6 +303,10 @@ public class KeyRecorder implements KeyListener {
         }
     }
 
+    /**
+     * keyReleased method
+     * @param e the event to be processed
+     */
     @Override
     public void keyReleased(KeyEvent e) {
 

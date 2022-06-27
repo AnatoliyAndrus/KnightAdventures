@@ -220,7 +220,7 @@ public class UI {
         g2d.setColor(Color.WHITE);
         g2d.drawString(screenText, x, y);
 
-        if (loadingFrames == gp.FPS * 5||true) {
+        if (loadingFrames == gp.FPS * 5) {
             gp.setupGame();
             gp.currentState = gp.gameState;
             loadingScreen = false;

@@ -1,3 +1,9 @@
+/**
+ * @author Anatolii Andrusenko, Andrii Sulimenko, Vladyslav Marchenko
+ * @version 1.0
+ *
+ * class Music which represents music and sound effects controls
+ */
 package main;
 
 import javax.sound.sampled.AudioInputStream;
@@ -6,11 +12,18 @@ import javax.sound.sampled.Clip;
 import java.io.File;
 
 public class Music {
+
+    //Current clip
     public Clip clip;
+    //All music/SE data
     public File[] soundFiles = new File[30];
 
+    //Timing of the song paused
     public long currentSecond;
 
+    /**
+     * constructor
+     */
     public Music() {
         soundFiles[0] = new File("resources/sound/musics/main_music.wav");
         soundFiles[1] = new File("resources/sound/attacks/player_single_shot.wav");
@@ -41,6 +54,10 @@ public class Music {
         soundFiles[26] = new File("resources/sound/musics/dungeon.wav");
     }
 
+    /**
+     * method to change current song/SE
+     * @param index index of the future song/SE
+     */
     public void setClip(int index) {
         try {
             AudioInputStream aus = AudioSystem.getAudioInputStream(soundFiles[index]);
@@ -51,20 +68,32 @@ public class Music {
         }
     }
 
+    /**
+     * play method
+     */
     public void play(){
         clip.setMicrosecondPosition(currentSecond);
         clip.start();
     }
 
+    /**
+     * loop method
+     */
     public void loop(){
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
+    /**
+     * pause method
+     */
     public void pause(){
         currentSecond = clip.getMicrosecondPosition();
         clip.stop();
     }
 
+    /**
+     * stop method
+     */
     public void stop(){
         clip.stop();
     }
