@@ -1,3 +1,9 @@
+/**
+ * @author Anatolii Andrusenko, Andrii Sulimenko, Vladyslav Marchenko
+ * @version 1.0
+ *
+ * class GamePanel which is Runnable JPanel and gathers the whole game and runs it as a Thread
+ */
 package main;
 
 import bullets.Bullet;
@@ -60,7 +66,9 @@ public class GamePanel extends JPanel implements Runnable{
     public final int gameOverState = 3;
     public int currentState = titleState;
 
-
+    /**
+     * constructor
+     */
     public GamePanel() {
 
         //SETTINGS
@@ -74,6 +82,9 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
     }
 
+    /**
+     * first game setup
+     */
     public void setupGame(){
         //DEFAULT SETUP
         try {
@@ -93,6 +104,9 @@ public class GamePanel extends JPanel implements Runnable{
         visualManager.setup();
     }
 
+    /**
+     * method to retry the game from the last completed room
+     */
     public void retry() {
         roomManager.currentRoom.enemies = new ArrayList<>();
         roomManager.currentRoom.phase = "initial";
@@ -142,16 +156,25 @@ public class GamePanel extends JPanel implements Runnable{
         roomManager.setCurrentRoom("ruins");
     }
 
+    /**
+     * method to restart game completely
+     */
     public void restartGame() {
         Main.restartGame();
     }
 
+    /**
+     * initial method which starts game thread
+     */
     public void startGameThread() {
         //STARTING THREAD
         gameThread = new Thread(this);
         gameThread.start();
     }
 
+    /**
+     * run method for game thread
+     */
     @Override
     public void run() {
 
@@ -177,6 +200,9 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
+    /**
+     * update method for game thread (is called from run())
+     */
     private void update() {
         //TITLE STATE
         if (currentState == titleState) {}
@@ -219,6 +245,9 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
+    /**
+     * paintComponent method for game thread (is called from run())
+     */
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
@@ -312,6 +341,10 @@ public class GamePanel extends JPanel implements Runnable{
         g2d.dispose();
     }
 
+    /**
+     * method to start (or continue) the music
+     * @param index song index
+     */
     public void playMusic(int index) {
         if(currentSong != index) {
             music.setClip(index);
@@ -321,20 +354,29 @@ public class GamePanel extends JPanel implements Runnable{
         music.play();
         music.loop();
     }
+    /**
+     * method to pause the music
+     */
     public void pauseMusic() {
         music.pause();
     }
+    /**
+     * method to stop the music
+     */
     public void stopMusic() {
         music.stop();
     }
+    /**
+     * method to play a sound effect
+     */
     public void playSound(int index) {
         sounds.setClip(index);
         sounds.play();
     }
-    public void pauseSound() {
-        sounds.pause();
-    }
 
+    /**
+     * method to collect all garbage we indicate throughout the game process
+     */
     private void collectGarbage() {
         //DEAD ENEMIES
         for (int i = 0; i < roomManager.currentRoom.enemies.size(); i++) {

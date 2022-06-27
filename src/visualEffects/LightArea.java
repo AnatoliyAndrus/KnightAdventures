@@ -1,3 +1,9 @@
+/**
+ * @author Anatolii Andrusenko, Andrii Sulimenko, Vladyslav Marchenko
+ * @version 1.0
+ *
+ * class light area which represents light effects in rooms with poor light as a type of visual effect of the project
+ */
 package visualEffects;
 
 import main.GamePanel;
@@ -10,10 +16,16 @@ import java.awt.image.BufferedImage;
 
 public class LightArea {
 
+    /**
+     * initial variables
+     */
     GamePanel gp;
     BufferedImage darknessFilter;
     Graphics2D g2d;
 
+    /**
+     * additional variables with specified meaning
+     */
     Shape innerCircle;
     Area innerArea;
     Area lightArea;
@@ -21,6 +33,11 @@ public class LightArea {
     Color[] colors = new Color[5];
     float[] fractions = new float[5];
 
+    /**
+     * public constructor of the light area
+     * @param gp game panel
+     * @param dungeon boolean, which clarify light area in specified room
+     */
     public LightArea(GamePanel gp, boolean dungeon) {
         this.gp = gp;
 
@@ -44,6 +61,12 @@ public class LightArea {
         fractions[4] = f;
     }
 
+    /**
+     * light circle effect
+     * @param centerX coordinate of the X in center of the light area
+     * @param centerY coordinate of the Y in center of the light area
+     * @param innerRadius radius of light area circle
+     */
     public void addLightCircle(int centerX, int centerY, int innerRadius) {
 
         double x = centerX - innerRadius;
@@ -62,6 +85,10 @@ public class LightArea {
 
     }
 
+    /**
+     * draw method
+     * @param g2d graphics object of Java Swing API
+     */
     public void draw(Graphics2D g2d) {
 
         this.g2d.fill(lightArea);
