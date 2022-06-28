@@ -114,7 +114,9 @@ public class EnemyWithFangs extends Character{
         } else distanceAgro = 10;
 
         if(playerDistance < gp.squareSize * distanceAgro) {
-            if(!agressive) framesToCount = 0;
+            if(!agressive) {
+                framesToCount = 0;
+            }
             agressive = true;
             moving = true;
         } else {
@@ -181,12 +183,12 @@ public class EnemyWithFangs extends Character{
 
                     if (collisionOnX) {
                         direction = "up";
-                        screenX--;
+//                        screenX--;
                         tempMoving = true;
                     }
                     if(collisionOnY) {
                         direction = "right";
-                        screenY++;
+//                        screenY++;
                         tempMoving = true;
                     }
                 }
@@ -196,12 +198,12 @@ public class EnemyWithFangs extends Character{
 
                     if (collisionOnX) {
                         direction = "up";
-                        screenX++;
+//                        screenX++;
                         tempMoving = true;
                     }
                     if(collisionOnY) {
                         direction = "left";
-                        screenY++;
+//                        screenY++;
                         tempMoving = true;
                     }
                 }
@@ -211,12 +213,12 @@ public class EnemyWithFangs extends Character{
 
                     if (collisionOnX) {
                         direction = "down";
-                        screenX++;
+//                        screenX++;
                         tempMoving = true;
                     }
                     if(collisionOnY) {
                         direction = "left";
-                        screenY--;
+//                        screenY--;
                         tempMoving = true;
                     }
                 }
@@ -226,12 +228,12 @@ public class EnemyWithFangs extends Character{
 
                     if (collisionOnX) {
                         direction = "down";
-                        screenX--;
+//                        screenX--;
                         tempMoving = true;
                     }
                     if(collisionOnY) {
                         direction = "right";
-                        screenY--;
+//                        screenY--;
                         tempMoving = true;
                     }
                 }
@@ -279,9 +281,9 @@ public class EnemyWithFangs extends Character{
 
         //ENEMY STANDS STILL
         else {
-            standFrames ++;
+            standFrames++;
             if(standFrames >= gp.FPS/3) {
-                imageNum = 1;
+                imageNum = 0;
             }
         }
 

@@ -103,15 +103,17 @@ public class EnemyWithPistol extends Character{
                 + Math.pow(gp.player.screenY - gp.player.areaOfCollision.height/2.0 - (screenY - areaOfCollision.height/2.0), 2));
 
         if(playerDistance < gp.squareSize * 12) {
-            if(!agressive) framesToCount = 0;
+            if(!agressive) {
+                framesToCount = 0;
+            }
             agressive = true;
             moving = true;
         } else {
             if(agressive) {
                 framesToCount = 0;
                 moving = false;
-                tempMovingFrames = 0;
                 tempMoving = false;
+                tempMovingFrames = 0;
             }
             agressive = false;
             speed = 1;
@@ -171,12 +173,12 @@ public class EnemyWithPistol extends Character{
 
                     if (collisionOnX) {
                         direction = "up";
-                        screenX--;
+//                        screenX--;
                         tempMoving = true;
                     }
                     if(collisionOnY) {
                         direction = "right";
-                        screenY++;
+//                        screenY++;
                         tempMoving = true;
                     }
                 }
@@ -186,12 +188,12 @@ public class EnemyWithPistol extends Character{
 
                     if (collisionOnX) {
                         direction = "up";
-                        screenX++;
+//                        screenX++;
                         tempMoving = true;
                     }
                     if(collisionOnY) {
                         direction = "left";
-                        screenY++;
+//                        screenY++;
                         tempMoving = true;
                     }
                 }
@@ -201,12 +203,12 @@ public class EnemyWithPistol extends Character{
 
                     if (collisionOnX) {
                         direction = "down";
-                        screenX++;
+//                        screenX++;
                         tempMoving = true;
                     }
                     if(collisionOnY) {
                         direction = "left";
-                        screenY--;
+//                        screenY--;
                         tempMoving = true;
                     }
                 }
@@ -216,12 +218,12 @@ public class EnemyWithPistol extends Character{
 
                     if (collisionOnX) {
                         direction = "down";
-                        screenX--;
+//                        screenX--;
                         tempMoving = true;
                     }
                     if(collisionOnY) {
                         direction = "right";
-                        screenY--;
+//                        screenY--;
                         tempMoving = true;
                     }
                 }
@@ -290,9 +292,9 @@ public class EnemyWithPistol extends Character{
         }
         //ENEMY STANDS STILL
         else {
-            standFrames ++;
+            standFrames++;
             if(standFrames >= gp.FPS/3) {
-                imageNum = 1;
+                imageNum = 0;
             }
         }
     }

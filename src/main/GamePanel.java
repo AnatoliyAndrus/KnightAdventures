@@ -154,6 +154,11 @@ public class GamePanel extends JPanel implements Runnable{
         bullets = new ArrayList<>();
 
         roomManager.setCurrentRoom("ruins");
+
+        stopMusic();
+        playMusic(roomManager.currentRoom.songIndex);
+        waterSound.start();
+        waterSound.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
     /**

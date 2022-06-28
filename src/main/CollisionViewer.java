@@ -53,7 +53,7 @@ public class CollisionViewer {
             if (gp.roomManager.currentRoom.squares[square1].collision || gp.roomManager.currentRoom.squares[square2].collision) {
                 ch.collisionOnY = true;
             }
-            characterTopSide = characterTopWorldY/ gp.squareSize;
+            characterTopSide = characterTopWorldY / gp.squareSize;
         }
         if (gp.keyR.down || ch.direction.equals("down")) {
             characterBottomSide = (characterBottomWorldY + ch.speed) / gp.squareSize;
@@ -64,7 +64,7 @@ public class CollisionViewer {
             if (gp.roomManager.currentRoom.squares[square1].collision || gp.roomManager.currentRoom.squares[square2].collision) {
                 ch.collisionOnY = true;
             }
-            characterBottomSide = characterBottomWorldY/ gp.squareSize;
+            characterBottomSide = characterBottomWorldY / gp.squareSize;
         }
         if (gp.keyR.left || ch.direction.equals("left")) {
             characterLeftSide = (characterLeftWorldX - ch.speed) / gp.squareSize;
