@@ -272,8 +272,8 @@ public class KeyRecorder implements KeyListener {
                     gp.currentState = gp.gameState;
                 }
                 if(gp.ui.optionNum == 2) {
+                    gp.stopMusic();
                     gp.restartGame();
-                    gp.ui.optionNum = 1;
                 }
                 gp.playSound(15);
             }
@@ -292,10 +292,15 @@ public class KeyRecorder implements KeyListener {
             }
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 if(gp.ui.optionNum == 1) {
-                    gp.retry();
+                    //RETRY
+                    if(gp.player.HP <= 0) {
+                        gp.retry();
+                    }
+                    //Continue exploring
                     gp.currentState = gp.gameState;
                 }
                 if(gp.ui.optionNum == 2) {
+                    gp.stopMusic();
                     gp.restartGame();
                 }
                 gp.playSound(15);

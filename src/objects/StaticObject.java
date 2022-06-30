@@ -114,6 +114,9 @@ public class StaticObject extends GameObject {
                     if (name.equals("boss_door")) {
                         collision = false;
                         gp.roomManager.currentRoom.doorsOpeningNow--;
+                        if(gp.roomManager.currentRoom.name.equals("finalMap")) {
+                            gp.currentState = gp.gameOverState;
+                        }
                     }
                     if(name.equals("chest")) {
                         isOpened = true;

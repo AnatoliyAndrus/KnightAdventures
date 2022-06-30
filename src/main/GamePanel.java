@@ -18,6 +18,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -36,6 +37,8 @@ public class GamePanel extends JPanel implements Runnable{
 
     //DIFFICULTY
     public int difficulty;
+    public long[] records = new long[5];
+    public long timeInSeconds;
 
     //SYSTEM
     public Thread gameThread;
@@ -80,6 +83,16 @@ public class GamePanel extends JPanel implements Runnable{
         this.addKeyListener(keyR);
         this.addMouseListener(mouseR);
         this.setFocusable(true);
+
+        //RECORDS
+        for (int i = 1; i <= 5; i++) {
+            try (BufferedReader br = new BufferedReader(new FileReader("resources/files/records/record_" + i + ".txt"))){
+                long secondsRecord = Integer.parseInt(br.readLine());
+                records[i - 1] = secondsRecord;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     /**
@@ -188,11 +201,17 @@ public class GamePanel extends JPanel implements Runnable{
         long lastTime = System.nanoTime();
         long currentTime;
 
+        double timeDelta = 0;
+
         while(gameThread != null) {
 
             currentTime = System.nanoTime();
 
             delta += (currentTime - lastTime) / frameInterval;
+
+            if(currentState == gameState
+                    && !roomManager.rooms.get("finalMap").phase.equals("completed"))
+                timeDelta += (currentTime - lastTime) / 1000000000.0;
 
             lastTime = currentTime;
 
@@ -201,6 +220,10 @@ public class GamePanel extends JPanel implements Runnable{
                 update();
                 repaint();
                 delta--;
+            }
+            if(timeDelta >= 1) {
+                timeInSeconds++;
+                timeDelta--;
             }
         }
     }

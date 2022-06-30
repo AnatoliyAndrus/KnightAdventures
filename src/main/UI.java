@@ -13,7 +13,9 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -103,7 +105,8 @@ public class UI {
         if (gp.currentState == gp.gameOverState) {
             drawDarkScreen(g2d);
             drawPlayerStats(g2d);
-            drawGameOverScreen(g2d);
+            if(gp.player.HP <= 0) drawGameOverScreen(g2d);
+            else drawWinScreen(g2d);
         }
     }
 
@@ -378,6 +381,14 @@ public class UI {
                     (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
                     (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
                     25, 25);
+
+            long minutes = gp.records[optionNum - 1] / 60;
+            long seconds = gp.records[optionNum - 1] % 60;
+
+            String record = "(Record - " + (minutes < 10 ? ("0" + minutes) : minutes) + ":" + (seconds < 10 ? ("0" + seconds) : seconds) + ")";
+            if(minutes + seconds == 0) record = "(No record)";
+            g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+            g2d.drawString(record, gp.maxScreenWidth/2 + 200, y);
         }
 
         g2d.drawString(screenText, x, y);
@@ -398,6 +409,14 @@ public class UI {
                     (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
                     (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
                     25, 25);
+
+            long minutes = gp.records[optionNum - 1] / 60;
+            long seconds = gp.records[optionNum - 1] % 60;
+
+            String record = "(Record - " + (minutes < 10 ? ("0" + minutes) : minutes) + ":" + (seconds < 10 ? ("0" + seconds) : seconds) + ")";
+            if(minutes + seconds == 0) record = "(No record)";
+            g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+            g2d.drawString(record, gp.maxScreenWidth/2 + 200, y);
         }
 
         g2d.drawString(screenText, x, y);
@@ -418,6 +437,14 @@ public class UI {
                     (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
                     (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
                     25, 25);
+
+            long minutes = gp.records[optionNum - 1] / 60;
+            long seconds = gp.records[optionNum - 1] % 60;
+
+            String record = "(Record - " + (minutes < 10 ? ("0" + minutes) : minutes) + ":" + (seconds < 10 ? ("0" + seconds) : seconds) + ")";
+            if(minutes + seconds == 0) record = "(No record)";
+            g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+            g2d.drawString(record, gp.maxScreenWidth/2 + 200, y);
         }
 
         g2d.drawString(screenText, x, y);
@@ -438,6 +465,14 @@ public class UI {
                     (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
                     (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
                     25, 25);
+
+            long minutes = gp.records[optionNum - 1] / 60;
+            long seconds = gp.records[optionNum - 1] % 60;
+
+            String record = "(Record - " + (minutes < 10 ? ("0" + minutes) : minutes) + ":" + (seconds < 10 ? ("0" + seconds) : seconds) + ")";
+            if(minutes + seconds == 0) record = "(No record)";
+            g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+            g2d.drawString(record, gp.maxScreenWidth/2 + 200, y);
         }
 
         g2d.drawString(screenText, x, y);
@@ -458,6 +493,14 @@ public class UI {
                     (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
                     (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
                     25, 25);
+
+            long minutes = gp.records[optionNum - 1] / 60;
+            long seconds = gp.records[optionNum - 1] % 60;
+
+            String record = "(Record - " + (minutes < 10 ? ("0" + minutes) : minutes) + ":" + (seconds < 10 ? ("0" + seconds) : seconds) + ")";
+            if(minutes + seconds == 0) record = "(No record)";
+            g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+            g2d.drawString(record, gp.maxScreenWidth/2 + 200, y);
         }
 
         g2d.drawString(screenText, x, y);
@@ -879,6 +922,95 @@ public class UI {
         g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
 
         y = gp.squareSize * 11;
+        x = getCenterX(screenText, g2d);
+
+        if (optionNum == 2) {
+            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 40));
+
+            g2d.setStroke(new BasicStroke(3));
+            g2d.drawRoundRect(x - 24,
+                    y - (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight(),
+                    (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
+                    (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
+                    25, 25);
+        }
+
+        g2d.drawString(screenText, x, y);
+    }
+
+    /**
+     * method to draw win screen
+     * @param g2d graphics 2d
+     */
+    private void drawWinScreen(Graphics2D g2d) {
+        //DARK SCREEN
+        g2d.setColor(new Color(0,0,0,200));
+        g2d.fillRect(0, 0, gp.squareSize*(gp.maxCols - 2), gp.squareSize*(gp.maxRows - 2));
+
+        //Congratulations!
+        g2d.setColor(Color.WHITE);
+        g2d.setFont(gameFont.deriveFont(Font.PLAIN, 70));
+
+        screenText = "Congratulations!";
+
+        int y = gp.squareSize * 5;
+        int x = getCenterX(screenText, g2d);
+
+        g2d.drawString(screenText, x, y);
+
+        //RECORD BLOCK
+        long currentMinutes = gp.timeInSeconds / 60;
+        long currentSeconds = gp.timeInSeconds % 60;
+
+        screenText = "Time - " + (currentMinutes < 10 ? ("0" + currentMinutes) : currentMinutes) + ":" + (currentSeconds < 10 ? ("0" + currentSeconds) : currentSeconds);
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+
+        y = gp.squareSize * 7;
+        x = getCenterX(screenText, g2d);
+
+        g2d.drawString(screenText, x, y);
+
+        if(gp.timeInSeconds < gp.records[gp.difficulty - 1] || gp.records[gp.difficulty - 1] == 0) {
+            screenText = "(New record)";
+            g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+
+            y = gp.squareSize * 8;
+            x = getCenterX(screenText, g2d);
+
+            g2d.drawString(screenText, x, y);
+
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter("resources/files/records/record_" + gp.difficulty + ".txt"))){
+                bw.write("" + gp.timeInSeconds);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        //Continue exploring
+        screenText = "Continue exploring";
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+
+        y = gp.squareSize * 14;
+        x = getCenterX(screenText, g2d);
+
+        if (optionNum == 1) {
+            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 40));
+
+            g2d.setStroke(new BasicStroke(3));
+            g2d.drawRoundRect(x - 24,
+                    y - (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight(),
+                    (int) g2d.getFontMetrics().getStringBounds(screenText, g2d).getWidth() + 48,
+                    (int) (g2d.getFontMetrics().getStringBounds(screenText, g2d).getHeight() * 1.25),
+                    25, 25);
+        }
+
+        g2d.drawString(screenText, x, y);
+
+        //Quit
+        screenText = "Quit";
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+
+        y = gp.squareSize * 16;
         x = getCenterX(screenText, g2d);
 
         if (optionNum == 2) {
