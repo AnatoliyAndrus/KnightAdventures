@@ -68,7 +68,7 @@ public class Player extends Character {
     //AMOUNT OF COINS
     public int coinsAmount;
     //IF PLAYER HAS BOSS KEY
-    public boolean hasBossKey = true;
+    public boolean hasBossKey;
 
     /**
      * constructor
@@ -108,7 +108,7 @@ public class Player extends Character {
 
         interactedObjectName = "";
 
-        coinsAmount = gp.ui.armorPrice * 10;
+        coinsAmount = gp.ui.armorPrice;
     }
 
     /**
