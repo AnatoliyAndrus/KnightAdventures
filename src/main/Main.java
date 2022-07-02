@@ -42,8 +42,10 @@ public class Main {
      * method which restarts game completely
      */
     public static void restartGame() {
+
         gameFrame.removeAll();
         gamePanel.gameThread.stop();
+        gameFrame.dispose();
 
         //NEW SETTINGS
         gameFrame = new JFrame();

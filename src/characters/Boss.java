@@ -397,8 +397,8 @@ public class Boss extends Character {
         defaultCollisionAreaY = 24;
 
         maxHP = switch (gp.difficulty) {
-            case 1 -> 50;
-            case 2 -> 75;
+            case 1 -> 75;
+            case 2 -> 100;
             case 3 -> 125;
             case 4 -> 150;
             case 5 -> 200;
